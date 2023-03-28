@@ -8,7 +8,7 @@ const Loadable = ( Component: any ) => ( props: any ) => (
         <Component {...props} />
     </Suspense>
 );
-const Home = Loadable( lazy( () => import( './Pages/Home' ) ) );
+const Home = Loadable( lazy( () => import( './pages/Home' ) ) );
 
 export default () => {
     return useRoutes( [
