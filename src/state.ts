@@ -9,7 +9,7 @@ type State = {
     decrement: (by: number) => void;
 };
 
-export const useStore = create<State>()(
+export const useState = create<State>()(
     devtools(
         persist(
             (set) => ({
