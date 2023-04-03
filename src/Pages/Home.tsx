@@ -22,14 +22,14 @@ import { BsFolder2, BsCalendarCheck } from 'react-icons/bs';
 import { FiMenu } from 'react-icons/fi';
 import { RiFlashlightFill } from 'react-icons/ri';
 import { PageContainer } from '@/components/PageContainer';
-import { useStore } from '@/store';
+import { useState } from '@/state';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate()
 
-  const { user } = useStore()
+  const { user } = useState()
   useEffect(() => {
     if (!user && process.env.NODE_ENV !== "development") {
       navigate("/login")

@@ -19,13 +19,16 @@ import {
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const [data, setData] = useState("")
   const navigate = useNavigate()
+  const { handleSubmit, register } = useForm()
 
   return (
     <Container maxW="7xl" p={{ base: 5, md: 10 }}>
@@ -37,43 +40,25 @@ export default function Login() {
           </Stack>
           <VStack
             as="form"
+            onSubmit={handleSubmit((data) => setData(JSON.stringify(data)))}
             boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
             h="max-content !important"
             bg={useColorModeValue('white', 'gray.700')}
             rounded="lg"
           >
             <VStack spacing={4} w="100%">
-              <Input rounded="md" placeholder='Student Number' type="text" />
-              <FormControl id="password">
-                <InputGroup size="md">
-                  <Input rounded="md" placeholder='Password' type={show ? 'text' : 'password'} />
-                  <InputRightElement width="4.5rem">
-                    <Button
-                      size="xs"
-                      onClick={handleClick}
-                    >
-                      {show ? <BsEyeSlash /> : <BsEyeFill />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <Stack direction='row' h='50px' alignItems="center" justifyContent="center">
-                  <Divider orientation='horizontal' />
-                  <Text fontWeight="medium">Or</Text>
-                  <Divider orientation='horizontal' />
-                </Stack>
-                <Input rounded="md" placeholder='Email' type="email" />
-                <InputGroup size="md" mt="10px">
-                  <Input rounded="md" placeholder='Password' type={show ? 'text' : 'password'} />
-                  <InputRightElement width="4.5rem">
-                    <Button
-                      size="xs"
-                      onClick={handleClick}
-                    >
-                      {show ? <BsEyeSlash /> : <BsEyeFill />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
+              <Input rounded="md" {...register("studentNumber")} placeholder='Student Number' type="text" />
+              <InputGroup size="md">
+                <Input rounded="md" {...register("password")} placeholder='Password' type={show ? 'text' : 'password'} />
+                <InputRightElement width="4.5rem">
+                  <Button
+                    size="xs"
+                    onClick={handleClick}
+                  >
+                    {show ? <BsEyeSlash /> : <BsEyeFill />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </VStack>
             <VStack w="100%">
               <Stack direction="row" p={'5px 5px'} justify="space-between" w="100%">
@@ -87,6 +72,7 @@ export default function Login() {
                 _hover={{
                   bg: 'green.900'
                 }}
+                type="submit"
                 rounded="md"
                 w="100%"
               >
@@ -97,6 +83,7 @@ export default function Login() {
                 <Text>Register</Text>
               </Box>
             </VStack>
+            <p>DATA: {data}</p>
           </VStack>
         </Stack>
       </Center>
