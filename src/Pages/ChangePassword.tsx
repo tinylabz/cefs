@@ -1,24 +1,17 @@
-import { ButtonGroup, Container, FormLabel } from '@chakra-ui/react';
+import { ButtonGroup, Container } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Logo } from '@/components/Logo';
 import { useStore } from '@/state';
 import {
     Button,
     Center,
-    Checkbox,
-    Heading,
-    Icon,
     Input,
     InputGroup,
     InputRightElement,
     Stack,
     VStack,
     Text,
-    useColorModeValue,
-    Box,
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
@@ -144,9 +137,6 @@ export default function ChangePassword() {
                                     bg="transparent"
                                     color="black"
                                     border={'2px solid darkgreen'}
-                                    _hover={{
-                                        bg: 'gray.600',
-                                    }}
                                     type="submit"
                                     rounded="md"
                                     w="100%"

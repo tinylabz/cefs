@@ -13,22 +13,26 @@ import {
     IconButton,
     useDisclosure,
     DrawerOverlay,
-    useColorModeValue
+    useColorModeValue,
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 
 type PageProps = {
-    children: React.ReactNode
-}
+    children: React.ReactNode;
+};
 
 export const Page: React.FC<PageProps> = ({ children }) => {
     const { isOpen, onClose, onOpen } = useDisclosure();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
-        <Box as="section" bg={useColorModeValue('gray.50', 'gray.700')} minH="100vh">
+        <Box
+            as="section"
+            bg={useColorModeValue('gray.50', 'gray.700')}
+            minH="100vh"
+        >
             <Sidebar display={{ base: 'none', md: 'unset' }} />
             <Drawer isOpen={isOpen} onClose={onClose} placement="left">
                 <DrawerOverlay />
@@ -59,7 +63,13 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                         size="md"
                     />
 
-                    <Flex px="4" py="5" mt={0} justify="center" alignItems="center">
+                    <Flex
+                        px="4"
+                        py="5"
+                        mt={0}
+                        justify="center"
+                        alignItems="center"
+                    >
                         <Menu>
                             <MenuButton
                                 as={Button}
@@ -76,23 +86,31 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                                 />
                             </MenuButton>
                             <MenuList fontSize={17} zIndex={5555}>
-                                <MenuItem as={Link} to="#">
+                                <MenuItem onClick={() => navigate('/profile')}>
                                     My profile
                                 </MenuItem>
-                                <MenuItem as={Link} to="#">
+                                <MenuItem
+                                    onClick={() => navigate('/change-password')}
+                                >
                                     Change password
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate("/login")} >Logout</MenuItem>
+                                <MenuItem onClick={() => navigate('/login')}>
+                                    Logout
+                                </MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>
                 </Flex>
 
-                <Box as="main" p="15" minH="30rem" bg={useColorModeValue('auto', 'gray.800')}>
+                <Box
+                    as="main"
+                    p="15"
+                    minH="30rem"
+                    bg={useColorModeValue('auto', 'gray.800')}
+                >
                     {children}
                 </Box>
             </Box>
-        </Box >
+        </Box>
     );
-}
-
+};

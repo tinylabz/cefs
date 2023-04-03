@@ -31,6 +31,7 @@ const Complaint = Loadable(lazy(() => import('./Pages/MissingMark')));
 const Profile = Loadable(lazy(() => import('./Pages/Profile')));
 const Remark = Loadable(lazy(() => import('./Pages/Remark')));
 const ChangePassword = Loadable(lazy(() => import('./Pages/ChangePassword')));
+const MissingMark = Loadable(lazy(() => import('./Pages/MissingMark')));
 
 export default () => {
     return useRoutes([
@@ -61,6 +62,10 @@ export default () => {
         {
             path: '/remark',
             element: <Remark />,
+        },
+        {
+            path: '/missing-mark',
+            element: <MissingMark />,
         },
         {
             path: '/change-password',
