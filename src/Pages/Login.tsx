@@ -20,7 +20,7 @@ import {
 
 import { useState } from 'react';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [show, setShow] = useState(false);
@@ -32,8 +32,8 @@ export default function Login() {
       <Center>
         <Stack spacing={4}>
           <Stack align="center">
-            <Heading fontSize="4xl" css={{ letterSpacing: "1rem" }} >CEFS</Heading>
-            <Heading fontSize="2xl" >Login</Heading>
+            <Heading fontSize="4xl" color="green.700" css={{ letterSpacing: "1rem" }} >CEFS</Heading>
+            <Heading fontSize="2xl" color="green.700" >Login</Heading>
           </Stack>
           <VStack
             as="form"
@@ -41,8 +41,6 @@ export default function Login() {
             h="max-content !important"
             bg={useColorModeValue('white', 'gray.700')}
             rounded="lg"
-            p={{ base: 5, sm: 10 }}
-            spacing={8}
           >
             <VStack spacing={4} w="100%">
               <Input rounded="md" placeholder='Student Number' type="text" />
@@ -63,20 +61,31 @@ export default function Login() {
                   <Text fontWeight="medium">Or</Text>
                   <Divider orientation='horizontal' />
                 </Stack>
-                <Input rounded="md" placeholder='Registration Number' type="text" />
+                <Input rounded="md" placeholder='Email' type="email" />
+                <InputGroup size="md" mt="10px">
+                  <Input rounded="md" placeholder='Password' type={show ? 'text' : 'password'} />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      size="xs"
+                      onClick={handleClick}
+                    >
+                      {show ? <BsEyeSlash /> : <BsEyeFill />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
               </FormControl>
             </VStack>
             <VStack w="100%">
-              <Stack direction="row" justify="space-between" w="100%">
+              <Stack direction="row" p={'5px 5px'} justify="space-between" w="100%">
                 <Checkbox colorScheme="green" size="md">
                   Remember me
                 </Checkbox>
               </Stack>
               <Button
-                bg="green.300"
+                bg="green.700"
                 color="white"
                 _hover={{
-                  bg: 'green.500'
+                  bg: 'green.900'
                 }}
                 rounded="md"
                 w="100%"
@@ -84,7 +93,9 @@ export default function Login() {
                 Continue
               </Button>
               <Text fontSize={{ base: 'md', sm: 'md' }}>Don't have an account?</Text>
-              <Box onClick={() => navigate("/register")} css={{ cursor: "pointer" }} fontSize={{ base: 'md', sm: 'md' }} color="green" >Register</Box>
+              <Box onClick={() => navigate("/register")} css={{ cursor: "pointer" }} fontSize={{ base: 'md', sm: 'md' }} color="green" >
+                <Text>Register</Text>
+              </Box>
             </VStack>
           </VStack>
         </Stack>
