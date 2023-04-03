@@ -11,6 +11,7 @@ import {
   InputRightElement,
   Link,
   Stack,
+  Icon,
   VStack,
   Text,
   useColorModeValue,
@@ -23,6 +24,7 @@ import { useState } from 'react';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
+import { Logo } from '@/components/Logo';
 
 export default function Register() {
   const [show, setShow] = useState(false);
@@ -37,7 +39,8 @@ export default function Register() {
       <Center>
         <Stack spacing={4}>
           <Stack align="center">
-            <Heading fontSize="6xl" color={"green.700"}>CEFS</Heading>
+            <Icon as={Logo} h={8} w={8} />
+            <Heading fontSize="4xl" css={{ letterSpacing: "1rem" }} color={"green.700"}>CEFS</Heading>
             <Heading fontSize="2xl" color={"green.700"}>Register Here</Heading>
           </Stack>
           <VStack
@@ -88,7 +91,7 @@ export default function Register() {
               <Text fontSize={{ base: 'md', sm: 'md' }}>Already have an Account?</Text>
               <Box onClick={() => navigate("/login")} css={{ cursor: "pointer" }} fontSize={{ base: 'md', sm: 'md' }} color="green.700" >Signin</Box>
             </VStack>
-            <p>Data: {data}</p>
+            <p>{data}</p>
           </VStack>
         </Stack>
       </Center>

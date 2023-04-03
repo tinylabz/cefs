@@ -1,3 +1,4 @@
+import { Logo } from '@/components/Logo';
 import {
   Button,
   Center,
@@ -6,6 +7,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -35,6 +37,8 @@ export default function Login() {
       <Center>
         <Stack spacing={4}>
           <Stack align="center">
+            <Icon as={Logo} h={15} w={15} />
+
             <Heading fontSize="4xl" color="green.700" css={{ letterSpacing: "1rem" }} >CEFS</Heading>
             <Heading fontSize="2xl" color="green.700" >Login</Heading>
           </Stack>
@@ -83,7 +87,7 @@ export default function Login() {
                 <Text>Register</Text>
               </Box>
             </VStack>
-            <p>DATA: {data}</p>
+            <p>{data}</p>
           </VStack>
         </Stack>
       </Center>
