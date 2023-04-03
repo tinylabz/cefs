@@ -25,22 +25,6 @@ type IconButtonProps = {
     children: ReactNode;
 };
 
-// const IconButton = ({ children }: IconButtonProps) => {
-//     return (
-//         <Button
-//             padding="0.4rem"
-//             width="auto"
-//             height="auto"
-//             borderRadius="100%"
-//             bg="transparent"
-//             _hover={{ bg: '#f6f6f6' }}
-//         >
-//             {children}
-//         </Button>
-//     );
-// };
-
-
 export const Navbar = ({ onOpen }: { onOpen: () => void }) => {
 
     return (
@@ -67,7 +51,7 @@ export const Navbar = ({ onOpen }: { onOpen: () => void }) => {
 
                     <Menu isLazy>
                         <MenuButton as={Button} size="sm" px={0} py={0} rounded="full">
-                            <Avatar size="sm" src={'https://avatars2.githubusercontent.com/u/37842853?v=4'} />
+                            <Avatar size="sm" src="https://media.licdn.com/dms/image/C4E03AQFr7J4gtuP8PQ/profile-displayphoto-shrink_400_400/0/1634562929283?e=1686182400&v=beta&t=zcfSeYkQ9UFy31ozjyMFvCzKOWzPkfntJw0883X_o_M" />
                         </MenuButton>
                         <MenuList
                             zIndex={5}
