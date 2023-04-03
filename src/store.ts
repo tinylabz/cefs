@@ -4,6 +4,7 @@ import { create } from 'zustand';
 
 type State = {
     count: number;
+    user: any;
     increment: (by: number) => void;
     decrement: (by: number) => void;
 };
@@ -13,6 +14,7 @@ export const useStore = create<State>()(
         persist(
             (set) => ({
                 count: 0,
+                user: null,
                 increment: (by) =>
                     set((state) => ({ count: state.count + by })),
                 decrement: (by) =>
