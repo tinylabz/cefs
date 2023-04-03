@@ -4,17 +4,19 @@ import { create } from 'zustand';
 
 type State = {
     count: number;
-    user: any;
+    user: string;
+    setUser: (user: string) => void;
     increment: (by: number) => void;
     decrement: (by: number) => void;
 };
 
-export const useState = create<State>()(
+export const useStore = create<State>()(
     devtools(
         persist(
             (set) => ({
                 count: 0,
-                user: null,
+                user: '',
+                setUser: (user) => set((state) => ({ user })),
                 increment: (by) =>
                     set((state) => ({ count: state.count + by })),
                 decrement: (by) =>
