@@ -31,7 +31,7 @@ export default function Home() {
 
   const { user } = useStore()
   useEffect(() => {
-    if (!user) {
+    if (!user && process.env.NODE_ENV !== "development") {
       navigate("/login")
     }
   }, [])
