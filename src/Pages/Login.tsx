@@ -14,16 +14,18 @@ import {
   VStack,
   Text,
   useColorModeValue,
-  Divider
+  Divider,
+  Box
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const navigate = useNavigate()
 
   return (
     <Container maxW="7xl" p={{ base: 5, md: 10 }}>
@@ -58,7 +60,7 @@ export default function Login() {
                 </InputGroup>
                 <Stack direction='row' h='50px' alignItems="center" justifyContent="center">
                   <Divider orientation='horizontal' />
-                  <Text fontWeight="medium" >Or</Text>
+                  <Text fontWeight="medium">Or</Text>
                   <Divider orientation='horizontal' />
                 </Stack>
                 <Input rounded="md" placeholder='Registration Number' type="text" />
@@ -82,7 +84,7 @@ export default function Login() {
                 Continue
               </Button>
               <Text fontSize={{ base: 'md', sm: 'md' }}>Don't have an account?</Text>
-              <Link href='/register' fontSize={{ base: 'md', sm: 'md' }} color="green" >Register</Link>
+              <Box onClick={() => navigate("/register")} css={{ cursor: "pointer" }} fontSize={{ base: 'md', sm: 'md' }} color="green" >Register</Box>
             </VStack>
           </VStack>
         </Stack>
