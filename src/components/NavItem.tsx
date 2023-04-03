@@ -1,27 +1,8 @@
 import {
-    Container,
-    Box,
     Icon,
-    Avatar,
-    Button,
-    HStack,
-    VStack,
-    Image,
-    Input,
-    Spacer,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Text,
-    Link,
-    MenuDivider,
     useColorModeValue,
-    IconButton,
     Flex
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
-import { FiMenu } from 'react-icons/fi';
 
 export const NavItem = (props: any) => {
     const color = useColorModeValue('gray.800', 'gray.300');

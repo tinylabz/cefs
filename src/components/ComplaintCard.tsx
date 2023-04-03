@@ -7,15 +7,9 @@ import {
     Flex,
     Link,
     Icon,
-    SimpleGrid,
-    Container,
     Stack
-} from '@chakra-ui/react';
-// Here we have used framer-motion package for animations
+} from '@chakra-ui/react'
 import { motion } from 'framer-motion';
-// Here we have used react-icons package for the icons
-import { HiOutlineMail } from 'react-icons/hi';
-import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 
 export interface CardData {
@@ -24,7 +18,6 @@ export interface CardData {
     number: number;
     icon: any;
 }
-
 
 export const ComplaintCard = ({ data }: { data: CardData }) => {
     return (
@@ -43,7 +36,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                 role="group"
                 overflow="hidden"
             >
-                <HStack py={6} px={5} spacing={4} bg={useColorModeValue('gray.100', 'gray.800')} w="100%">
+                <HStack py={6} px={5} spacing={4} color="white" bg={useColorModeValue('green.700', 'green.800')} w="100%">
                     <Flex
                         justify="center"
                         alignItems="center"
@@ -59,7 +52,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                     >
                         <Icon as={data.icon} w={6} h={6} color="white" />
                     </Flex>
-                    <VStack spacing={0} align="start" maxW="lg" h="100%">
+                    <VStack color="white" spacing={0} align="start" maxW="lg" h="100%">
                         <Text as="h3" fontSize="md" noOfLines={2} color="gray.400">
                             {data.label}
                         </Text>
@@ -73,17 +66,14 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                                 ) : (
                                     <Icon as={BsArrowDownShort} w={6} h={6} color="red.400" />
                                 )}
-                                {/* <Text as="h2" fontSize="md">
-                                    {data.number}
-                                </Text> */}
                             </Flex>
                         </HStack>
                     </VStack>
                 </HStack>
-                <Flex py={3} px={5} _groupHover={{ d: 'flex' }}>
-                    <Link fontSize="md">View All</Link>
+                <Flex py={3} px={5} _groupHover={{ d: 'flex', bg: useColorModeValue('gray.100', 'gray.800') }}>
+                    <Link fontSize="md" color="black">View All</Link>
                 </Flex>
             </Stack>
-        </motion.div>
+        </motion.div >
     );
 };
