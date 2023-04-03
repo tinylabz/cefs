@@ -21,10 +21,6 @@ import {
 import { ReactNode } from 'react';
 import { FiMenu } from 'react-icons/fi';
 
-type IconButtonProps = {
-    children: ReactNode;
-};
-
 export const Navbar = ({ onOpen }: { onOpen: () => void }) => {
 
     return (

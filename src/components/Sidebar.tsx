@@ -35,14 +35,13 @@ export const Sidebar = ({ ...props }: BoxProps) => (
         pb="10"
         overflowX="hidden"
         overflowY="auto"
-        bg={useColorModeValue('green', 'gray.800')}
+        bg={useColorModeValue("green.700", 'gray.800')}
         borderColor={useColorModeValue('inherit', 'gray.700')}
         borderRightWidth="1px"
         w="60"
         {...props}
     >
         <Flex px="4" py="5" align="center">
-            {/* <Icon as={RiFlashlightFill} color="white" h={8} w={8} /> */}
             <Text
                 fontSize="2xl"
                 ml="2"
