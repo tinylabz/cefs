@@ -87,7 +87,6 @@ export default function Login() {
                 <Text>Register</Text>
               </Box>
             </VStack>
-            <p>{data}</p>
           </VStack>
         </Stack>
       </Center>

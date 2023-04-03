@@ -91,7 +91,6 @@ export default function Register() {
               <Text fontSize={{ base: 'md', sm: 'md' }}>Already have an Account?</Text>
               <Box onClick={() => navigate("/login")} css={{ cursor: "pointer" }} fontSize={{ base: 'md', sm: 'md' }} color="green.700" >Signin</Box>
             </VStack>
-            <p>{data}</p>
           </VStack>
         </Stack>
       </Center>
