@@ -7,14 +7,17 @@ import {
     Flex,
     Link,
     Icon,
-    Stack
-} from '@chakra-ui/react'
+    Stack,
+} from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 
 export interface CardData {
     id: number;
-    label: "Complaints submitted" | "Complaints resolved" | "Pending complaints";
+    label:
+        | 'Complaints submitted'
+        | 'Complaints resolved'
+        | 'Pending complaints';
     number: number;
     icon: any;
 }
@@ -36,7 +39,14 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                 role="group"
                 overflow="hidden"
             >
-                <HStack py={6} px={5} spacing={4} color="white" bg={useColorModeValue('green.700', 'green.800')} w="100%">
+                <HStack
+                    py={6}
+                    px={5}
+                    spacing={4}
+                    color="white"
+                    bg={useColorModeValue('green.700', 'green.800')}
+                    w="100%"
+                >
                     <Flex
                         justify="center"
                         alignItems="center"
@@ -52,8 +62,19 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                     >
                         <Icon as={data.icon} w={6} h={6} color="white" />
                     </Flex>
-                    <VStack color="white" spacing={0} align="start" maxW="lg" h="100%">
-                        <Text as="h3" fontSize="md" noOfLines={2} color="gray.400">
+                    <VStack
+                        color="white"
+                        spacing={0}
+                        align="start"
+                        maxW="lg"
+                        h="100%"
+                    >
+                        <Text
+                            as="h3"
+                            fontSize="md"
+                            noOfLines={2}
+                            color="gray.400"
+                        >
                             {data.label}
                         </Text>
                         <HStack spacing={2}>
@@ -61,19 +82,38 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                                 {data.number}
                             </Text>
                             <Flex>
-                                {(data.label === "Complaints resolved") ? (
-                                    <Icon as={BsArrowUpShort} w={6} h={6} color="green.400" />
+                                {data.label === 'Complaints resolved' ? (
+                                    <Icon
+                                        as={BsArrowUpShort}
+                                        w={6}
+                                        h={6}
+                                        color="green.400"
+                                    />
                                 ) : (
-                                    <Icon as={BsArrowDownShort} w={6} h={6} color="red.400" />
+                                    <Icon
+                                        as={BsArrowDownShort}
+                                        w={6}
+                                        h={6}
+                                        color="red"
+                                    />
                                 )}
                             </Flex>
                         </HStack>
                     </VStack>
                 </HStack>
-                <Flex py={3} px={5} _groupHover={{ d: 'flex', bg: useColorModeValue('gray.100', 'gray.800') }}>
-                    <Link fontSize="md" color="black">View All</Link>
+                <Flex
+                    py={3}
+                    px={5}
+                    _groupHover={{
+                        d: 'flex',
+                        bg: useColorModeValue('gray.100', 'gray.800'),
+                    }}
+                >
+                    <Link fontSize="md" color="black">
+                        View All
+                    </Link>
                 </Flex>
             </Stack>
-        </motion.div >
+        </motion.div>
     );
 };

@@ -33,9 +33,11 @@ export default function Login() {
     const navigate = useNavigate();
     const { handleSubmit, register } = useForm();
     const { setUser } = useStore();
+
     const handleLogin = (data: string) => {
         setData(data);
-        setUser(data);
+        setUser(JSON.parse(data));
+        console.log(data);
         navigate('/');
     };
 
@@ -70,7 +72,7 @@ export default function Login() {
                         <VStack spacing={4} w="100%">
                             <Input
                                 rounded="md"
-                                {...register('studentNumber')}
+                                {...register('stdNo')}
                                 placeholder="Student Number"
                                 type="text"
                             />

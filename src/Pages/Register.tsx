@@ -25,6 +25,7 @@ import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Logo } from '@/components/Logo';
+import { useStore } from '@/state';
 
 export default function Register() {
     const [show, setShow] = useState(false);
@@ -32,10 +33,12 @@ export default function Register() {
     const handleClick = () => setShow(!show);
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
+    const { setUser } = useStore();
 
     const handleRegister = (data: string) => {
         console.log('data: ', data);
         setData(data);
+        setUser(JSON.parse(data));
         navigate('/');
     };
 
@@ -70,19 +73,19 @@ export default function Register() {
                         <VStack spacing={4} w="100%">
                             <Input
                                 rounded="md"
-                                {...register('studentName')}
+                                {...register('name')}
                                 placeholder="Student Name"
                                 type="text"
                             />
                             <Input
                                 rounded="md"
-                                {...register('studentNumber')}
+                                {...register('stdNo')}
                                 placeholder="Student Number"
                                 type="text"
                             />
                             <Input
                                 rounded="md"
-                                {...register('registrationNumber')}
+                                {...register('regNo')}
                                 placeholder="Registration Number"
                                 type="text"
                             />
@@ -97,7 +100,7 @@ export default function Register() {
                                 <Input
                                     type="tel"
                                     {...register('phone')}
-                                    placeholder="phone number"
+                                    placeholder="phone Number"
                                 />
                             </InputGroup>
                             <Input
