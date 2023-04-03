@@ -2,15 +2,8 @@ import {
     Avatar,
     Box,
     Flex,
-    Icon,
-    Text,
     Link,
-    Image,
     Button,
-    Heading,
-    Stack,
-    VStack,
-    BoxProps,
     Drawer,
     Menu,
     MenuButton,
@@ -22,10 +15,7 @@ import {
     DrawerOverlay,
     useColorModeValue
 } from '@chakra-ui/react';
-import { AiOutlineTeam, AiOutlineHome } from 'react-icons/ai';
-import { BsFolder2, BsCalendarCheck } from 'react-icons/bs';
 import { FiMenu } from 'react-icons/fi';
-import { RiFlashlightFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 

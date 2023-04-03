@@ -1,32 +1,15 @@
 import {
-    Avatar,
     Box,
     Flex,
     Icon,
     Text,
-    Link,
-    Image,
-    Button,
-    Heading,
-    Stack,
     VStack,
     BoxProps,
-    Drawer,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    DrawerContent,
-    IconButton,
-    useDisclosure,
-    DrawerOverlay,
     useColorModeValue
 } from '@chakra-ui/react';
-import { AiOutlineTeam, AiOutlineHome } from 'react-icons/ai';
-import { BsFolder2, BsCalendarCheck, BsMessenger, BsBellFill } from 'react-icons/bs';
-import { FiHelpCircle, FiMenu } from 'react-icons/fi';
-import { RiFlashlightFill } from 'react-icons/ri';
-import { Dashboard, Feedback, Logo } from './Icons';
+import { BsMessenger, BsBellFill } from 'react-icons/bs';
+import { FiHelpCircle } from 'react-icons/fi';
+import { Logo } from './Icons';
 import { NavItem } from './NavItem';
 import { FaHamburger } from 'react-icons/fa';
 

@@ -19,11 +19,6 @@ const Loadable = (Component: any) => (props: any) =>
         <Component {...props} />
     </Suspense>
 );
-
-// This is a code comment. It allows us to render components asynchronously, meaning they are not rendered until
-// they are needed. This will make the app load faster.
-// Home is the home page, Estimator is the estimator page, Signin is the Signin page, and Signup is the Signup page
-
 const Home = Loadable(lazy(() => import('./Pages/Home')));
 const Login = Loadable(lazy(() => import('./Pages/Login')));
 const Register = Loadable(lazy(() => import('./Pages/Register')));

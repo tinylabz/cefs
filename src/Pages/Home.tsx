@@ -1,31 +1,8 @@
 import {
-  Avatar,
-  Box,
-  Flex,
-  Icon,
-  Text,
-  Stack,
-  Image,
-  Button,
-  Heading,
-  BoxProps,
-  Drawer,
-  DrawerContent,
-  IconButton,
-  useDisclosure,
-  DrawerOverlay,
-  useColorModeValue, HStack,
-  VStack,
-  Link,
   SimpleGrid,
   Container,
 } from '@chakra-ui/react';
 
-import { FaBell } from 'react-icons/fa';
-import { AiOutlineTeam, AiOutlineHome } from 'react-icons/ai';
-import { BsFolder2, BsCalendarCheck } from 'react-icons/bs';
-import { FiMenu } from 'react-icons/fi';
-import { RiFlashlightFill } from 'react-icons/ri';
 import { Page } from '@/components/Page';
 import { useState } from '@/state';
 import { useEffect } from 'react';
@@ -33,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai';
 import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
-
 
 const cardData: CardData[] = [
   {
@@ -67,11 +43,9 @@ export default function Home() {
   }, [])
   return (
     <Page>
-      <Container maxW="7xl" p={{ base: 5, md: 10 }}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={5} mt={6} mb={4}>
-          {cardData.map((data, index) => (
-            <ComplaintCard key={index} data={data} />
-          ))}
+      <Container maxW="7xl">
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={5} mb={4}>
+          {cardData.map((data, index) => <ComplaintCard key={index} data={data} />)}
         </SimpleGrid>
       </Container>
     </Page>
