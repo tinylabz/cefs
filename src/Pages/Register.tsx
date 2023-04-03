@@ -15,15 +15,18 @@ import {
   Text,
   useColorModeValue,
   Divider,
-  InputLeftAddon
+  InputLeftAddon,
+  Box
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
 import { BsEye, BsEyeFill, BsEyeSlash } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const navigate = useNavigate()
 
   return (
     <Container maxW="7xl" p={{ base: 5, md: 10 }}>
@@ -93,7 +96,7 @@ export default function Register() {
                 Continue
               </Button>
               <Text fontSize={{ base: 'md', sm: 'md' }}>Already have an Account?</Text>
-              <Link href="/login" fontSize={{ base: 'md', sm: 'md' }} color="green" >Signin</Link>
+              <Box onClick={() => navigate("/login")} css={{ cursor: "pointer" }} fontSize={{ base: 'md', sm: 'md' }} color="green" >Signin</Box>
             </VStack>
           </VStack>
         </Stack>

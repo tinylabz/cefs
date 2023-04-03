@@ -25,7 +25,6 @@ const Loadable = (Component: any) => (props: any) =>
 // Home is the home page, Estimator is the estimator page, Signin is the Signin page, and Signup is the Signup page
 
 const Home = Loadable(lazy(() => import('./Pages/Home')));
-const Estimator = Loadable(lazy(() => import('./Pages/Estimator')));
 const Login = Loadable(lazy(() => import('./Pages/Login')));
 const Register = Loadable(lazy(() => import('./Pages/Register')));
 export default () => {
@@ -33,10 +32,6 @@ export default () => {
         {
             path: '/',
             element: <Home />,
-        },
-        {
-            path: '/estimator',
-            element: <Estimator />,
         },
         {
             path: '/login',
