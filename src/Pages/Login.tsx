@@ -1,4 +1,5 @@
 import { Logo } from '@/components/Logo';
+import { useStore } from '@/state';
 import {
     Button,
     Center,
@@ -31,9 +32,10 @@ export default function Login() {
     const [data, setData] = useState('');
     const navigate = useNavigate();
     const { handleSubmit, register } = useForm();
-
+    const { setUser } = useStore();
     const handleLogin = (data: string) => {
         setData(data);
+        setUser(data);
         navigate('/');
     };
 
