@@ -16,7 +16,7 @@ const Loadable = (Component: any) => (props: any) =>
                         alignContent: 'center',
                     }}
                 >
-                    <Spinner size="xl" />
+                    <Spinner size="xs" />
                 </div>
             }
         >
