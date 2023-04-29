@@ -48,12 +48,12 @@ export default function Login() {
 
                         <Heading
                             fontSize="4xl"
-                            color="green.500"
+                            color="whatsapp.700"
                             css={{ letterSpacing: '1rem' }}
                         >
                             CEFS
                         </Heading>
-                        <Heading fontSize="2xl" color="green.500">
+                        <Heading fontSize="2xl" color="whatsapp.700">
                             LOGIN
                         </Heading>
                     </Stack>
@@ -95,15 +95,15 @@ export default function Login() {
                                 justify="space-between"
                                 w="100%"
                             >
-                                <Checkbox colorScheme="green" size="md">
+                                <Checkbox colorScheme="whatsapp.700" size="md">
                                     Remember me
                                 </Checkbox>
                             </Stack>
                             <Button
-                                bg="green.500"
+                                bg="whatsapp.700"
                                 color="white"
                                 _hover={{
-                                    bg: 'green.900',
+                                    bg: 'whatsapp.700',
                                 }}
                                 type="submit"
                                 rounded="md"
@@ -118,7 +118,7 @@ export default function Login() {
                                 onClick={() => navigate('/register')}
                                 css={{ cursor: 'pointer' }}
                                 fontSize={{ base: 'md', sm: 'md' }}
-                                color="green"
+                                color="whatsapp.700"
                             >
                                 <Text>Register</Text>
                             </Box>

@@ -16,21 +16,18 @@ export default function Profile() {
 
     return (
         <Page>
-            <Container p={{ base: 5, md: 10 }}>
-                <Center>
-                    <Stack spacing={4}>
-                        <VStack
-                            color="white"
-                            boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
-                        >
-                            <TextBox value={user?.name} />
-                            <TextBox value={user?.email} />
-                            <TextBox value={user?.phone} />
-                            <TextBox value={user?.stdNo} />
-                            <TextBox value={user?.regNo} />
-                        </VStack>
-                    </Stack>
-                </Center>
+            <Container maxW={'container.sm'} p={{ base: 5, md: 10 }}>
+                <Stack spacing={4}>
+                    <VStack
+                        color="white"
+                        boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
+                    >
+                        <TextBox value={user?.email} />
+                        <TextBox value={user?.phone} />
+                        <TextBox value={user?.stdNo} />
+                        <TextBox value={user?.regNo} />
+                    </VStack>
+                </Stack>
             </Container>
         </Page>
     );

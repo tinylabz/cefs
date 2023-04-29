@@ -27,49 +27,68 @@ const Home = Loadable(lazy(() => import('./Pages/Home')));
 const Login = Loadable(lazy(() => import('./Pages/Login')));
 const Register = Loadable(lazy(() => import('./Pages/Register')));
 const Summary = Loadable(lazy(() => import('./Pages/Summary')));
-const Complaint = Loadable(lazy(() => import('./Pages/MissingMark')));
+const Complaint = Loadable(lazy(() => import('./Pages/Complaint')));
 const Profile = Loadable(lazy(() => import('./Pages/Profile')));
 const Remark = Loadable(lazy(() => import('./Pages/Remark')));
 const ChangePassword = Loadable(lazy(() => import('./Pages/ChangePassword')));
 const MissingMark = Loadable(lazy(() => import('./Pages/MissingMark')));
+const Faqs = Loadable(lazy(() => import('./Pages/Faqs')));
+const HodComplaint = Loadable(lazy(() => import('./Pages/HodComplaint')));
+const ComplaintStatus = Loadable(lazy(() => import('./Pages/Status')));
 
 export default () => {
     return useRoutes([
         {
-            path: '/',
+            path: '',
             element: <Home />,
         },
         {
-            path: '/login',
+            path: 'login',
             element: <Login />,
         },
         {
-            path: '/register',
+            path: 'register',
             element: <Register />,
         },
         {
-            path: '/summary',
+            path: 'summary',
             element: <Summary />,
         },
         {
-            path: '/complaint',
+            path: 'complaint',
             element: <Complaint />,
         },
         {
-            path: '/profile',
+            path: 'profile',
             element: <Profile />,
         },
         {
-            path: '/remark',
+            path: 'remark',
             element: <Remark />,
         },
         {
-            path: '/missing-mark',
+            path: 'missing-mark',
             element: <MissingMark />,
         },
         {
-            path: '/change-password',
+            path: 'change-password',
             element: <ChangePassword />,
+        },
+        {
+            path: 'complaint',
+            element: <Complaint />,
+        },
+        {
+            path: 'faqs',
+            element: <Faqs />,
+        },
+        {
+            path: 'hod-complaints-screen',
+            element: <HodComplaint />,
+        },
+        {
+            path: 'complaint-status',
+            element: <ComplaintStatus />,
         },
         {
             path: '404',

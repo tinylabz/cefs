@@ -81,10 +81,10 @@ export default function MissingMark() {
                                 />
                             </VStack>
                             <Button
-                                bg="green.500"
+                                bg="whatsapp.700"
                                 color="white"
                                 _hover={{
-                                    bg: 'green.900',
+                                    bg: 'whatsapp.700',
                                 }}
                                 type="submit"
                                 rounded="md"
