@@ -46,7 +46,6 @@ export default function ChangePassword() {
                             rounded="lg"
                         >
                             <VStack w="100%">
-                                {/* <Text align={'left'}>Old Password</Text> */}
                                 <InputGroup size="md" id="oldPassword">
                                     <Input
                                         rounded="md"
@@ -144,7 +143,7 @@ export default function ChangePassword() {
                                     Close
                                 </Button>
                                 <Button
-                                    bg="green.700"
+                                    bg="green.500"
                                     color="white"
                                     _hover={{
                                         bg: 'green.900',

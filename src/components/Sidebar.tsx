@@ -5,7 +5,7 @@ import {
     Text,
     VStack,
     BoxProps,
-    useColorModeValue
+    useColorModeValue,
 } from '@chakra-ui/react';
 import { BsMessenger, BsBellFill } from 'react-icons/bs';
 import { FiHelpCircle } from 'react-icons/fi';
@@ -23,13 +23,18 @@ export const Sidebar = ({ ...props }: BoxProps) => (
         h="full"
         overflowX="hidden"
         overflowY="auto"
-        bg={useColorModeValue('green.700', 'gray.800')}
+        bg={useColorModeValue('green.500', 'gray.800')}
         borderColor={useColorModeValue('inherit', 'gray.700')}
         borderRightWidth="1px"
         w="60"
         {...props}
     >
-        <VStack h="full" w="full" alignItems="flex-start" justify="space-between">
+        <VStack
+            h="full"
+            w="full"
+            alignItems="flex-start"
+            justify="space-between"
+        >
             <Box w="full">
                 <Flex px="4" py="5" align="center">
                     <Icon as={Logo} h={8} w={8} />
@@ -38,7 +43,7 @@ export const Sidebar = ({ ...props }: BoxProps) => (
                         ml="2"
                         color={useColorModeValue('white', 'white')}
                         fontWeight="semibold"
-                        css={{ letterSpacing: "1rem" }}
+                        css={{ letterSpacing: '1rem' }}
                     >
                         CEFS
                     </Text>
@@ -59,4 +64,3 @@ export const Sidebar = ({ ...props }: BoxProps) => (
         </VStack>
     </Box>
 );
-

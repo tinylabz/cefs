@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     HStack,
     VStack,
@@ -9,6 +8,7 @@ import {
     Icon,
     Stack,
 } from '@chakra-ui/react';
+
 import { motion } from 'framer-motion';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 
@@ -44,7 +44,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                     px={5}
                     spacing={4}
                     color="white"
-                    bg={useColorModeValue('green.700', 'green.800')}
+                    bg={useColorModeValue('green.500', 'green.500')}
                     w="100%"
                 >
                     <Flex
@@ -73,7 +73,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                             as="h3"
                             fontSize="md"
                             noOfLines={2}
-                            color="gray.400"
+                            color="gray.100"
                         >
                             {data.label}
                         </Text>
@@ -87,7 +87,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                                         as={BsArrowUpShort}
                                         w={6}
                                         h={6}
-                                        color="green.400"
+                                        color="#0D940A"
                                     />
                                 ) : (
                                     <Icon

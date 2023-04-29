@@ -5,8 +5,6 @@ import {
     Center,
     Checkbox,
     Container,
-    FormControl,
-    FormLabel,
     Heading,
     Icon,
     Input,
@@ -50,13 +48,13 @@ export default function Login() {
 
                         <Heading
                             fontSize="4xl"
-                            color="green.700"
+                            color="green.500"
                             css={{ letterSpacing: '1rem' }}
                         >
                             CEFS
                         </Heading>
-                        <Heading fontSize="2xl" color="green.700">
-                            Login
+                        <Heading fontSize="2xl" color="green.500">
+                            LOGIN
                         </Heading>
                     </Stack>
                     <VStack
@@ -102,7 +100,7 @@ export default function Login() {
                                 </Checkbox>
                             </Stack>
                             <Button
-                                bg="green.700"
+                                bg="green.500"
                                 color="white"
                                 _hover={{
                                     bg: 'green.900',

@@ -51,11 +51,11 @@ export default function Register() {
                         <Heading
                             fontSize="4xl"
                             css={{ letterSpacing: '1rem' }}
-                            color={'green.700'}
+                            color={'green.500'}
                         >
                             CEFS
                         </Heading>
-                        <Heading fontSize="2xl" color={'green.700'}>
+                        <Heading fontSize="2xl" color={'green.500'}>
                             Register Here
                         </Heading>
                     </Stack>
@@ -125,7 +125,7 @@ export default function Register() {
                         </VStack>
                         <VStack w="100%">
                             <Button
-                                bg="green.700"
+                                bg="green.500"
                                 color="white"
                                 _hover={{
                                     bg: 'green.900',
@@ -143,7 +143,7 @@ export default function Register() {
                                 onClick={() => navigate('/login')}
                                 css={{ cursor: 'pointer' }}
                                 fontSize={{ base: 'md', sm: 'md' }}
-                                color="green.700"
+                                color="green.500"
                             >
                                 Signin
                             </Box>

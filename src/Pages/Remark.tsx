@@ -107,7 +107,7 @@ export default function MissingMark() {
                             </VStack>
 
                             <Button
-                                bg="green.700"
+                                bg="green.500"
                                 color="white"
                                 _hover={{
                                     bg: 'green.900',

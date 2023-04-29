@@ -5,21 +5,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '@/components/Logo';
 import { useStore } from '@/state';
-import {
-    Button,
-    Center,
-    Checkbox,
-    Heading,
-    Icon,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Stack,
-    VStack,
-    Text,
-    useColorModeValue,
-    Box,
-} from '@chakra-ui/react';
+import { Button, Center, Input, Stack, VStack, Text } from '@chakra-ui/react';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -95,7 +81,7 @@ export default function MissingMark() {
                                 />
                             </VStack>
                             <Button
-                                bg="green.700"
+                                bg="green.500"
                                 color="white"
                                 _hover={{
                                     bg: 'green.900',

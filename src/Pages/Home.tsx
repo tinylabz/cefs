@@ -49,6 +49,12 @@ export default function Home() {
                     {cardData.map((data, index) => (
                         <ComplaintCard key={index} data={data} />
                     ))}
+                    {cardData.map((data, index) => (
+                        <ComplaintCard key={index} data={data} />
+                    ))}
+                    {cardData.map((data, index) => (
+                        <ComplaintCard key={index} data={data} />
+                    ))}
                 </SimpleGrid>
             </Container>
         </Page>
