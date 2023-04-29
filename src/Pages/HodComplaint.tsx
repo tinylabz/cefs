@@ -33,7 +33,9 @@ export default function HodComplaint() {
                         <ButtonGroup spacing="none" w={'container.sm'}>
                             <Button
                                 onClick={() => handleTabSelect('submitted')}
+                                //@ts-ignore
                                 bg={activeBtn === 'submitted' && 'whatsapp.700'}
+                                //@ts-ignore
                                 color={
                                     activeBtn === 'submitted' &&
                                     'whiteAlpha.900'
@@ -47,7 +49,9 @@ export default function HodComplaint() {
                             </Button>
                             <Button
                                 onClick={() => handleTabSelect('pending')}
+                                //@ts-ignore
                                 bg={activeBtn === 'pending' && 'whatsapp.700'}
+                                //@ts-ignore
                                 color={
                                     activeBtn === 'pending' && 'whiteAlpha.900'
                                 }
@@ -60,7 +64,9 @@ export default function HodComplaint() {
                             </Button>
                             <Button
                                 onClick={() => handleTabSelect('resolved')}
+                                //@ts-ignore
                                 bg={activeBtn === 'resolved' && 'whatsapp.700'}
+                                //@ts-ignore
                                 color={
                                     activeBtn === 'resolved' && 'whiteAlpha.900'
                                 }
