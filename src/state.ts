@@ -28,7 +28,7 @@ export const useStore = create<State>()(
                 setUser: (user) => set((state) => ({ user })),
             }),
             {
-                name: 'store-storage',
+                name: 'store',
                 storage: createJSONStorage(() => localStorage),
             }
         )

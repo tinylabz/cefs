@@ -14,10 +14,7 @@ import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 
 export interface CardData {
     id: number;
-    label:
-        | 'Complaints submitted'
-        | 'Complaints resolved'
-        | 'Pending complaints';
+    label: string;
     number: number;
     icon: any;
 }
@@ -110,7 +107,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                     }}
                 >
                     <Link fontSize="md" color="black">
-                        View All
+                        Click to View All
                     </Link>
                 </Flex>
             </Stack>

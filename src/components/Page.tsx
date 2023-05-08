@@ -14,6 +14,7 @@ import {
     useDisclosure,
     DrawerOverlay,
     useColorModeValue,
+    Text,
 } from '@chakra-ui/react';
 import { FiMenu } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -69,7 +70,11 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                         mt={0}
                         justify="center"
                         alignItems="center"
+                        gap={'1em'}
                     >
+                        <Text color="whatsapp.700" fontWeight={'500'}>
+                            Student
+                        </Text>
                         <Menu>
                             <MenuButton
                                 as={Button}

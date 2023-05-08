@@ -12,7 +12,7 @@ import { FiHelpCircle } from 'react-icons/fi';
 import { Logo } from './Icons';
 import { NavItem } from './NavItem';
 import { FaHamburger } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const Sidebar = ({ ...props }: BoxProps) => {
     const navigate = useNavigate();
@@ -63,30 +63,38 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                         color="white"
                         aria-label="Main Navigation"
                     >
-                        <NavItem
-                            onClick={() => navigate('/')}
-                            icon={FaHamburger}
-                        >
-                            Dashboard
-                        </NavItem>
-                        <NavItem
-                            onClick={() => navigate('/complaint')}
-                            icon={BsMessenger}
-                        >
-                            Complaint
-                        </NavItem>
-                        <NavItem
-                            onClick={() => navigate('/feedback')}
-                            icon={BsBellFill}
-                        >
-                            Feedback
-                        </NavItem>
-                        <NavItem
-                            onClick={() => navigate('/faqs')}
-                            icon={FiHelpCircle}
-                        >
-                            FAQs
-                        </NavItem>
+                        <Link to={'/'}>
+                            <NavItem
+                                onClick={() => navigate('/')}
+                                icon={FaHamburger}
+                            >
+                                Dashboard
+                            </NavItem>
+                        </Link>
+                        <Link to={'/complaint'}>
+                            <NavItem
+                                onClick={() => navigate('/complaint')}
+                                icon={BsMessenger}
+                            >
+                                Complaint
+                            </NavItem>
+                        </Link>
+                        <Link to={'/feedback'}>
+                            <NavItem
+                                onClick={() => navigate('/feedback')}
+                                icon={BsBellFill}
+                            >
+                                Feedback
+                            </NavItem>
+                        </Link>
+                        <Link to={'faqs'}>
+                            <NavItem
+                                onClick={() => navigate('/faqs')}
+                                icon={FiHelpCircle}
+                            >
+                                FAQs
+                            </NavItem>
+                        </Link>
                     </Flex>
                 </Box>
             </VStack>
