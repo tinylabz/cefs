@@ -51,7 +51,12 @@ export default function Lecturer() {
                         <ComplaintCard key={index} data={data} />
                     ))}
                 </SimpleGrid>
-                <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={5} mb={4}>
+                <SimpleGrid
+                    mt={{ sm: '1em', md: '12em' }}
+                    columns={{ sm: 1, md: 2 }}
+                    spacing={5}
+                    mb={4}
+                >
                     <Dnd />
                     <Dnd />
                 </SimpleGrid>

@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Modal as Wrapper, Space } from 'antd';
+import { Modal as Wrapper } from 'antd';
 import { Button, Container, Text } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
@@ -8,7 +8,7 @@ import React from 'react';
 import { MissingMark, Remark } from '@/components/forms';
 import { WrongAcademicYear } from '@/components/forms';
 
-interface Nature {
+interface Complaint {
     title: string;
     form: React.ReactNode;
 }
@@ -19,7 +19,8 @@ const Complaint = () => {
     const openModal = (title: string, children: React.ReactNode) => {
         confirm({
             title,
-            icon: <ExclamationCircleFilled />,
+            // icon: <ExclamationCircleFilled />,
+            icon: null,
             content: children,
             async onOk() {
                 try {
@@ -37,7 +38,7 @@ const Complaint = () => {
         });
     };
 
-    const complaintNatures: Nature[] = [
+    const complaints: Complaint[] = [
         { title: 'Missing Mark', form: <MissingMark /> },
         { title: 'Remark', form: <Remark /> },
         { title: 'Wrong Academic Year', form: <WrongAcademicYear /> },
@@ -52,7 +53,7 @@ const Complaint = () => {
                     </Text>
 
                     <Stack>
-                        {complaintNatures.map(({ title, form }, idx) => {
+                        {complaints.map(({ title, form }, idx) => {
                             return (
                                 <Button
                                     key={idx.toString()}

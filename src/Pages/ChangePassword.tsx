@@ -5,11 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useStore } from '@/state';
 import {
     Button,
-    Center,
     Input,
     InputGroup,
     InputRightElement,
-    Stack,
     VStack,
     Text,
 } from '@chakra-ui/react';
@@ -23,10 +21,7 @@ export default function ChangePassword() {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [data, setData] = useState('');
-    const navigate = useNavigate();
     const { handleSubmit, register } = useForm();
-    const { setUser } = useStore();
 
     return (
         <Page>

@@ -87,7 +87,7 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                                 Feedback
                             </NavItem>
                         </Link>
-                        <Link to={'faqs'}>
+                        <Link to={'/faqs'}>
                             <NavItem
                                 onClick={() => navigate('/faqs')}
                                 icon={FiHelpCircle}
