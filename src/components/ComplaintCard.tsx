@@ -4,13 +4,13 @@ import {
     Text,
     useColorModeValue,
     Flex,
-    Link,
     Icon,
     Stack,
 } from '@chakra-ui/react';
 
 import { motion } from 'framer-motion';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 export interface CardData {
     id: number;
@@ -107,7 +107,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                         bg: useColorModeValue('gray.100', 'gray.800'),
                     }}
                 >
-                    <Link fontSize="md" href={data.href} color="black">
+                    <Link to={data.href} color="black">
                         Click to View All
                     </Link>
                 </Flex>
