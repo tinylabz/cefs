@@ -3,6 +3,18 @@ import { Suspense, lazy, useEffect } from 'react';
 
 import { Spinner } from '@chakra-ui/react';
 import Lecturer from './Pages/lecturer';
+import ComplaintList from './Pages/ComplaintList';
+import Complaints from './Pages/Complaints';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import Summary from './Pages/Summary';
+import Profile from './Pages/Profile';
+import ChangePassword from './Pages/ChangePassword';
+import Faqs from './Pages/Faqs';
+import HodComplaint from './Pages/HodComplaint';
+import ComplaintStatus from './Pages/Status';
+import Reviews from './Pages/Reviews';
 
 const Loadable = (Component: React.FC) => (props: any) =>
     (
@@ -24,18 +36,16 @@ const Loadable = (Component: React.FC) => (props: any) =>
             <Component {...props} />
         </Suspense>
     );
-const Home = Loadable(lazy(() => import('./Pages/Home')));
-const Login = Loadable(lazy(() => import('./Pages/Login')));
-const Register = Loadable(lazy(() => import('./Pages/Register')));
-const Summary = Loadable(lazy(() => import('./Pages/Summary')));
-const Complaint = Loadable(lazy(() => import('./Pages/Complaint')));
-const Profile = Loadable(lazy(() => import('./Pages/Profile')));
-// const Remark = Loadable(lazy(() => import('./Pages/Remark')));
-const ChangePassword = Loadable(lazy(() => import('./Pages/ChangePassword')));
-// const MissingMark = Loadable(lazy(() => import('./Pages/MissingMark')));
-const Faqs = Loadable(lazy(() => import('./Pages/Faqs')));
-const HodComplaint = Loadable(lazy(() => import('./Pages/HodComplaint')));
-const ComplaintStatus = Loadable(lazy(() => import('./Pages/Status')));
+// const Home = Loadable(lazy(() => import('./Pages/Home')));
+// const Login = Loadable(lazy(() => import('./Pages/Login')));
+// const Register = Loadable(lazy(() => import('./Pages/Register')));
+// const Summary = Loadable(lazy(() => import('./Pages/Summary')));
+// const Complaint = Loadable(lazy(() => import('./Pages/Complaint')));
+// const Profile = Loadable(lazy(() => import('./Pages/Profile')));
+// const ChangePassword = Loadable(lazy(() => import('./Pages/ChangePassword')));
+// const Faqs = Loadable(lazy(() => import('./Pages/Faqs')));
+// const HodComplaint = Loadable(lazy(() => import('./Pages/HodComplaint')));
+// const ComplaintStatus = Loadable(lazy(() => import('./Pages/Status')));
 
 export default () => {
     return useRoutes([
@@ -48,6 +58,10 @@ export default () => {
             element: <Login />,
         },
         {
+            path: 'reviews',
+            element: <Reviews />,
+        },
+        {
             path: 'register',
             element: <Register />,
         },
@@ -56,8 +70,12 @@ export default () => {
             element: <Summary />,
         },
         {
-            path: 'complaint',
-            element: <Complaint />,
+            path: 'complaints',
+            element: <Complaints />,
+        },
+        {
+            path: 'list',
+            element: <ComplaintList />,
         },
         {
             path: 'lecturer',
@@ -72,15 +90,11 @@ export default () => {
             element: <ChangePassword />,
         },
         {
-            path: 'complaint',
-            element: <Complaint />,
-        },
-        {
             path: 'faqs',
             element: <Faqs />,
         },
         {
-            path: 'hod-complaints-screen',
+            path: 'hod',
             element: <HodComplaint />,
         },
         {

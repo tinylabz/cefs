@@ -71,20 +71,44 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                                 Dashboard
                             </NavItem>
                         </Link>
-                        <Link to={'/complaint'}>
+                        <Link to={'/complaints'}>
                             <NavItem
-                                onClick={() => navigate('/complaint')}
+                                onClick={() => navigate('/complaints')}
                                 icon={BsMessenger}
                             >
-                                Complaint
+                                Complaints
                             </NavItem>
                         </Link>
-                        <Link to={'/feedback'}>
+                        <Link to={'/lecturer'}>
                             <NavItem
-                                onClick={() => navigate('/feedback')}
+                                onClick={() => navigate('/lecturer')}
+                                icon={BsMessenger}
+                            >
+                                Lecturer
+                            </NavItem>
+                        </Link>
+                        <Link to={'/hod'}>
+                            <NavItem
+                                onClick={() => navigate('/hod')}
+                                icon={BsMessenger}
+                            >
+                                HOD
+                            </NavItem>
+                        </Link>
+                        <Link to={'/status'}>
+                            <NavItem
+                                onClick={() => navigate('/status')}
+                                icon={BsMessenger}
+                            >
+                                Status
+                            </NavItem>
+                        </Link>
+                        <Link to={'/reviews'}>
+                            <NavItem
+                                onClick={() => navigate('/reviews')}
                                 icon={BsBellFill}
                             >
-                                Feedback
+                                Reviews
                             </NavItem>
                         </Link>
                         <Link to={'/faqs'}>

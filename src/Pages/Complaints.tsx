@@ -1,4 +1,3 @@
-import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Modal as Wrapper } from 'antd';
 import { Button, Container, Text } from '@chakra-ui/react';
 
@@ -13,14 +12,12 @@ interface Complaint {
     form: React.ReactNode;
 }
 
-const Complaint = () => {
+const Complaints = () => {
     const { confirm } = Wrapper;
 
     const openModal = (title: string, children: React.ReactNode) => {
         confirm({
             title,
-            // icon: <ExclamationCircleFilled />,
-            icon: null,
             content: children,
             async onOk() {
                 try {
@@ -70,4 +67,4 @@ const Complaint = () => {
     );
 };
 
-export default Complaint;
+export default Complaints;
