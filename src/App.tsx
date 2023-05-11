@@ -1,7 +1,6 @@
 import { Navigate, useNavigate, useRoutes } from 'react-router-dom';
-import { Suspense, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Spinner } from '@chakra-ui/react';
 import ComplaintList from './Pages/ComplaintList';
 import Complaints from './Pages/Complaints';
 import Home from './Pages/Home';
