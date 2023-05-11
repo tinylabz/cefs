@@ -13,7 +13,7 @@ import Faqs from './Pages/Faqs';
 import HodComplaint from './Pages/HodComplaint';
 import ComplaintStatus from './Pages/Status';
 import Reviews from './Pages/Reviews';
-import Lecturer from './Pages/Lecturer';
+import Lecturer from './Pages/lecture';
 
 export default () => {
     return useRoutes([
