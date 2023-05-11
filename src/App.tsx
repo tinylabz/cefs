@@ -2,7 +2,6 @@ import { Navigate, useNavigate, useRoutes } from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
 
 import { Spinner } from '@chakra-ui/react';
-import Lecturer from './Pages/lecturer';
 import ComplaintList from './Pages/ComplaintList';
 import Complaints from './Pages/Complaints';
 import Home from './Pages/Home';
@@ -15,6 +14,7 @@ import Faqs from './Pages/Faqs';
 import HodComplaint from './Pages/HodComplaint';
 import ComplaintStatus from './Pages/Status';
 import Reviews from './Pages/Reviews';
+import Lecturer from './Pages/Lecturer';
 
 const Loadable = (Component: React.FC) => (props: any) =>
     (

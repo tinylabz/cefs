@@ -17,6 +17,7 @@ export interface CardData {
     label: string;
     number: number;
     icon: any;
+    href: string;
 }
 
 export const ComplaintCard = ({ data }: { data: CardData }) => {
@@ -106,7 +107,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                         bg: useColorModeValue('gray.100', 'gray.800'),
                     }}
                 >
-                    <Link fontSize="md" color="black">
+                    <Link fontSize="md" href={data.href} color="black">
                         Click to View All
                     </Link>
                 </Flex>

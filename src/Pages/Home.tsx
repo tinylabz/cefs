@@ -14,18 +14,21 @@ const cardData: CardData[] = [
         label: 'Complaints submitted',
         number: 2,
         icon: HiOutlineMail,
+        href: '/list',
     },
     {
         id: 2,
         label: 'Complaints resolved',
         number: 1,
         icon: AiOutlineLike,
+        href: '/list',
     },
     {
         id: 3,
         label: 'Pending complaints',
         number: 4,
         icon: AiOutlineEye,
+        href: '/list',
     },
 ];
 

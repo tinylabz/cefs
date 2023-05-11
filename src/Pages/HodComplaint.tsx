@@ -95,8 +95,8 @@ export default function HodComplaint() {
                                     <Tr key={idx.toString()}>
                                         <Td>1900700123</Td>
                                         <Td>19/U/0123</Td>
-                                        <Td>Automata</Td>
-                                        <Td>IDK</Td>
+                                        <Td>Computer Literacy</Td>
+                                        <Td>CSC 2639</Td>
                                         <Td>Remark</Td>
                                     </Tr>
                                 ))}

@@ -18,10 +18,10 @@ export default function Reviews() {
         <Page>
             <Container maxW={'container.xl'}>
                 <Stack spacing={4}>
-                    <Text align={'center'} fontSize={'3xl'}>
+                    <Text align={'center'} fontSize={'4xl'}>
                         Reviews and Ratings
                     </Text>
-                    <Text align={'center'}>
+                    <Text align={'center'} fontSize={'2xl'}>
                         Reviews and ratings are verified and are from people who
                         use the type of device as you.
                     </Text>
@@ -35,11 +35,7 @@ export default function Reviews() {
                             alignItems="flex-start"
                             justifyContent={'space-between'}
                         >
-                            <Text
-                                align={'left'}
-                                fontSize={'7xl'}
-                                fontWeight={'extrabold'}
-                            >
+                            <Text fontSize={'7xl'} fontWeight={'extrabold'}>
                                 4.8
                             </Text>
                             <Text
@@ -71,7 +67,7 @@ export default function Reviews() {
                 <Stack mt="3em">
                     <Divider />
 
-                    <Text align={'left'} fontSize={'2xl'}>
+                    <Text fontSize={'2xl'}>
                         Please rate and add your comment
                     </Text>
                     <Text
