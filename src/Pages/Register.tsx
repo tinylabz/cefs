@@ -1,21 +1,16 @@
 import {
     Button,
     Center,
-    Checkbox,
     Container,
-    FormControl,
-    FormLabel,
     Heading,
     Input,
     InputGroup,
     InputRightElement,
-    Link,
     Stack,
     Icon,
     VStack,
     Text,
     useColorModeValue,
-    Divider,
     InputLeftAddon,
     Box,
 } from '@chakra-ui/react';
@@ -79,13 +74,13 @@ export default function Register() {
                             />
                             <Input
                                 rounded="md"
-                                {...register('stdNo')}
+                                {...register('studentNumber')}
                                 placeholder="Student Number"
                                 type="text"
                             />
                             <Input
                                 rounded="md"
-                                {...register('regNo')}
+                                {...register('registrationNumber')}
                                 placeholder="Registration Number"
                                 type="text"
                             />
@@ -140,7 +135,7 @@ export default function Register() {
                                 Already have an Account?
                             </Text>
                             <Box
-                                onClick={() => navigate('/login')}
+                                onClick={() => navigate('/signin')}
                                 css={{ cursor: 'pointer' }}
                                 fontSize={{ base: 'md', sm: 'md' }}
                                 color="whatsapp.700"

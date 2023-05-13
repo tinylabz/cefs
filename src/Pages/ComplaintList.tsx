@@ -1,4 +1,6 @@
 import { Page } from '@/components/Page';
+import { axios } from '@/config/axios-config';
+import { useQuery } from '@tanstack/react-query';
 import {
     Button,
     ButtonGroup,
@@ -14,7 +16,7 @@ import {
     Center,
 } from '@chakra-ui/react';
 
-import { useState } from 'react';
+import { Key, useState } from 'react';
 
 type Btn = 'submitted' | 'pending' | 'resolved';
 type Action = 'Process Complaint' | 'Resolve' | 'Resolved';
@@ -22,6 +24,19 @@ type Action = 'Process Complaint' | 'Resolve' | 'Resolved';
 export default function ComplaintList() {
     const [activeBtn, setActiveBtn] = useState<Btn>('submitted');
     const [action, setAction] = useState<Action>('Process Complaint');
+
+    const { isLoading, data, error } = useQuery({
+        queryKey: ['complaints'],
+        queryFn: () =>
+            axios.get('/complaints').then((res) => {
+                console.log('DATA: ', res.data);
+                return res.data;
+            }),
+    });
+
+    console.log(isLoading);
+    console.log(data);
+    console.log(error);
 
     const handleTabSelect = (btn: Btn) => {
         if (btn === 'submitted') setAction('Process Complaint');
@@ -104,31 +119,35 @@ export default function ComplaintList() {
                                     <Th>Reg No.</Th>
                                     <Th>Course Name</Th>
                                     <Th>Nature</Th>
-                                    <Th>Time</Th>
+                                    <Th>Date</Th>
                                     <Th>Action</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {Array.from({ length: 5 }).map((_, idx) => (
-                                    <Tr key={idx.toString()}>
-                                        <Td>19/U/0123</Td>
-                                        <Td>Computer literacy</Td>
-                                        <Td>Missing Mark</Td>
-                                        <Td>2:31pm</Td>
-                                        <Td>
-                                            <Button
-                                                bg={'whatsapp.700'}
-                                                color="white"
-                                                _hover={{
-                                                    color: 'white',
-                                                    bg: 'whatsapp.700',
-                                                }}
-                                            >
-                                                {action}
-                                            </Button>
-                                        </Td>
-                                    </Tr>
-                                ))}
+                                {data?.complaints?.map(
+                                    (complaint: any, idx: number) => (
+                                        <Tr key={idx.toString()}>
+                                            <Td>
+                                                {complaint.registrationNumber}
+                                            </Td>
+                                            <Td>{complaint.courseName}</Td>
+                                            <Td>{complaint.nature}</Td>
+                                            <Td>{complaint.createdAt}</Td>
+                                            <Td>
+                                                <Button
+                                                    bg={'whatsapp.700'}
+                                                    color="white"
+                                                    _hover={{
+                                                        color: 'white',
+                                                        bg: 'whatsapp.700',
+                                                    }}
+                                                >
+                                                    {action}
+                                                </Button>
+                                            </Td>
+                                        </Tr>
+                                    )
+                                )}
                             </Tbody>
                         </Table>
                     </TableContainer>

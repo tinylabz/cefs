@@ -99,7 +99,7 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                                 >
                                     Change password
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/login')}>
+                                <MenuItem onClick={() => navigate('/signin')}>
                                     Logout
                                 </MenuItem>
                             </MenuList>

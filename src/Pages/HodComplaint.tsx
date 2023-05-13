@@ -1,4 +1,6 @@
 import { Page } from '@/components/Page';
+import { useQuery } from '@tanstack/react-query';
+import { axios } from '@/config/axios-config';
 import {
     Button,
     ButtonGroup,
@@ -20,6 +22,10 @@ type Btn = 'submitted' | 'pending' | 'resolved';
 
 export default function HodComplaint() {
     const [activeBtn, setActiveBtn] = useState<Btn>('submitted');
+    const { isLoading, data, error } = useQuery({
+        queryKey: ['complaints'],
+        queryFn: () => axios.get('/complaints').then((res) => res.data),
+    });
 
     const handleTabSelect = (btn: Btn) => {
         setActiveBtn(btn);
@@ -91,13 +97,13 @@ export default function HodComplaint() {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {Array.from({ length: 5 }).map((_, idx) => (
-                                    <Tr key={idx.toString()}>
-                                        <Td>1900700123</Td>
-                                        <Td>19/U/0123</Td>
-                                        <Td>Computer Literacy</Td>
-                                        <Td>CSC 2639</Td>
-                                        <Td>Remark</Td>
+                                {data?.complaints?.map((complaint: any) => (
+                                    <Tr key={complaint._id}>
+                                        <Td>{complaint.studentNumber}</Td>
+                                        <Td>{complaint.registrationNumber}</Td>
+                                        <Td>{complaint.courseName}</Td>
+                                        <Td>{complaint.courseCode}</Td>
+                                        <Td>{complaint.nature}</Td>
                                     </Tr>
                                 ))}
                             </Tbody>

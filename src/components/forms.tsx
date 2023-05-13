@@ -17,12 +17,12 @@ export const MissingMark = () => {
         >
             <VStack spacing={15} w="100%">
                 <Input
-                    {...register('stdNo')}
+                    {...register('studentNumber')}
                     placeholder="Student Number"
                     type="text"
                 />
                 <Input
-                    {...register('regNo')}
+                    {...register('registrationNumber')}
                     placeholder="Registration Number"
                     type="text"
                 />
@@ -70,12 +70,12 @@ export const WrongAcademicYear = () => {
         >
             <VStack spacing={15} w="100%">
                 <Input
-                    {...register('stdNo')}
+                    {...register('studentNumber')}
                     placeholder="Student Number"
                     type="text"
                 />
                 <Input
-                    {...register('regNo')}
+                    {...register('registrationNumber')}
                     placeholder="Registration Number"
                     type="text"
                 />

@@ -38,8 +38,10 @@ export default function Home() {
     const { user } = useStore();
     useEffect(() => {
         if (!user && process.env.NODE_ENV !== 'development') {
-            navigate('/login');
+            navigate('/signin');
         }
+
+        console.log(user);
     }, []);
     return (
         <Page>

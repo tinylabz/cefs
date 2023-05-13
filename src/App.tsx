@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import ComplaintList from './Pages/ComplaintList';
 import Complaints from './Pages/Complaints';
 import Home from './Pages/Home';
-import Login from './Pages/Login';
+import Signin from './Pages/Signin';
 import Register from './Pages/Register';
 import Summary from './Pages/Summary';
 import Profile from './Pages/Profile';
@@ -22,8 +22,8 @@ export default () => {
             element: <Home />,
         },
         {
-            path: 'login',
-            element: <Login />,
+            path: 'signin',
+            element: <Signin />,
         },
         {
             path: 'reviews',

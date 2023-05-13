@@ -4,8 +4,9 @@ import { Button, Container, Text } from '@chakra-ui/react';
 import { Page } from '@/components/Page';
 import { Stack } from '@chakra-ui/react';
 import React from 'react';
-import { MissingMark, Remark } from '@/components/forms';
-import { WrongAcademicYear } from '@/components/forms';
+import { MissingMark, Remark, WrongAcademicYear } from '@/components/forms';
+import { useQuery } from 'react-query';
+import { axios } from '@/config/axios-config';
 
 interface Complaint {
     title: string;

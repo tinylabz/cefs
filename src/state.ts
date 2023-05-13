@@ -4,12 +4,15 @@ import { create } from 'zustand';
 
 type User = {
     _id: string;
-    stdNo: string;
-    regNo: string;
+    studentNumber?: string;
+    registrationNumber?: string;
     email: string;
-    phone: string;
+    phone?: string;
     name: string;
-    college: string;
+    college?: string;
+    school?: string;
+    designation: string;
+    gender: string;
     token: string;
 } | null;
 

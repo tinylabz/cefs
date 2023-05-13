@@ -35,7 +35,7 @@ export default function Summary() {
     const { user } = useStore();
     useEffect(() => {
         if (!user && process.env.NODE_ENV !== 'development') {
-            navigate('/login');
+            navigate('/signin');
         }
     }, []);
     return (

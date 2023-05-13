@@ -1,7 +1,6 @@
 import { Container } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
-import { useStore } from '@/state';
 import {
     Center,
     Stack,
@@ -10,23 +9,30 @@ import {
     useColorModeValue,
     Box,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import { axios } from '@/config/axios-config';
 
 export default function Profile() {
-    const { user } = useStore();
+    const { isLoading, data, error } = useQuery({
+        queryKey: ['me'],
+        queryFn: () => axios.get('/me').then((res) => res.data),
+    });
 
     return (
         <Page>
             <Container maxW={'container.sm'} p={{ base: 5, md: 10 }}>
                 <Stack spacing={4}>
-                    <VStack
-                        color="white"
-                        boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
-                    >
-                        <TextBox value={user?.email} />
-                        <TextBox value={user?.phone} />
-                        <TextBox value={user?.stdNo} />
-                        <TextBox value={user?.regNo} />
-                    </VStack>
+                    {error ? (
+                        <VStack
+                            color="white"
+                            boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
+                        >
+                            <TextBox value={data.me?.email} />
+                            <TextBox value={data.me?.phone} />
+                            <TextBox value={data.me?.studentNumber} />
+                            <TextBox value={data.me?.registrationNumber} />
+                        </VStack>
+                    ) : null}
                 </Stack>
             </Container>
         </Page>
