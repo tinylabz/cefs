@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     Button,
     Center,
@@ -13,6 +14,7 @@ import {
     useColorModeValue,
     InputLeftAddon,
     Box,
+    Spinner,
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
@@ -21,21 +23,26 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Logo } from '@/components/Logo';
 import { useStore } from '@/state';
+import { axios } from '@/config/axios-config';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function Register() {
     const [show, setShow] = useState(false);
-    const [data, setData] = useState('');
     const handleClick = () => setShow(!show);
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
-    const { setUser } = useStore();
 
-    const handleRegister = (data: string) => {
-        console.log('data: ', data);
-        setData(data);
-        setUser(JSON.parse(data));
-        navigate('/');
-    };
+    const qc = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (data: string) =>
+            axios.post('/students/register', JSON.parse(data)),
+        onSuccess: (data) => {
+            qc.invalidateQueries({ queryKey: ['user'] });
+            console.log(data);
+            navigate('/');
+        },
+    });
 
     return (
         <Container maxW="7xl" p={{ base: 5, md: 10 }}>
@@ -57,7 +64,7 @@ export default function Register() {
                     <VStack
                         as="form"
                         onSubmit={handleSubmit((data) =>
-                            handleRegister(JSON.stringify(data))
+                            mutation.mutate(JSON.stringify(data))
                         )}
                         boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
                         h="max-content !important"
@@ -129,7 +136,7 @@ export default function Register() {
                                 rounded="md"
                                 w="100%"
                             >
-                                Register
+                                {mutation.isLoading ? <Spinner /> : 'Register'}
                             </Button>
                             <Text fontSize={{ base: 'md', sm: 'md' }}>
                                 Already have an Account?

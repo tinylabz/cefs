@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Logo } from '@/components/Logo';
 import { axios } from '@/config/axios-config';
 import { useStore } from '@/state';
@@ -11,33 +12,37 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    Link,
     Stack,
     VStack,
     Text,
     useColorModeValue,
-    Divider,
     Box,
+    Spinner,
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function Signin() {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
     const navigate = useNavigate();
     const { handleSubmit, register } = useForm();
-    const { setUser } = useStore();
 
-    const handleLogin = async (data: string) => {
-        const user = await axios.post('/students/signin', JSON.parse(data));
-        setUser(user.data);
-        console.log(user);
-        navigate('/');
-    };
+    const qc = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (data: string) =>
+            axios.post('/students/signin', JSON.parse(data)),
+        onSuccess: (data) => {
+            qc.invalidateQueries({ queryKey: ['user'] });
+            console.log(data);
+            navigate('/');
+        },
+    });
 
     return (
         <Container maxW="7xl" p={{ base: 5, md: 10 }}>
@@ -60,7 +65,7 @@ export default function Signin() {
                     <VStack
                         as="form"
                         onSubmit={handleSubmit((data) =>
-                            handleLogin(JSON.stringify(data))
+                            mutation.mutate(JSON.stringify(data))
                         )}
                         boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
                         h="max-content !important"
@@ -109,7 +114,7 @@ export default function Signin() {
                                 rounded="md"
                                 w="100%"
                             >
-                                Continue
+                                {mutation.isLoading ? <Spinner /> : 'Continue'}
                             </Button>
                             <Text fontSize={{ base: 'md', sm: 'md' }}>
                                 Don't have an account?

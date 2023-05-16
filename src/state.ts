@@ -17,8 +17,9 @@ type User = {
 } | null;
 
 type State = {
-    count: number;
     user: User;
+    closed: boolean;
+    setClosed: () => void;
     setUser: (user: User) => void;
 };
 
@@ -26,9 +27,10 @@ export const useStore = create<State>()(
     devtools(
         persist(
             (set) => ({
-                count: 0,
+                closed: false,
                 user: null,
                 setUser: (user) => set((state) => ({ user })),
+                setClosed: (closed: boolean) => set((state) => ({ closed })),
             }),
             {
                 name: 'store',

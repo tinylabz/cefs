@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     HStack,
     VStack,
@@ -11,16 +12,45 @@ import {
 import { motion } from 'framer-motion';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { axios } from '@/config/axios-config';
 
 export interface CardData {
     id: number;
     label: string;
+    status: 'RESOLVED' | 'PENDING' | undefined;
     number: number;
     icon: any;
     href: string;
 }
 
-export const ComplaintCard = ({ data }: { data: CardData }) => {
+export const ComplaintCard = ({
+    data: complaintCardData,
+}: {
+    data: CardData;
+}) => {
+    const { data } = useQuery({
+        queryKey: ['complaints'],
+        queryFn: () => axios.get('/complaints').then((res) => res.data),
+    });
+    const [total, setTotal] = useState(0);
+    const [pending, setPending] = useState([]);
+    const [resolved, setResolved] = useState([]);
+
+    useEffect(() => {
+        setTotal(data?.complaints?.length);
+
+        data?.complaints.forEach((c) => {
+            if (c?.status === 'PENDING') {
+                setPending([...pending, c]);
+            }
+            if (c?.status === 'RESOLVED') {
+                setResolved([...resolved, c]);
+            }
+        });
+    }, [data]);
+
     return (
         <motion.div whileHover={{ translateY: -5 }}>
             <Stack
@@ -58,7 +88,12 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                         lineHeight={0}
                         boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)"
                     >
-                        <Icon as={data.icon} w={6} h={6} color="white" />
+                        <Icon
+                            as={complaintCardData.icon}
+                            w={6}
+                            h={6}
+                            color="white"
+                        />
                     </Flex>
                     <VStack
                         color="white"
@@ -73,14 +108,19 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                             noOfLines={2}
                             color="gray.100"
                         >
-                            {data.label}
+                            {complaintCardData.label}
                         </Text>
                         <HStack spacing={2}>
                             <Text as="h2" fontSize="lg" fontWeight="extrabold">
-                                {data.number}
+                                {complaintCardData.status === 'RESOLVED'
+                                    ? resolved.length
+                                        ? complaintCardData.status === 'PENDING'
+                                        : pending.length
+                                    : total}
                             </Text>
                             <Flex>
-                                {data.label === 'Complaints resolved' ? (
+                                {complaintCardData.label ===
+                                'Complaints resolved' ? (
                                     <Icon
                                         as={BsArrowUpShort}
                                         w={6}
@@ -107,7 +147,7 @@ export const ComplaintCard = ({ data }: { data: CardData }) => {
                         bg: useColorModeValue('gray.100', 'gray.800'),
                     }}
                 >
-                    <Link to={data.href} color="black">
+                    <Link to={complaintCardData.href} color="black">
                         Click to View All
                     </Link>
                 </Flex>

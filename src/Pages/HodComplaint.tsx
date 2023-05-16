@@ -1,5 +1,7 @@
+// @ts-nocheck
 import { Page } from '@/components/Page';
 import { useQuery } from '@tanstack/react-query';
+
 import { axios } from '@/config/axios-config';
 import {
     Button,
@@ -14,21 +16,37 @@ import {
     Thead,
     Tr,
     Center,
+    Spinner,
 } from '@chakra-ui/react';
 
-import { useState } from 'react';
+import TimeAgo from 'timeago-react';
+import { useState, useEffect } from 'react';
 
-type Btn = 'submitted' | 'pending' | 'resolved';
+type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
 
 export default function HodComplaint() {
-    const [activeBtn, setActiveBtn] = useState<Btn>('submitted');
+    const [activeBtn, setActiveBtn] = useState<Btn>('SUBMITTED');
+
     const { isLoading, data, error } = useQuery({
         queryKey: ['complaints'],
         queryFn: () => axios.get('/complaints').then((res) => res.data),
     });
+    const [complaints, setComplaints] = useState<any[]>(data?.complaints);
+
+    useEffect(() => {
+        setComplaints(() => {
+            return data?.complaints?.filter(
+                (complaint: any) => complaint?.status === activeBtn
+            );
+        });
+    }, [activeBtn, data]);
 
     const handleTabSelect = (btn: Btn) => {
-        setActiveBtn(btn);
+        if (btn === 'SUBMITTED') setActiveBtn('SUBMITTED');
+
+        if (btn === 'RESOLVED') setActiveBtn('RESOLVED');
+
+        if (btn === 'PENDING') setActiveBtn('PENDING');
     };
 
     return (
@@ -38,12 +56,10 @@ export default function HodComplaint() {
                     <Center>
                         <ButtonGroup spacing="none" w={'container.sm'}>
                             <Button
-                                onClick={() => handleTabSelect('submitted')}
-                                //@ts-ignore
-                                bg={activeBtn === 'submitted' && 'whatsapp.700'}
-                                //@ts-ignore
+                                onClick={() => handleTabSelect('SUBMITTED')}
+                                bg={activeBtn === 'SUBMITTED' && 'whatsapp.700'}
                                 color={
-                                    activeBtn === 'submitted' &&
+                                    activeBtn === 'SUBMITTED' &&
                                     'whiteAlpha.900'
                                 }
                                 rounded="none"
@@ -51,37 +67,33 @@ export default function HodComplaint() {
                                 borderColor="gray.300"
                                 w="100%"
                             >
-                                Submitted
+                                SUBMITTED
                             </Button>
                             <Button
-                                onClick={() => handleTabSelect('pending')}
-                                //@ts-ignore
-                                bg={activeBtn === 'pending' && 'whatsapp.700'}
-                                //@ts-ignore
+                                onClick={() => handleTabSelect('PENDING')}
+                                bg={activeBtn === 'PENDING' && 'whatsapp.700'}
                                 color={
-                                    activeBtn === 'pending' && 'whiteAlpha.900'
+                                    activeBtn === 'PENDING' && 'whiteAlpha.900'
                                 }
                                 rounded="none"
                                 border={'1px'}
                                 borderColor="gray.300"
                                 w="100%"
                             >
-                                Pending
+                                PENDING
                             </Button>
                             <Button
-                                onClick={() => handleTabSelect('resolved')}
-                                //@ts-ignore
-                                bg={activeBtn === 'resolved' && 'whatsapp.700'}
-                                //@ts-ignore
+                                onClick={() => handleTabSelect('RESOLVED')}
+                                bg={activeBtn === 'RESOLVED' && 'whatsapp.700'}
                                 color={
-                                    activeBtn === 'resolved' && 'whiteAlpha.900'
+                                    activeBtn === 'RESOLVED' && 'whiteAlpha.900'
                                 }
                                 rounded="none"
                                 border={'1px'}
                                 borderColor="gray.300"
                                 w="100%"
                             >
-                                Resolved
+                                RESOLVED
                             </Button>
                         </ButtonGroup>
                     </Center>
@@ -94,18 +106,47 @@ export default function HodComplaint() {
                                     <Th>Course Name</Th>
                                     <Th>Course Code</Th>
                                     <Th>Nature of complaint</Th>
+                                    <Th>Time</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {data?.complaints?.map((complaint: any) => (
-                                    <Tr key={complaint._id}>
-                                        <Td>{complaint.studentNumber}</Td>
-                                        <Td>{complaint.registrationNumber}</Td>
-                                        <Td>{complaint.courseName}</Td>
-                                        <Td>{complaint.courseCode}</Td>
-                                        <Td>{complaint.nature}</Td>
-                                    </Tr>
-                                ))}
+                                {isLoading ? (
+                                    <Center>
+                                        <Spinner
+                                            style={{ margin: '2em auto' }}
+                                        />
+                                    </Center>
+                                ) : (
+                                    complaints
+                                        ?.sort(
+                                            (a: any, b: any) =>
+                                                Date.parse(b?.createdAt) -
+                                                Date.parse(a?.createdAt)
+                                        )
+                                        .map((complaint: any) => (
+                                            <Tr key={complaint._id}>
+                                                <Td>
+                                                    {complaint.studentNumber}
+                                                </Td>
+                                                <Td>
+                                                    {
+                                                        complaint.registrationNumber
+                                                    }
+                                                </Td>
+                                                <Td>{complaint.courseName}</Td>
+                                                <Td>{complaint.courseCode}</Td>
+                                                <Td>{complaint.nature}</Td>
+                                                <Td>
+                                                    <TimeAgo
+                                                        datetime={
+                                                            complaint?.createdAt
+                                                        }
+                                                        locale="en-UG"
+                                                    />
+                                                </Td>
+                                            </Tr>
+                                        ))
+                                )}
                             </Tbody>
                         </Table>
                     </TableContainer>

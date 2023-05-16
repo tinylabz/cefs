@@ -1,45 +1,63 @@
-import { Modal as Wrapper } from 'antd';
+//@ts-nocheck
+
 import { Button, Container, Text } from '@chakra-ui/react';
 
+import React, { useState } from 'react';
+import { Modal as ModalWrapper } from 'antd';
 import { Page } from '@/components/Page';
 import { Stack } from '@chakra-ui/react';
-import React from 'react';
-import { MissingMark, Remark, WrongAcademicYear } from '@/components/forms';
-import { useQuery } from 'react-query';
-import { axios } from '@/config/axios-config';
+import { MissingMark, Remark, WrongAcademicYear } from '@/components/Forms';
 
 interface Complaint {
     title: string;
     form: React.ReactNode;
 }
 
-const Complaints = () => {
-    const { confirm } = Wrapper;
+interface ModalProps {
+    title: string;
+    children: React.ReactNode;
+}
+const Modal: React.FC<ModalProps> = ({ children, title }) => {
+    const [open, setOpen] = useState(false);
 
-    const openModal = (title: string, children: React.ReactNode) => {
-        confirm({
-            title,
-            content: children,
-            async onOk() {
-                try {
-                    return await new Promise((resolve, reject) => {
-                        setTimeout(
-                            Math.random() > 0.5 ? resolve : reject,
-                            1000
-                        );
-                    });
-                } catch {
-                    return console.log('Oops errors!');
-                }
-            },
-            onCancel() {},
-        });
+    const showModal = () => {
+        setOpen(true);
     };
 
+    const handleOk = () => {
+        setOpen(false);
+    };
+
+    const handleCancel = () => {
+        setOpen(false);
+    };
+
+    return (
+        <>
+            <Button type="primary" onClick={showModal}>
+                {title}
+            </Button>
+            <ModalWrapper
+                open={open}
+                title={title}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={null}
+            >
+                {children}
+            </ModalWrapper>
+        </>
+    );
+};
+
+const Complaints: React.FC<ComplaintsProps> = ({}) => {
     const complaints: Complaint[] = [
         { title: 'Missing Mark', form: <MissingMark /> },
         { title: 'Remark', form: <Remark /> },
-        { title: 'Wrong Academic Year', form: <WrongAcademicYear /> },
+        {
+            title: 'Wrong Academic Year',
+            form: <WrongAcademicYear />,
+        },
     ];
 
     return (
@@ -51,14 +69,11 @@ const Complaints = () => {
                     </Text>
 
                     <Stack>
-                        {complaints.map(({ title, form }, idx) => {
+                        {complaints.map(({ title, form }) => {
                             return (
-                                <Button
-                                    key={idx.toString()}
-                                    onClick={() => openModal(title, form)}
-                                >
-                                    {title}
-                                </Button>
+                                <Modal key={title} title={title}>
+                                    {form}
+                                </Modal>
                             );
                         })}
                     </Stack>

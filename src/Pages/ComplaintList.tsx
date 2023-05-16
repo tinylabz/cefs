@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Page } from '@/components/Page';
 import { axios } from '@/config/axios-config';
 import { useQuery } from '@tanstack/react-query';
@@ -16,32 +17,36 @@ import {
     Center,
 } from '@chakra-ui/react';
 
-import { Key, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
+import TimeAgo from 'timeago-react';
 
-type Btn = 'submitted' | 'pending' | 'resolved';
-type Action = 'Process Complaint' | 'Resolve' | 'Resolved';
+type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
+type Action = 'Process Complaint' | 'RESOLVE' | 'RESOLVED';
 
 export default function ComplaintList() {
-    const [activeBtn, setActiveBtn] = useState<Btn>('submitted');
+    const [activeBtn, setActiveBtn] = useState<Btn>('SUBMITTED');
     const [action, setAction] = useState<Action>('Process Complaint');
 
     const { isLoading, data, error } = useQuery({
         queryKey: ['complaints'],
-        queryFn: () =>
-            axios.get('/complaints').then((res) => {
-                console.log('DATA: ', res.data);
-                return res.data;
-            }),
+        queryFn: () => axios.get('/complaints').then((res) => res.data),
     });
+    const [complaints, setComplaints] = useState<any[]>(data?.complaints);
 
-    console.log(isLoading);
-    console.log(data);
-    console.log(error);
+    useEffect(() => {
+        setComplaints(() => {
+            return data?.complaints?.filter(
+                (complaint) => complaint?.status === activeBtn
+            );
+        });
+    }, [activeBtn, data]);
 
     const handleTabSelect = (btn: Btn) => {
-        if (btn === 'submitted') setAction('Process Complaint');
-        if (btn === 'resolved') setAction('Resolved');
-        if (btn === 'pending') setAction('Resolve');
+        if (btn === 'SUBMITTED') setAction('Process Complaint');
+
+        if (btn === 'RESOLVED') setAction('RESOLVED');
+
+        if (btn === 'PENDING') setAction('RESOLVE');
 
         setActiveBtn(btn);
     };
@@ -53,12 +58,10 @@ export default function ComplaintList() {
                     <Center>
                         <ButtonGroup spacing="none" w={'container.sm'}>
                             <Button
-                                onClick={() => handleTabSelect('submitted')}
-                                //@ts-ignore
-                                bg={activeBtn === 'submitted' && 'whatsapp.700'}
-                                //@ts-ignore
+                                onClick={() => handleTabSelect('SUBMITTED')}
+                                bg={activeBtn === 'SUBMITTED' && 'whatsapp.700'}
                                 color={
-                                    activeBtn === 'submitted' &&
+                                    activeBtn === 'SUBMITTED' &&
                                     'whiteAlpha.900'
                                 }
                                 rounded="none"
@@ -70,15 +73,13 @@ export default function ComplaintList() {
                                     bg: 'whatsapp.700',
                                 }}
                             >
-                                Submitted
+                                SUBMITTED
                             </Button>
                             <Button
-                                onClick={() => handleTabSelect('pending')}
-                                //@ts-ignore
-                                bg={activeBtn === 'pending' && 'whatsapp.700'}
-                                //@ts-ignore
+                                onClick={() => handleTabSelect('PENDING')}
+                                bg={activeBtn === 'PENDING' && 'whatsapp.700'}
                                 color={
-                                    activeBtn === 'pending' && 'whiteAlpha.900'
+                                    activeBtn === 'PENDING' && 'whiteAlpha.900'
                                 }
                                 rounded="none"
                                 border={'1px'}
@@ -89,15 +90,13 @@ export default function ComplaintList() {
                                     bg: 'whatsapp.700',
                                 }}
                             >
-                                Pending
+                                PENDING
                             </Button>
                             <Button
-                                onClick={() => handleTabSelect('resolved')}
-                                //@ts-ignore
-                                bg={activeBtn === 'resolved' && 'whatsapp.700'}
-                                //@ts-ignore
+                                onClick={() => handleTabSelect('RESOLVED')}
+                                bg={activeBtn === 'RESOLVED' && 'whatsapp.700'}
                                 color={
-                                    activeBtn === 'resolved' && 'whiteAlpha.900'
+                                    activeBtn === 'RESOLVED' && 'whiteAlpha.900'
                                 }
                                 rounded="none"
                                 border={'1px'}
@@ -108,7 +107,7 @@ export default function ComplaintList() {
                                     bg: 'whatsapp.700',
                                 }}
                             >
-                                Resolved
+                                RESOLVED
                             </Button>
                         </ButtonGroup>
                     </Center>
@@ -117,6 +116,7 @@ export default function ComplaintList() {
                             <Thead>
                                 <Tr>
                                     <Th>Reg No.</Th>
+                                    <Th>Status</Th>
                                     <Th>Course Name</Th>
                                     <Th>Nature</Th>
                                     <Th>Date</Th>
@@ -124,15 +124,28 @@ export default function ComplaintList() {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {data?.complaints?.map(
-                                    (complaint: any, idx: number) => (
+                                {complaints
+                                    ?.sort(
+                                        (a: any, b: any) =>
+                                            Date.parse(b?.createdAt) -
+                                            Date.parse(a?.createdAt)
+                                    )
+                                    .map((complaint: any, idx: number) => (
                                         <Tr key={idx.toString()}>
                                             <Td>
                                                 {complaint.registrationNumber}
                                             </Td>
+                                            <Td>{complaint.status}</Td>
                                             <Td>{complaint.courseName}</Td>
                                             <Td>{complaint.nature}</Td>
-                                            <Td>{complaint.createdAt}</Td>
+                                            <Td>
+                                                <TimeAgo
+                                                    datetime={
+                                                        complaint.createdAt
+                                                    }
+                                                    locale="en-UG"
+                                                />
+                                            </Td>
                                             <Td>
                                                 <Button
                                                     bg={'whatsapp.700'}
@@ -146,8 +159,7 @@ export default function ComplaintList() {
                                                 </Button>
                                             </Td>
                                         </Tr>
-                                    )
-                                )}
+                                    ))}
                             </Tbody>
                         </Table>
                     </TableContainer>

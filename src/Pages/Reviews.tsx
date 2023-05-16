@@ -12,6 +12,8 @@ import {
     Textarea,
 } from '@chakra-ui/react';
 
+import { Rating } from '@mantine/core';
+
 export default function Reviews() {
     let fill = '#F7FAFC';
     return (
@@ -38,16 +40,13 @@ export default function Reviews() {
                             <Text fontSize={'7xl'} fontWeight={'extrabold'}>
                                 4.8
                             </Text>
-                            <Text
-                                display={'flex'}
-                                flexDirection={'row'}
-                                alignItems="center"
-                                justifyContent={'center'}
-                            >
-                                {Array.from({ length: 5 }).map((_, idx) => (
-                                    <StarFilled />
-                                ))}
-                            </Text>
+
+                            <Rating
+                                fractions={2}
+                                defaultValue={4.5}
+                                size="lg"
+                                color="green"
+                            />
                         </Stack>
                     </GridItem>
                     <GridItem colSpan={4} w="100%">
@@ -70,16 +69,8 @@ export default function Reviews() {
                     <Text fontSize={'2xl'}>
                         Please rate and add your comment
                     </Text>
-                    <Text
-                        display={'flex'}
-                        flexDirection={'row'}
-                        justifyContent="flex-start"
-                        alignItems={'center'}
-                    >
-                        {Array.from({ length: 5 }).map((_, idx) => (
-                            <StarOutlined fill={fill} key={idx.toString()} />
-                        ))}
-                    </Text>
+
+                    <Rating size="lg" color={'green'} />
                     <Textarea size={'lg'} placeholder="Write your review" />
                 </Stack>
             </Container>

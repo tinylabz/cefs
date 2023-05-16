@@ -25,7 +25,7 @@ const cardData: CardData[] = [
     },
     {
         id: 3,
-        label: 'Pending complaints',
+        label: 'PENDING complaints',
         number: 4,
         icon: AiOutlineEye,
         href: '/list',

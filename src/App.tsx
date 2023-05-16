@@ -18,7 +18,7 @@ import Lecturer from './Pages/Lecturer';
 export default () => {
     return useRoutes([
         {
-            path: '',
+            path: '/',
             element: <Home />,
         },
         {
