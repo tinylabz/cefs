@@ -1,34 +1,49 @@
-import { ButtonGroup, Container } from '@chakra-ui/react';
+
+import { Container } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
-import { useNavigate } from 'react-router-dom';
-import { useStore } from '@/state';
 import {
     Button,
     Input,
     InputGroup,
     InputRightElement,
     VStack,
+    Stack,
     Text,
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { axios } from '@/config/axios-config';
 
 export default function ChangePassword() {
-    const [showOldPassword, setShowOldPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
     const { handleSubmit, register } = useForm();
+
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+
+    const qc = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (data: string) =>
+            axios.post('/change-password', JSON.parse(data)),
+        onSuccess: () => {
+            qc.invalidateQueries({
+                queryKey: ['user'],
+            });
+        },
+    });
 
     return (
         <Page>
             <Container maxW={'container.sm'} p={{ base: 5, md: 10 }}>
                 <VStack
                     as="form"
-                    onSubmit={handleSubmit((data) => JSON.stringify(data))}
+                    onSubmit={handleSubmit((data) =>
+                        mutation.mutate(JSON.stringify(data))
+                    )}
                     boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
                     h="max-content !important"
                     rounded="lg"
@@ -37,28 +52,6 @@ export default function ChangePassword() {
                         Change Password
                     </Text>
                     <VStack w="100%">
-                        <InputGroup size="md" id="oldPassword">
-                            <Input
-                                rounded="md"
-                                {...register('oldPassword')}
-                                placeholder="Old Password"
-                                type={showOldPassword ? 'text' : 'password'}
-                            />
-                            <InputRightElement width="4.5rem">
-                                <Button
-                                    size="xs"
-                                    onClick={() =>
-                                        setShowOldPassword(!showOldPassword)
-                                    }
-                                >
-                                    {showOldPassword ? (
-                                        <BsEyeSlash />
-                                    ) : (
-                                        <BsEyeFill />
-                                    )}
-                                </Button>
-                            </InputRightElement>
-                        </InputGroup>
                         <InputGroup size="md" id="NewPassword">
                             <Input
                                 rounded="md"
@@ -84,20 +77,22 @@ export default function ChangePassword() {
                         <InputGroup size="md" id="ConfirmPassword">
                             <Input
                                 rounded="md"
-                                {...register('confirmPassword')}
+                                {...register('confirmNewPassword')}
                                 placeholder="Confirm Password"
-                                type={showConfirmPassword ? 'text' : 'password'}
+                                type={
+                                    showConfirmNewPassword ? 'text' : 'password'
+                                }
                             />
                             <InputRightElement width="4.5rem">
                                 <Button
                                     size="xs"
                                     onClick={() =>
-                                        setShowConfirmPassword(
-                                            !showConfirmPassword
+                                        setShowConfirmNewPassword(
+                                            !showConfirmNewPassword
                                         )
                                     }
                                 >
-                                    {showConfirmPassword ? (
+                                    {showConfirmNewPassword ? (
                                         <BsEyeSlash />
                                     ) : (
                                         <BsEyeFill />
@@ -106,17 +101,7 @@ export default function ChangePassword() {
                             </InputRightElement>
                         </InputGroup>
                     </VStack>
-                    <ButtonGroup w="100%" m={'10'}>
-                        <Button
-                            bg="transparent"
-                            color="black"
-                            border={'1px'}
-                            type="submit"
-                            rounded="md"
-                            w="100%"
-                        >
-                            Close
-                        </Button>
+                    <Stack w="100%" m={'10'}>
                         <Button
                             bg="whatsapp.700"
                             color="white"
@@ -127,9 +112,9 @@ export default function ChangePassword() {
                             rounded="md"
                             w="100%"
                         >
-                            Submit
+                            Change
                         </Button>
-                    </ButtonGroup>
+                    </Stack>
                 </VStack>
             </Container>
         </Page>

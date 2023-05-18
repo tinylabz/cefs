@@ -1,4 +1,3 @@
-//@ts-nocheck
 
 import { Button, Container, Text } from '@chakra-ui/react';
 
@@ -34,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ children, title }) => {
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
+            <Button onClick={showModal}>
                 {title}
             </Button>
             <ModalWrapper
@@ -50,7 +49,7 @@ const Modal: React.FC<ModalProps> = ({ children, title }) => {
     );
 };
 
-const Complaints: React.FC<ComplaintsProps> = ({}) => {
+const Complaints = ({}) => {
     const complaints: Complaint[] = [
         { title: 'Missing Mark', form: <MissingMark /> },
         { title: 'Remark', form: <Remark /> },

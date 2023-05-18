@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { Logo } from '@/components/Logo';
 import { axios } from '@/config/axios-config';
 import { useStore } from '@/state';

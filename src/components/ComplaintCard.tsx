@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import {
     HStack,
     VStack,
@@ -20,7 +20,6 @@ export interface CardData {
     id: number;
     label: string;
     status: 'RESOLVED' | 'PENDING' | undefined;
-    number: number;
     icon: any;
     href: string;
 }
@@ -35,13 +34,13 @@ export const ComplaintCard = ({
         queryFn: () => axios.get('/complaints').then((res) => res.data),
     });
     const [total, setTotal] = useState(0);
-    const [pending, setPending] = useState([]);
-    const [resolved, setResolved] = useState([]);
+    const [pending, setPending] = useState<any>([]);
+    const [resolved, setResolved] = useState<any>([]);
 
     useEffect(() => {
         setTotal(data?.complaints?.length);
 
-        data?.complaints.forEach((c) => {
+        data?.complaints.forEach((c: { status: string; }) => {
             if (c?.status === 'PENDING') {
                 setPending([...pending, c]);
             }
@@ -112,11 +111,9 @@ export const ComplaintCard = ({
                         </Text>
                         <HStack spacing={2}>
                             <Text as="h2" fontSize="lg" fontWeight="extrabold">
-                                {complaintCardData.status === 'RESOLVED'
-                                    ? resolved.length
-                                        ? complaintCardData.status === 'PENDING'
-                                        : pending.length
-                                    : total}
+                                {
+                                    complaintCardData.status === "PENDING" ? pending.length :resolved.length
+                                }
                             </Text>
                             <Flex>
                                 {complaintCardData.label ===

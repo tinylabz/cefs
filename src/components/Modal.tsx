@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import {
     Button,
     Modal as Wrapper,

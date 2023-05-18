@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { Page } from '@/components/Page';
 import { useQuery } from '@tanstack/react-query';
 
@@ -57,7 +57,10 @@ export default function HodComplaint() {
                         <ButtonGroup spacing="none" w={'container.sm'}>
                             <Button
                                 onClick={() => handleTabSelect('SUBMITTED')}
+                                
+                                // @ts-ignore
                                 bg={activeBtn === 'SUBMITTED' && 'whatsapp.700'}
+                                // @ts-ignore
                                 color={
                                     activeBtn === 'SUBMITTED' &&
                                     'whiteAlpha.900'
@@ -71,7 +74,9 @@ export default function HodComplaint() {
                             </Button>
                             <Button
                                 onClick={() => handleTabSelect('PENDING')}
+                                // @ts-ignore
                                 bg={activeBtn === 'PENDING' && 'whatsapp.700'}
+                                // @ts-ignore
                                 color={
                                     activeBtn === 'PENDING' && 'whiteAlpha.900'
                                 }
@@ -84,7 +89,9 @@ export default function HodComplaint() {
                             </Button>
                             <Button
                                 onClick={() => handleTabSelect('RESOLVED')}
+                                // @ts-ignore
                                 bg={activeBtn === 'RESOLVED' && 'whatsapp.700'}
+                                // @ts-ignore
                                 color={
                                     activeBtn === 'RESOLVED' && 'whiteAlpha.900'
                                 }

@@ -26,7 +26,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
                         <FloatingButton />
                     </BrowserRouter>
                 </ChakraProvider>
-                <ReactQueryDevtools initialIsOpen={false} />
+                <ReactQueryDevtools />
             </QueryClientProvider>
         </ConfigProvider>
     </StrictMode>

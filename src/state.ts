@@ -14,12 +14,20 @@ type User = {
     designation: string;
     gender: string;
     token: string;
+} | {
+    _id: string;
+    email: string;
+    name: string;
+    college?: string;
+    school?: string;
+    designation: string;
+    token: string;
 } | null;
 
 type State = {
     user: User;
     closed: boolean;
-    setClosed: () => void;
+    toggleClosed: () => void;
     setUser: (user: User) => void;
 };
 
@@ -30,7 +38,7 @@ export const useStore = create<State>()(
                 closed: false,
                 user: null,
                 setUser: (user) => set((state) => ({ user })),
-                setClosed: (closed: boolean) => set((state) => ({ closed })),
+                toggleClosed: () => set((state) => ({ closed:!closed })),
             }),
             {
                 name: 'store',

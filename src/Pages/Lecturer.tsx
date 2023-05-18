@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { SimpleGrid, Container } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';

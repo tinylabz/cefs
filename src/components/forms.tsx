@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { Input } from 'antd';
 
 import { InboxOutlined } from '@ant-design/icons';
@@ -11,25 +11,25 @@ import { axios } from '@/config/axios-config';
 import { useState } from 'react';
 
 export const MissingMark = () => {
-    const [studentNumber, setStudentNumber] = useState();
-    const [registrationNumber, setRegistrationNumber] = useState();
-    const [courseCode, setCourseCode] = useState();
-    const [courseName, setCourseName] = useState();
-    const [academicYear, setAcademicYear] = useState();
-    const [courseLecturer, setCourseLecturer] = useState();
-    const [semester, setSemester] = useState();
+    const [studentNumber, setStudentNumber] = useState<string>("");
+    const [registrationNumber, setRegistrationNumber] = useState<string>("");
+    const [courseCode, setCourseCode] = useState<string>("");
+    const [courseName, setCourseName] = useState<string>("");
+    const [academicYear, setAcademicYear] = useState<string>("");
+    const [courseLecturer, setCourseLecturer] = useState<string>("");
+    const [semester, setSemester] = useState<string>("");
 
     const qc = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (data: string) => {
-            axios.post('/complaints', JSON.parse(data));
-        },
+        mutationFn: (data: string) => 
+            axios.post('/complaints', JSON.parse(data))
+        ,
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
         },
     });
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
@@ -102,12 +102,12 @@ export const MissingMark = () => {
 };
 
 export const WrongAcademicYear = () => {
-    const [studentNumber, setStudentNumber] = useState();
-    const [registrationNumber, setRegistrationNumber] = useState();
-    const [courseCode, setCourseCode] = useState();
-    const [courseName, setCourseName] = useState();
-    const [academicYearAllocated, setAcademicYearAllocated] = useState();
-    const [correctAcademicYear, setCorrectAcademicYear] = useState();
+    const [studentNumber, setStudentNumber] = useState<string>("");
+    const [registrationNumber, setRegistrationNumber] = useState<string>("");
+    const [courseCode, setCourseCode] = useState<string>("");
+    const [courseName, setCourseName] = useState<string>("");
+    const [academicYearAllocated, setAcademicYearAllocated] = useState<string>("");
+    const [correctAcademicYear, setCorrectAcademicYear] = useState<string>("");
 
     const qc = useQueryClient();
 
@@ -119,7 +119,7 @@ export const WrongAcademicYear = () => {
         },
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
@@ -189,13 +189,13 @@ export const WrongAcademicYear = () => {
 };
 
 export const Remark = () => {
-    const [studentNumber, setStudentNumber] = useState();
-    const [registrationNumber, setRegistrationNumber] = useState();
-    const [courseCode, setCourseCode] = useState();
-    const [courseName, setCourseName] = useState();
-    const [academicYearOfSitting, setAcademicYearOfSitting] = useState();
-    const [courseLecturer, setCourseLecturer] = useState();
-    const [semester, setSemester] = useState();
+    const [studentNumber, setStudentNumber] = useState<string>("");
+    const [registrationNumber, setRegistrationNumber] = useState<string>("");
+    const [courseCode, setCourseCode] = useState<string>("");
+    const [courseName, setCourseName] = useState<string>("");
+    const [academicYearOfSitting, setAcademicYearOfSitting] = useState<string>("");
+    const [courseLecturer, setCourseLecturer] = useState<string>("");
+    const [semester, setSemester] = useState<string>("");
 
     const props: UploadProps = {
         name: 'file',
@@ -230,7 +230,7 @@ export const Remark = () => {
         },
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({

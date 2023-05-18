@@ -36,7 +36,7 @@ export default function ComplaintStatus() {
                                     icon: <LoadingOutlined />,
                                 },
                                 {
-                                    title: 'Recified',
+                                    title: 'Rectified',
                                     status: 'wait',
                                     icon: <SmileOutlined />,
                                 },

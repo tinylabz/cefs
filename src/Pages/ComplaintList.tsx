@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { Page } from '@/components/Page';
 import { axios } from '@/config/axios-config';
 import { useQuery } from '@tanstack/react-query';
