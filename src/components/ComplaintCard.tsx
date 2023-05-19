@@ -1,4 +1,3 @@
-
 import {
     HStack,
     VStack,
@@ -12,43 +11,22 @@ import {
 import { motion } from 'framer-motion';
 import { BsArrowUpShort, BsArrowDownShort } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
+import type { Complaint } from '@/types';
 
 export interface CardData {
-    id: number;
     label: string;
     status: 'RESOLVED' | 'PENDING' | undefined;
     icon: any;
     href: string;
 }
 
-export const ComplaintCard = ({
-    data: complaintCardData,
-}: {
-    data: CardData;
-}) => {
+export const ComplaintCard = ({ data: cardData }: { data: CardData }) => {
     const { data } = useQuery({
         queryKey: ['complaints'],
         queryFn: () => axios.get('/complaints').then((res) => res.data),
     });
-    const [total, setTotal] = useState(0);
-    const [pending, setPending] = useState<any>([]);
-    const [resolved, setResolved] = useState<any>([]);
-
-    useEffect(() => {
-        setTotal(data?.complaints?.length);
-
-        data?.complaints.forEach((c: { status: string; }) => {
-            if (c?.status === 'PENDING') {
-                setPending([...pending, c]);
-            }
-            if (c?.status === 'RESOLVED') {
-                setResolved([...resolved, c]);
-            }
-        });
-    }, [data]);
 
     return (
         <motion.div whileHover={{ translateY: -5 }}>
@@ -87,12 +65,7 @@ export const ComplaintCard = ({
                         lineHeight={0}
                         boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)"
                     >
-                        <Icon
-                            as={complaintCardData.icon}
-                            w={6}
-                            h={6}
-                            color="white"
-                        />
+                        <Icon as={cardData.icon} w={6} h={6} color="white" />
                     </Flex>
                     <VStack
                         color="white"
@@ -107,17 +80,24 @@ export const ComplaintCard = ({
                             noOfLines={2}
                             color="gray.100"
                         >
-                            {complaintCardData.label}
+                            {cardData.label}
                         </Text>
                         <HStack spacing={2}>
                             <Text as="h2" fontSize="lg" fontWeight="extrabold">
-                                {
-                                    complaintCardData.status === "PENDING" ? pending.length :resolved.length
-                                }
+                                {cardData.status === 'RESOLVED'
+                                    ? data?.complaints?.filter(
+                                          (c: Complaint) =>
+                                              c.status === 'RESOLVED'
+                                      )?.length
+                                    : cardData.status === 'PENDING'
+                                    ? data?.complaints?.filter(
+                                          (c: Complaint) =>
+                                              c.status === 'PENDING'
+                                      )?.length
+                                    : data?.complaints?.length}
                             </Text>
                             <Flex>
-                                {complaintCardData.label ===
-                                'Complaints resolved' ? (
+                                {cardData.label === 'Complaints resolved' ? (
                                     <Icon
                                         as={BsArrowUpShort}
                                         w={6}
@@ -144,7 +124,7 @@ export const ComplaintCard = ({
                         bg: useColorModeValue('gray.100', 'gray.800'),
                     }}
                 >
-                    <Link to={complaintCardData.href} color="black">
+                    <Link to={cardData.href} color="black">
                         Click to View All
                     </Link>
                 </Flex>

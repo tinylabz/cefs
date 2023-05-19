@@ -2,32 +2,36 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { create } from 'zustand';
 
-type User = {
-    _id: string;
-    studentNumber?: string;
-    registrationNumber?: string;
-    email: string;
-    phone?: string;
-    name: string;
-    college?: string;
-    school?: string;
-    designation: string;
-    gender: string;
-    token: string;
-} | {
-    _id: string;
-    email: string;
-    name: string;
-    college?: string;
-    school?: string;
-    designation: string;
-    token: string;
-} | null;
+export type User =
+    | {
+          _id: string;
+          studentNumber?: string;
+          registrationNumber?: string;
+          email: string;
+          phone?: string;
+          name: string;
+          college?: string;
+          school?: string;
+          isEmailVerified: boolean;
+          designation: string;
+          token: string;
+      }
+    | {
+          _id: string;
+          email: string;
+          name: string;
+          college?: string;
+          school?: string;
+          designation: string;
+          isEmailVerified: boolean;
+          token: string;
+      }
+    | null;
 
-type State = {
+export type State = {
     user: User;
-    closed: boolean;
-    toggleClosed: () => void;
+    isClosed: boolean;
+    toggleIsClosed: () => void;
     setUser: (user: User) => void;
 };
 
@@ -35,10 +39,11 @@ export const useStore = create<State>()(
     devtools(
         persist(
             (set) => ({
-                closed: false,
+                isClosed: false,
                 user: null,
                 setUser: (user) => set((state) => ({ user })),
-                toggleClosed: () => set((state) => ({ closed:!closed })),
+                toggleIsClosed: () =>
+                    set((state) => ({ isClosed: !state.isClosed })),
             }),
             {
                 name: 'store',

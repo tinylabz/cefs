@@ -1,4 +1,3 @@
-
 import { Page } from '@/components/Page';
 import { useQuery } from '@tanstack/react-query';
 
@@ -21,11 +20,12 @@ import {
 
 import TimeAgo from 'timeago-react';
 import { useState, useEffect } from 'react';
+import { Complaint } from '@/types';
 
 type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
 
 export default function HodComplaint() {
-    const [activeBtn, setActiveBtn] = useState<Btn>('SUBMITTED');
+    const [activeTab, setActiveTab] = useState<Btn>('SUBMITTED');
 
     const { isLoading, data, error } = useQuery({
         queryKey: ['complaints'],
@@ -36,17 +36,17 @@ export default function HodComplaint() {
     useEffect(() => {
         setComplaints(() => {
             return data?.complaints?.filter(
-                (complaint: any) => complaint?.status === activeBtn
+                (complaint: Complaint) => complaint?.status === activeTab
             );
         });
-    }, [activeBtn, data]);
+    }, [activeTab, data]);
 
     const handleTabSelect = (btn: Btn) => {
-        if (btn === 'SUBMITTED') setActiveBtn('SUBMITTED');
+        if (btn === 'SUBMITTED') setActiveTab('SUBMITTED');
 
-        if (btn === 'RESOLVED') setActiveBtn('RESOLVED');
+        if (btn === 'RESOLVED') setActiveTab('RESOLVED');
 
-        if (btn === 'PENDING') setActiveBtn('PENDING');
+        if (btn === 'PENDING') setActiveTab('PENDING');
     };
 
     return (
@@ -54,50 +54,30 @@ export default function HodComplaint() {
             <Container maxW="100%">
                 <Stack spacing={4}>
                     <Center>
-                        <ButtonGroup spacing="none" w={'container.sm'}>
+                        <ButtonGroup w={'container.sm'}>
                             <Button
                                 onClick={() => handleTabSelect('SUBMITTED')}
-                                
-                                // @ts-ignore
-                                bg={activeBtn === 'SUBMITTED' && 'whatsapp.700'}
-                                // @ts-ignore
-                                color={
-                                    activeBtn === 'SUBMITTED' &&
-                                    'whiteAlpha.900'
+                                colorScheme={
+                                    activeTab === 'SUBMITTED' ? 'green' : 'gray'
                                 }
-                                rounded="none"
-                                border={'1px'}
-                                borderColor="gray.300"
                                 w="100%"
                             >
                                 SUBMITTED
                             </Button>
                             <Button
                                 onClick={() => handleTabSelect('PENDING')}
-                                // @ts-ignore
-                                bg={activeBtn === 'PENDING' && 'whatsapp.700'}
-                                // @ts-ignore
-                                color={
-                                    activeBtn === 'PENDING' && 'whiteAlpha.900'
+                                colorScheme={
+                                    activeTab === 'PENDING' ? 'green' : 'gray'
                                 }
-                                rounded="none"
-                                border={'1px'}
-                                borderColor="gray.300"
                                 w="100%"
                             >
                                 PENDING
                             </Button>
                             <Button
                                 onClick={() => handleTabSelect('RESOLVED')}
-                                // @ts-ignore
-                                bg={activeBtn === 'RESOLVED' && 'whatsapp.700'}
-                                // @ts-ignore
-                                color={
-                                    activeBtn === 'RESOLVED' && 'whiteAlpha.900'
+                                colorScheme={
+                                    activeTab === 'RESOLVED' ? 'green' : 'gray'
                                 }
-                                rounded="none"
-                                border={'1px'}
-                                borderColor="gray.300"
                                 w="100%"
                             >
                                 RESOLVED

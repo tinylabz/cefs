@@ -1,5 +1,4 @@
-
-import { SimpleGrid, Container } from '@chakra-ui/react';
+import { SimpleGrid, Container, Toast, useToast } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
 import { useStore } from '@/state';
@@ -11,79 +10,91 @@ import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
 
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { message, Upload } from 'antd';
+import { Upload } from 'antd';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { axios } from '@/config/axios-config';
 
 const { Dragger } = Upload;
 
-const cardData: CardData[] = [
+export const cardData: CardData[] = [
     {
-        id: 1,
         label: 'Total complaints',
         status: undefined,
-        number: 2,
         icon: HiOutlineMail,
         href: '/list',
     },
     {
-        id: 2,
         label: 'PENDING Complaints',
-        number: 1,
         status: 'PENDING',
         icon: AiOutlineLike,
         href: '/list',
     },
     {
-        id: 3,
         status: 'RESOLVED',
         label: 'RESOLVED complaints',
-        number: 4,
         icon: AiOutlineEye,
         href: '/list',
     },
 ];
 
-const markSheetProps: UploadProps = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange(info) {
-        const { status } = info.file;
-        if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
-    onDrop(e) {
-        console.log('Dropped files', e.dataTransfer.files);
-    },
-};
-
-const attendenceSheetProps: UploadProps = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange(info) {
-        const { status } = info.file;
-        if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
-    onDrop(e) {
-        console.log('Dropped files', e.dataTransfer.files);
-    },
-};
-
 export default function Lecturer() {
+    const toast = useToast();
+
+    const UploadProps: UploadProps = {
+        name: 'file',
+        multiple: true,
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        onChange(info) {
+            const { status } = info.file;
+            if (status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (status === 'done') {
+                toast({
+                    status: 'success',
+                    title: `${info.file.name} file uploaded successfully.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+            } else if (status === 'error') {
+                toast({
+                    status: 'error',
+                    title: `${info.file.name} file upload failed.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+            }
+        },
+        onDrop(e) {
+            console.log('Dropped files', e.dataTransfer.files);
+        },
+    };
+
     const navigate = useNavigate();
+
+    const qc = useQueryClient();
+    const mutation = useMutation({
+        mutationFn: () => axios.post('/upload', {}),
+        onSuccess: () => {
+            qc.invalidateQueries({
+                queryKey: ['files'],
+            });
+            toast({
+                title: 'Files uploaded',
+                status: 'success',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+        onError: () => {
+            toast({
+                title: 'Error during upload',
+                status: 'success',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+    });
 
     const { user } = useStore();
     useEffect(() => {
@@ -109,7 +120,7 @@ export default function Lecturer() {
                     spacing={5}
                     mb={4}
                 >
-                    <Dragger {...markSheetProps}>
+                    <Dragger {...UploadProps}>
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>
@@ -120,7 +131,7 @@ export default function Lecturer() {
                             Click or drag file to this area to upload
                         </p>
                     </Dragger>
-                    <Dragger {...attendenceSheetProps}>
+                    <Dragger {...UploadProps}>
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>

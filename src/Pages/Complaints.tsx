@@ -1,4 +1,3 @@
-
 import { Button, Container, Text } from '@chakra-ui/react';
 
 import React, { useState } from 'react';
@@ -33,9 +32,7 @@ const Modal: React.FC<ModalProps> = ({ children, title }) => {
 
     return (
         <>
-            <Button onClick={showModal}>
-                {title}
-            </Button>
+            <Button onClick={showModal}>{title}</Button>
             <ModalWrapper
                 open={open}
                 title={title}

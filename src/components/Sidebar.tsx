@@ -26,7 +26,7 @@ export const Sidebar = ({ ...props }: BoxProps) => {
             h="full"
             overflowX="hidden"
             overflowY="auto"
-            bg={useColorModeValue('whatsapp.700', 'gray.800')}
+            bg={useColorModeValue('green.600', 'gray.800')}
             borderColor={useColorModeValue('inherit', 'gray.700')}
             borderRightWidth="1px"
             w="60"
@@ -40,7 +40,6 @@ export const Sidebar = ({ ...props }: BoxProps) => {
             >
                 <Box w="full">
                     <Flex
-                        onClick={() => navigate('/')}
                         style={{ cursor: 'pointer' }}
                         px="4"
                         py="5"
@@ -64,60 +63,28 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                         aria-label="Main Navigation"
                     >
                         <Link to={'/'}>
-                            <NavItem
-                                onClick={() => navigate('/')}
-                                icon={FaHamburger}
-                            >
-                                Dashboard
-                            </NavItem>
+                            <NavItem icon={FaHamburger}>Dashboard</NavItem>
                         </Link>
                         <Link to={'/complaints'}>
-                            <NavItem
-                                onClick={() => navigate('/complaints')}
-                                icon={BsMessenger}
-                            >
-                                Complaints
-                            </NavItem>
+                            <NavItem icon={BsMessenger}>Complaints</NavItem>
                         </Link>
                         <Link to={'/lecturer'}>
-                            <NavItem
-                                onClick={() => navigate('/lecturer')}
-                                icon={BsMessenger}
-                            >
-                                Lecturer
-                            </NavItem>
+                            <NavItem icon={BsMessenger}>Lecturer</NavItem>
+                        </Link>
+                        <Link to={'/registrar'}>
+                            <NavItem icon={BsMessenger}>Registrar</NavItem>
                         </Link>
                         <Link to={'/hod'}>
-                            <NavItem
-                                onClick={() => navigate('/hod')}
-                                icon={BsMessenger}
-                            >
-                                HOD
-                            </NavItem>
+                            <NavItem icon={BsMessenger}>HOD</NavItem>
                         </Link>
                         <Link to={'/status'}>
-                            <NavItem
-                                onClick={() => navigate('/status')}
-                                icon={BsMessenger}
-                            >
-                                Status
-                            </NavItem>
+                            <NavItem icon={BsMessenger}>Status</NavItem>
                         </Link>
                         <Link to={'/reviews'}>
-                            <NavItem
-                                onClick={() => navigate('/reviews')}
-                                icon={BsBellFill}
-                            >
-                                Reviews
-                            </NavItem>
+                            <NavItem icon={BsBellFill}>Reviews</NavItem>
                         </Link>
                         <Link to={'/faqs'}>
-                            <NavItem
-                                onClick={() => navigate('/faqs')}
-                                icon={FiHelpCircle}
-                            >
-                                FAQs
-                            </NavItem>
+                            <NavItem icon={FiHelpCircle}>FAQs</NavItem>
                         </Link>
                     </Flex>
                 </Box>

@@ -4,33 +4,8 @@ import { Page } from '@/components/Page';
 import { useStore } from '@/state';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HiOutlineMail } from 'react-icons/hi';
-import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai';
-import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
-
-const cardData: CardData[] = [
-    {
-        id: 1,
-        label: 'Complaints submitted',
-        icon: HiOutlineMail,
-        href: '/list',
-        status:undefined
-    },
-    {
-        id: 2,
-        label: 'Complaints resolved',
-        icon: AiOutlineLike,
-        href: '/list',
-        status:"RESOLVED"
-    },
-    {
-        id: 3,
-        label: 'PENDING complaints',
-        icon: AiOutlineEye,
-        href: '/list',
-        status:"PENDING"
-    },
-];
+import { ComplaintCard } from '@/components/ComplaintCard';
+import { cardData } from './Lecturer';
 
 export default function Home() {
     const navigate = useNavigate();

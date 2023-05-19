@@ -1,5 +1,4 @@
-
-import { Container } from '@chakra-ui/react';
+import { Container, useToast } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
 import {
@@ -17,21 +16,43 @@ import { useForm } from 'react-hook-form';
 import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useStore } from '@/state';
 
 export default function ChangePassword() {
     const { handleSubmit, register } = useForm();
-
+    const { user } = useStore();
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
     const qc = useQueryClient();
+    const toast = useToast();
 
+    console.log('USER TOKEN: ', user?.token);
     const mutation = useMutation({
         mutationFn: (data: string) =>
-            axios.post('/change-password', JSON.parse(data)),
-        onSuccess: () => {
+            axios.patch('/change-password', JSON.parse(data), {
+                headers: {
+                    Authorization: `Bearer ${user?.token}`,
+                },
+            }),
+        onSuccess: (res: AxiosResponse) => {
             qc.invalidateQueries({
                 queryKey: ['user'],
+            });
+            toast({
+                title: res.data as string,
+                isClosable: true,
+                position: 'top',
+                status: 'success',
+            });
+        },
+        onError: (error: AxiosError) => {
+            toast({
+                title: error.response?.data as string,
+                position: 'top',
+                status: 'error',
+                isClosable: true,
             });
         },
     });
@@ -103,11 +124,8 @@ export default function ChangePassword() {
                     </VStack>
                     <Stack w="100%" m={'10'}>
                         <Button
-                            bg="whatsapp.700"
+                            colorScheme="green"
                             color="white"
-                            _hover={{
-                                bg: 'whatsapp.700',
-                            }}
                             type="submit"
                             rounded="md"
                             w="100%"

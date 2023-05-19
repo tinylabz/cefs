@@ -11,28 +11,53 @@ import {
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
+import { useStore } from '@/state';
 
 export default function Profile() {
+    const { user } = useStore();
+    console.log('USER:TOKEN ', user?.token);
     const { isLoading, data, error } = useQuery({
         queryKey: ['me'],
-        queryFn: () => axios.get('/me').then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('/me', {
+                    headers: {
+                        Authorization: `Bearer ${user?.token}`,
+                    },
+                })
+                .then((res) => res.data),
     });
+
+    let keys;
+    if (data) {
+        keys = Object.keys(data.me);
+    }
 
     return (
         <Page>
             <Container maxW={'container.sm'} p={{ base: 5, md: 10 }}>
                 <Stack spacing={4}>
-                    {error ? (
-                        <VStack
-                            color="white"
-                            boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
-                        >
-                            <TextBox value={data.me?.email} />
-                            <TextBox value={data.me?.phone} />
-                            <TextBox value={data.me?.studentNumber} />
-                            <TextBox value={data.me?.registrationNumber} />
-                        </VStack>
-                    ) : null}
+                    <VStack
+                        color="white"
+                        boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
+                    >
+                        {keys?.map((key) => {
+                            return (
+                                <Stack
+                                    display="grid"
+                                    gridTemplateColumns={'1fr 2fr'}
+                                    w="full"
+                                    justify="center"
+                                    alignItems="center"
+                                    bg={useColorModeValue('green.600', 'green')}
+                                    p={2}
+                                >
+                                    <Text>{key}</Text>
+                                    <Text>{data?.me[key]?.toString()}</Text>
+                                </Stack>
+                            );
+                        })}
+                    </VStack>
                 </Stack>
             </Container>
         </Page>

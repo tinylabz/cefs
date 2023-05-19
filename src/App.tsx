@@ -14,6 +14,7 @@ import HodComplaint from './Pages/HodComplaint';
 import ComplaintStatus from './Pages/Status';
 import Reviews from './Pages/Reviews';
 import Lecturer from './Pages/Lecturer';
+import RegistrarPage from './Pages/Registrar';
 
 export default () => {
     return useRoutes([
@@ -32,6 +33,10 @@ export default () => {
         {
             path: 'register',
             element: <Register />,
+        },
+        {
+            path: 'registrar',
+            element: <RegistrarPage />,
         },
         {
             path: 'summary',

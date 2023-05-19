@@ -1,35 +1,49 @@
-
-import { Input } from 'antd';
-
 import { InboxOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
 import type { UploadProps } from 'antd';
-import { message, Upload } from 'antd';
-
-import { Button, Spinner, Stack, VStack } from '@chakra-ui/react';
+import { Upload } from 'antd';
+import { Button, Spinner, Stack, useToast, VStack } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import { useState } from 'react';
+import { NATURE } from '@/types';
+import { AxiosResponse } from 'axios';
 
 export const MissingMark = () => {
-    const [studentNumber, setStudentNumber] = useState<string>("");
-    const [registrationNumber, setRegistrationNumber] = useState<string>("");
-    const [courseCode, setCourseCode] = useState<string>("");
-    const [courseName, setCourseName] = useState<string>("");
-    const [academicYear, setAcademicYear] = useState<string>("");
-    const [courseLecturer, setCourseLecturer] = useState<string>("");
-    const [semester, setSemester] = useState<string>("");
+    const toast = useToast();
+
+    const [studentNumber, setStudentNumber] = useState<string>('');
+    const [registrationNumber, setRegistrationNumber] = useState<string>('');
+    const [courseCode, setCourseCode] = useState<string>('');
+    const [courseName, setCourseName] = useState<string>('');
+    const [academicYear, setAcademicYear] = useState<string>('');
+    const [courseLecturer, setCourseLecturer] = useState<string>('');
+    const [semester, setSemester] = useState<string>('');
 
     const qc = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: (data: string) => 
-            axios.post('/complaints', JSON.parse(data))
-        ,
+        mutationFn: (data: string) =>
+            axios.post('/complaints', JSON.parse(data)),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
+            toast({
+                title: 'Successfully File complaint',
+                status: 'success',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+        onError: () => {
+            toast({
+                title: 'Failed to file complaint. Try again!',
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
         },
     });
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
@@ -40,7 +54,7 @@ export const MissingMark = () => {
                 courseName,
                 academicYear,
                 semester,
-                nature: 'MISSING_MARK',
+                nature: NATURE.MISSING_MARK,
             })
         );
     };
@@ -91,7 +105,9 @@ export const MissingMark = () => {
             <Stack width={'full'}>
                 <Button
                     colorScheme="green"
-                    onClick={handleSubmit}
+                    onClick={(e) => {
+                        handleSubmit(e);
+                    }}
                     type="submit"
                 >
                     {mutation.isLoading ? <Spinner /> : 'Submit'}
@@ -102,24 +118,39 @@ export const MissingMark = () => {
 };
 
 export const WrongAcademicYear = () => {
-    const [studentNumber, setStudentNumber] = useState<string>("");
-    const [registrationNumber, setRegistrationNumber] = useState<string>("");
-    const [courseCode, setCourseCode] = useState<string>("");
-    const [courseName, setCourseName] = useState<string>("");
-    const [academicYearAllocated, setAcademicYearAllocated] = useState<string>("");
-    const [correctAcademicYear, setCorrectAcademicYear] = useState<string>("");
-
+    const [studentNumber, setStudentNumber] = useState<string>('');
+    const [registrationNumber, setRegistrationNumber] = useState<string>('');
+    const [courseCode, setCourseCode] = useState<string>('');
+    const [courseName, setCourseName] = useState<string>('');
+    const [academicYearAllocated, setAcademicYearAllocated] =
+        useState<string>('');
+    const [correctAcademicYear, setCorrectAcademicYear] = useState<string>('');
+    const toast = useToast();
     const qc = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.post('/complaints', JSON.parse(data)),
-        onSuccess: () => {
+        onSuccess: (res: AxiosResponse) => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
+            toast({
+                title: 'Successfully File complaint',
+                status: 'success',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+        onError: () => {
+            toast({
+                title: 'Failed to file complaint. Try again!',
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
         },
     });
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
@@ -129,7 +160,7 @@ export const WrongAcademicYear = () => {
                 courseName,
                 correctAcademicYear,
                 academicYearAllocated,
-                nature: 'WRONG_ACADEMIC_YEAR',
+                nature: NATURE.WRONG_ACADEMIC_YEAR,
             })
         );
     };
@@ -178,7 +209,9 @@ export const WrongAcademicYear = () => {
             <Stack width={'full'}>
                 <Button
                     colorScheme="green"
-                    onClick={handleSubmit}
+                    onClick={(e) => {
+                        handleSubmit(e);
+                    }}
                     type="submit"
                 >
                     {mutation.isLoading ? <Spinner /> : 'Submit'}
@@ -189,14 +222,16 @@ export const WrongAcademicYear = () => {
 };
 
 export const Remark = () => {
-    const [studentNumber, setStudentNumber] = useState<string>("");
-    const [registrationNumber, setRegistrationNumber] = useState<string>("");
-    const [courseCode, setCourseCode] = useState<string>("");
-    const [courseName, setCourseName] = useState<string>("");
-    const [academicYearOfSitting, setAcademicYearOfSitting] = useState<string>("");
-    const [courseLecturer, setCourseLecturer] = useState<string>("");
-    const [semester, setSemester] = useState<string>("");
+    const [studentNumber, setStudentNumber] = useState<string>('');
+    const [registrationNumber, setRegistrationNumber] = useState<string>('');
+    const [courseCode] = useState<string>('');
+    const [courseName] = useState<string>('');
+    const [academicYearOfSitting, setAcademicYearOfSitting] =
+        useState<string>('');
 
+    const [courseLecturer, setCourseLecturer] = useState<string>('');
+    const [semester, setSemester] = useState<string>('');
+    const toast = useToast();
     const props: UploadProps = {
         name: 'file',
         multiple: true,
@@ -207,11 +242,19 @@ export const Remark = () => {
                 console.log(info.file, info.fileList);
             }
             if (status === 'done') {
-                message.success(
-                    `${info.file.name} file uploaded successfully.`
-                );
+                toast({
+                    status: 'success',
+                    title: `${info.file.name} file uploaded successfully.`,
+                    position: 'top',
+                    isClosable: true,
+                });
             } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
+                toast({
+                    status: 'success',
+                    title: `${info.file.name} file upload failed.`,
+                    position: 'top',
+                    isClosable: true,
+                });
             }
         },
         onDrop(e) {
@@ -227,10 +270,24 @@ export const Remark = () => {
             axios.post('/complaints', JSON.parse(data)),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
+            toast({
+                title: 'Successfully File complaint',
+                status: 'success',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+        onError: () => {
+            toast({
+                title: 'Failed to file complaint. Try again!',
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
         },
     });
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
@@ -241,7 +298,7 @@ export const Remark = () => {
                 courseName,
                 academicYearOfSitting,
                 semester,
-                nature: 'REMARK',
+                nature: NATURE.REMARK,
             })
         );
     };
@@ -251,6 +308,18 @@ export const Remark = () => {
             h="max-content !important"
             rounded="lg"
         >
+            <Input
+                placeholder="Student No"
+                value={studentNumber}
+                onChange={({ target: { value } }) => setStudentNumber(value)}
+            />
+            <Input
+                placeholder="Registration No"
+                value={registrationNumber}
+                onChange={({ target: { value } }) =>
+                    setRegistrationNumber(value)
+                }
+            />
             <Input
                 placeholder="Academic Year Of Sitting"
                 value={academicYearOfSitting}

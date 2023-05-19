@@ -1,3 +1,4 @@
+import { useStore } from '@/state';
 import {
     Avatar,
     Box,
@@ -27,6 +28,7 @@ type PageProps = {
 export const Page: React.FC<PageProps> = ({ children }) => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const navigate = useNavigate();
+    const { user } = useStore();
 
     return (
         <Box
@@ -72,7 +74,7 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                         alignItems="center"
                         gap={'1em'}
                     >
-                        <Text color="whatsapp.700" fontWeight={'500'}>
+                        <Text color="green" fontWeight={'500'}>
                             Student
                         </Text>
                         <Menu>
@@ -84,11 +86,8 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                                 cursor={'pointer'}
                                 _hover={{ textDecoration: 'none' }}
                             >
-                                <Avatar
-                                    size={'sm'}
-                                    name="user"
-                                    src="https://media.licdn.com/dms/image/C4E03AQFr7J4gtuP8PQ/profile-displayphoto-shrink_400_400/0/1634562929283?e=1686182400&v=beta&t=zcfSeYkQ9UFy31ozjyMFvCzKOWzPkfntJw0883X_o_M"
-                                />
+                                {/* @ts-ignore */}
+                                <Avatar size={'sm'} name={user?.user?.name} />
                             </MenuButton>
                             <MenuList fontSize={17} zIndex={5555}>
                                 <MenuItem onClick={() => navigate('/profile')}>

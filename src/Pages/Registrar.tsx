@@ -16,18 +16,18 @@ import {
     Center,
 } from '@chakra-ui/react';
 
-import { Key, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TimeAgo from 'timeago-react';
 import { Complaint } from '@/types';
 
 type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
 type Action = 'VIEW' | 'RESOLVE' | 'RESOLVED';
 
-export default function ComplaintList() {
+export default function RegistrarPage() {
     const [activeTab, setActiveTab] = useState<Btn>('SUBMITTED');
     const [action, setAction] = useState<Action>('VIEW');
 
-    const { isLoading, data, error } = useQuery({
+    const { data, error } = useQuery({
         queryKey: ['complaints'],
         queryFn: () => axios.get('/complaints').then((res) => res.data),
     });
@@ -36,7 +36,9 @@ export default function ComplaintList() {
     useEffect(() => {
         setComplaints(() => {
             return data?.complaints?.filter(
-                (complaint: Complaint) => complaint?.status === activeTab
+                (complaint: Complaint) =>
+                    complaint?.status === activeTab &&
+                    Number(complaint.registrationNumber.split('/')[0]) <= 17
             );
         });
     }, [activeTab, data]);
@@ -93,6 +95,7 @@ export default function ComplaintList() {
                         <Table size="md">
                             <Thead>
                                 <Tr>
+                                    <Th>Std No.</Th>
                                     <Th>Reg No.</Th>
                                     <Th>Status</Th>
                                     <Th>Course Name</Th>
@@ -110,6 +113,7 @@ export default function ComplaintList() {
                                     )
                                     .map((complaint: any, idx: number) => (
                                         <Tr key={idx.toString()}>
+                                            <Td>{complaint.studentNumber}</Td>
                                             <Td>
                                                 {complaint.registrationNumber}
                                             </Td>
