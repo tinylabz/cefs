@@ -126,7 +126,7 @@ export default function ComplaintList() {
                                             </Td>
                                             <Td>
                                                 <Button
-                                                    bg={'whatsapp.700'}
+                                                    bg={'green.600'}
                                                     color="white"
                                                     _hover={{
                                                         color: 'white',

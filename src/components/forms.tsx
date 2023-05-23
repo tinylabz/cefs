@@ -2,12 +2,20 @@ import { InboxOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
-import { Button, Spinner, Stack, useToast, VStack } from '@chakra-ui/react';
+import {
+    Button,
+    Spinner,
+    Stack,
+    useToast,
+    Select,
+    VStack,
+} from '@chakra-ui/react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import { useState } from 'react';
 import { NATURE } from '@/types';
 import { AxiosResponse } from 'axios';
+import { useStore } from '@/state';
 
 export const MissingMark = () => {
     const toast = useToast();
@@ -67,11 +75,13 @@ export const MissingMark = () => {
             <Input
                 placeholder="Student Number"
                 value={studentNumber}
+                required
                 onChange={({ target: { value } }) => setStudentNumber(value)}
             />
             <Input
                 placeholder="Registration Number"
                 value={registrationNumber}
+                required
                 onChange={({ target: { value } }) =>
                     setRegistrationNumber(value)
                 }
@@ -79,27 +89,32 @@ export const MissingMark = () => {
             <Input
                 placeholder="Course Code"
                 value={courseCode}
+                required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
             <Input
                 placeholder="Course Name"
                 value={courseName}
+                required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
             <Input
                 placeholder="Academic Year of Sitting"
                 value={academicYear}
+                required
                 onChange={({ target: { value } }) => setAcademicYear(value)}
             />
             <Input
                 placeholder="Semester"
                 value={semester}
+                required
                 onChange={({ target: { value } }) => setSemester(value)}
             />
 
             <Input
                 placeholder="Course Lecturer"
                 value={courseLecturer}
+                required
                 onChange={({ target: { value } }) => setCourseLecturer(value)}
             />
             <Stack width={'full'}>
@@ -173,11 +188,13 @@ export const WrongAcademicYear = () => {
             <Input
                 placeholder="Student Number"
                 value={studentNumber}
+                required
                 onChange={({ target: { value } }) => setStudentNumber(value)}
             />
             <Input
                 placeholder="Registration Number"
                 value={registrationNumber}
+                required
                 onChange={({ target: { value } }) =>
                     setRegistrationNumber(value)
                 }
@@ -185,16 +202,19 @@ export const WrongAcademicYear = () => {
             <Input
                 placeholder="Course Code"
                 value={courseCode}
+                required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
             <Input
                 placeholder="Course Name"
                 value={courseName}
+                required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
             <Input
                 placeholder="Academic Year Allocated"
                 value={academicYearAllocated}
+                required
                 onChange={({ target: { value } }) =>
                     setAcademicYearAllocated(value)
                 }
@@ -202,6 +222,7 @@ export const WrongAcademicYear = () => {
             <Input
                 placeholder="Correct Academic Year"
                 value={correctAcademicYear}
+                required
                 onChange={({ target: { value } }) =>
                     setCorrectAcademicYear(value)
                 }
@@ -231,11 +252,17 @@ export const Remark = () => {
 
     const [courseLecturer, setCourseLecturer] = useState<string>('');
     const [semester, setSemester] = useState<string>('');
+    const [recieptURL, setRecieptURL] = useState<string>('');
     const toast = useToast();
+    const { token } = useStore();
+
     const props: UploadProps = {
-        name: 'file',
+        name: 'document',
         multiple: true,
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        action: 'http://localhost:4000/api/upload',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         onChange(info) {
             const { status } = info.file;
             if (status !== 'uploading') {
@@ -244,24 +271,26 @@ export const Remark = () => {
             if (status === 'done') {
                 toast({
                     status: 'success',
-                    title: `${info.file.name} file uploaded successfully.`,
+                    title: `${info.file.name} reciept uploaded successfully.`,
                     position: 'top',
                     isClosable: true,
                 });
+                console.log('RES: ', info.file.response?.file?.path);
+                setRecieptURL(info.file.response?.file?.path);
             } else if (status === 'error') {
                 toast({
                     status: 'success',
-                    title: `${info.file.name} file upload failed.`,
+                    title: `${info.file.name} reciept upload failed.`,
                     position: 'top',
                     isClosable: true,
                 });
             }
         },
         onDrop(e) {
+            e.preventDefault();
             console.log('Dropped files', e.dataTransfer.files);
         },
     };
-
     const { Dragger } = Upload;
 
     const qc = useQueryClient();
@@ -298,6 +327,7 @@ export const Remark = () => {
                 courseName,
                 academicYearOfSitting,
                 semester,
+                recieptURL,
                 nature: NATURE.REMARK,
             })
         );
@@ -311,11 +341,13 @@ export const Remark = () => {
             <Input
                 placeholder="Student No"
                 value={studentNumber}
+                required
                 onChange={({ target: { value } }) => setStudentNumber(value)}
             />
             <Input
                 placeholder="Registration No"
                 value={registrationNumber}
+                required
                 onChange={({ target: { value } }) =>
                     setRegistrationNumber(value)
                 }
@@ -323,18 +355,27 @@ export const Remark = () => {
             <Input
                 placeholder="Academic Year Of Sitting"
                 value={academicYearOfSitting}
+                required
                 onChange={({ target: { value } }) =>
                     setAcademicYearOfSitting(value)
                 }
             />
-            <Input
-                placeholder="Semester"
-                value={semester}
+            <Select
                 onChange={({ target: { value } }) => setSemester(value)}
-            />
+                placeholder="Semester"
+                defaultValue="Select Semester"
+                value={semester}
+                style={{ width: '100%' }}
+            >
+                <option value="ONE">One</option>
+                <option value="TWO">Two</option>
+                <option value="THREE">Three</option>
+            </Select>
+
             <Input
                 placeholder="Course Lecturer"
                 value={courseLecturer}
+                required
                 onChange={({ target: { value } }) => setCourseLecturer(value)}
             />
 

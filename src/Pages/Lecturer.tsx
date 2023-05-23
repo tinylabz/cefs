@@ -9,7 +9,7 @@ import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai';
 import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
 
 import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
+import type { UploadFile, UploadProps } from 'antd';
 import { Upload } from 'antd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
@@ -39,11 +39,15 @@ export const cardData: CardData[] = [
 
 export default function Lecturer() {
     const toast = useToast();
+    const { token, user } = useStore();
 
-    const UploadProps: UploadProps = {
-        name: 'file',
+    const props: UploadProps = {
+        name: 'document',
         multiple: true,
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        action: 'http://localhost:4000/api/upload',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         onChange(info) {
             const { status } = info.file;
             if (status !== 'uploading') {
@@ -58,7 +62,7 @@ export default function Lecturer() {
                 });
             } else if (status === 'error') {
                 toast({
-                    status: 'error',
+                    status: 'success',
                     title: `${info.file.name} file upload failed.`,
                     position: 'top',
                     isClosable: true,
@@ -66,37 +70,13 @@ export default function Lecturer() {
             }
         },
         onDrop(e) {
+            e.preventDefault();
             console.log('Dropped files', e.dataTransfer.files);
         },
     };
 
     const navigate = useNavigate();
 
-    const qc = useQueryClient();
-    const mutation = useMutation({
-        mutationFn: () => axios.post('/upload', {}),
-        onSuccess: () => {
-            qc.invalidateQueries({
-                queryKey: ['files'],
-            });
-            toast({
-                title: 'Files uploaded',
-                status: 'success',
-                isClosable: true,
-                position: 'top',
-            });
-        },
-        onError: () => {
-            toast({
-                title: 'Error during upload',
-                status: 'success',
-                isClosable: true,
-                position: 'top',
-            });
-        },
-    });
-
-    const { user } = useStore();
     useEffect(() => {
         if (!user && process.env.NODE_ENV !== 'development') {
             navigate('/signin');
@@ -116,22 +96,11 @@ export default function Lecturer() {
                 </SimpleGrid>
                 <SimpleGrid
                     mt={{ sm: '1em', md: '12em' }}
-                    columns={{ sm: 1, md: 2 }}
+                    columns={{ sm: 1, md: 1 }}
                     spacing={5}
                     mb={4}
                 >
-                    <Dragger {...UploadProps}>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">
-                            Upload Attendance sheets
-                        </p>
-                        <p className="ant-upload-text">
-                            Click or drag file to this area to upload
-                        </p>
-                    </Dragger>
-                    <Dragger {...UploadProps}>
+                    <Dragger {...props}>
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>

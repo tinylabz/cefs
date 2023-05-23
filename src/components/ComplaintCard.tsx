@@ -49,7 +49,7 @@ export const ComplaintCard = ({ data: cardData }: { data: CardData }) => {
                     px={5}
                     spacing={4}
                     color="white"
-                    bg={useColorModeValue('whatsapp.700', 'whatsapp.700')}
+                    bg={useColorModeValue('green.600', '')}
                     w="100%"
                 >
                     <Flex
@@ -57,7 +57,7 @@ export const ComplaintCard = ({ data: cardData }: { data: CardData }) => {
                         alignItems="center"
                         rounded="lg"
                         p={2}
-                        bg="whatsapp.700.400"
+                        bg="green.500"
                         position="relative"
                         w={12}
                         h={12}

@@ -28,7 +28,7 @@ type PageProps = {
 export const Page: React.FC<PageProps> = ({ children }) => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const navigate = useNavigate();
-    const { user } = useStore();
+    const { user, setUser, setToken } = useStore();
 
     return (
         <Box
@@ -98,7 +98,13 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                                 >
                                     Change password
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/signin')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        setUser(null);
+                                        setToken(null);
+                                        navigate('/signin');
+                                    }}
+                                >
                                     Logout
                                 </MenuItem>
                             </MenuList>

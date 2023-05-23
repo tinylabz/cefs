@@ -14,7 +14,6 @@ export type User =
           school?: string;
           isEmailVerified: boolean;
           designation: string;
-          token: string;
       }
     | {
           _id: string;
@@ -24,15 +23,17 @@ export type User =
           school?: string;
           designation: string;
           isEmailVerified: boolean;
-          token: string;
       }
     | null;
 
+type Token = string | null;
 export type State = {
     user: User;
+    token: Token;
     isClosed: boolean;
     toggleIsClosed: () => void;
     setUser: (user: User) => void;
+    setToken: (token: Token) => void;
 };
 
 export const useStore = create<State>()(
@@ -41,7 +42,9 @@ export const useStore = create<State>()(
             (set) => ({
                 isClosed: false,
                 user: null,
+                token: '',
                 setUser: (user) => set((state) => ({ user })),
+                setToken: (token) => set((state) => ({ token })),
                 toggleIsClosed: () =>
                     set((state) => ({ isClosed: !state.isClosed })),
             }),
