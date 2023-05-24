@@ -24,13 +24,13 @@ import { useStore } from '@/state';
 export default function Reviews() {
     const [value, setValue] = useState(0);
     const [description, setDescription] = useState('');
-    const [user] = useState(useStore().user?.name);
+    const { user } = useStore();
+    const qc = useQueryClient();
+    const toast = useToast();
 
     const mutation = useMutation({
         mutationFn: (data: string) => axios.post('/reviews', JSON.parse(data)),
         onSuccess: () => {
-            const toast = useToast();
-            const qc = useQueryClient();
             qc.invalidateQueries({
                 queryKey: ['reviews'],
             }),
@@ -48,6 +48,16 @@ export default function Reviews() {
                 title: 'Your review was not added. Try again',
                 position: 'top',
                 isClosable: true,
+            });
+        },
+    });
+
+    const { isLoading, data, error } = useQuery({
+        queryKey: ['reviews'],
+        queryFn: () => axios.get('/reviews').then((res) => res.data),
+        onSuccess: () => {
+            qc.invalidateQueries({
+                queryKey: ['reviews'],
             });
         },
     });
@@ -79,7 +89,7 @@ export default function Reviews() {
 
                             <Rating
                                 fractions={2}
-                                defaultValue={4.5}
+                                value={4.5}
                                 size="xl"
                                 color="teal"
                             />
@@ -129,7 +139,7 @@ export default function Reviews() {
                                 JSON.stringify({
                                     value,
                                     description,
-                                    user: user || 'Ian Balijawa',
+                                    user: user?.name,
                                 })
                             )
                         }
@@ -138,54 +148,50 @@ export default function Reviews() {
                         Add Review
                     </Button>
                 </Stack>
-                <ReviewList />
+                <VStack mt="6" spacing={4}>
+                    <AvatarGroup alignSelf="start" size="md" max={2}>
+                        {[
+                            'Ian Balijawa',
+                            'Joan Anyango',
+                            'Awori Desire',
+                            'Kaweesi Simon',
+                            'Olivia Uwimaana',
+                        ].map((name) => (
+                            <Avatar key={name.toString()} name={name} />
+                        ))}
+                    </AvatarGroup>
+                    {data?.reviews
+                        ?.sort(
+                            (a: any, b: any) =>
+                                Date.parse(b?.createdAt) -
+                                Date.parse(a?.createdAt)
+                        )
+                        .map((review: any) => (
+                            <Stack
+                                w="100%"
+                                shadow="sm"
+                                borderColor="ActiveBorder"
+                                p="1"
+                                key={review._id}
+                                justifyContent={'space-between'}
+                                direction="row"
+                                alignItems="flex-start"
+                            >
+                                <Box w="10%">
+                                    <Avatar name={review.user} />
+                                </Box>
+                                <Box w="90%">
+                                    <Rating
+                                        value={review.value}
+                                        size="xl"
+                                        fractions={2}
+                                    />
+                                    <Text>{review.description}</Text>
+                                </Box>
+                            </Stack>
+                        ))}
+                </VStack>
             </Container>
         </Page>
     );
 }
-
-const ReviewList = () => {
-    const { isLoading, data, error } = useQuery({
-        queryKey: ['reviews'],
-        queryFn: () => axios.get('/reviews').then((res) => res.data),
-        onSuccess: () => {
-            const toast = useToast();
-            const qc = useQueryClient();
-            qc.invalidateQueries({
-                queryKey: ['reviews'],
-            });
-        },
-    });
-
-    return (
-        <VStack mt="6" spacing={4}>
-            <AvatarGroup alignSelf="start" size="md" max={2}>
-                <Avatar name="Ian Balijawa" />
-                <Avatar name="Joan Anyango" />
-                <Avatar name="Awori Desire" />
-                <Avatar name="Kaweesi Simon" />
-                <Avatar name="Olivia Uwimaana" />
-            </AvatarGroup>
-            {data?.reviews?.map((review: any) => (
-                <Stack
-                    w="100%"
-                    shadow="sm"
-                    borderColor="ActiveBorder"
-                    p="1"
-                    key={review._id}
-                    justifyContent={'space-between'}
-                    direction="row"
-                    alignItems="flex-start"
-                >
-                    <Box w="10%">
-                        <Avatar name={review.user} />
-                    </Box>
-                    <Box w="90%">
-                        <Rating value={review.value} size="xl" fractions={2} />
-                        <Text>{review.description}</Text>
-                    </Box>
-                </Stack>
-            ))}
-        </VStack>
-    );
-};

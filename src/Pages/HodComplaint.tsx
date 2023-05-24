@@ -16,6 +16,7 @@ import {
     Tr,
     Center,
     Spinner,
+    ButtonSpinner,
 } from '@chakra-ui/react';
 
 import TimeAgo from 'timeago-react';
@@ -35,6 +36,8 @@ export default function HodComplaint() {
 
     useEffect(() => {
         setComplaints(() => {
+            if (activeTab === 'SUBMITTED') return data?.complaints;
+
             return data?.complaints?.filter(
                 (complaint: Complaint) => complaint?.status === activeTab
             );
@@ -94,6 +97,7 @@ export default function HodComplaint() {
                                     <Th>Course Code</Th>
                                     <Th>Nature of complaint</Th>
                                     <Th>Time</Th>
+                                    <Th>Action</Th>
                                 </Tr>
                             </Thead>
                             <Tbody>
@@ -130,6 +134,9 @@ export default function HodComplaint() {
                                                         }
                                                         locale="en-UG"
                                                     />
+                                                </Td>
+                                                <Td>
+                                                    <Button>View</Button>
                                                 </Td>
                                             </Tr>
                                         ))

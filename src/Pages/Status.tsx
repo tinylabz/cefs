@@ -1,5 +1,5 @@
 import { Page } from '@/components/Page';
-import { Container, Stack, Text, VStack } from '@chakra-ui/react';
+import { Container, Stack, Text } from '@chakra-ui/react';
 
 import { Divider, Steps } from 'antd';
 import {
@@ -8,8 +8,16 @@ import {
     SolutionOutlined,
     UserOutlined,
 } from '@ant-design/icons';
+import { useState } from 'react';
+
+type Status = 'wait' | 'process' | 'finish' | 'error';
 
 export default function ComplaintStatus() {
+    const [submittedStatus, setSubmittedStatus] = useState<Status>();
+    const [pendingStatus, setPendingStatus] = useState<Status>();
+    const [resolvingStatus, setResolvingStatus] = useState<Status>();
+    const [doneStatus, setDoneStatus] = useState<Status>();
+
     return (
         <Page>
             <Container maxW="100%">
@@ -22,22 +30,22 @@ export default function ComplaintStatus() {
                             items={[
                                 {
                                     title: 'SUBMITTED',
-                                    status: 'finish',
+                                    status: submittedStatus,
                                     icon: <UserOutlined />,
                                 },
                                 {
                                     title: 'PENDING',
-                                    status: 'finish',
+                                    status: pendingStatus,
                                     icon: <SolutionOutlined />,
                                 },
                                 {
                                     title: 'Being worked on',
-                                    status: 'process',
+                                    status: resolvingStatus,
                                     icon: <LoadingOutlined />,
                                 },
                                 {
                                     title: 'Rectified',
-                                    status: 'wait',
+                                    status: doneStatus,
                                     icon: <SmileOutlined />,
                                 },
                             ]}
@@ -50,6 +58,7 @@ export default function ComplaintStatus() {
                             You have successfully submitted you complaint for
                             review
                         </Text>
+                        <Text>Your complaint is being worked on</Text>
                     </Stack>
                 </Stack>
             </Container>

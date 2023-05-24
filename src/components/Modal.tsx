@@ -1,41 +1,38 @@
+import { Button } from '@chakra-ui/react';
+import { Modal as ModalWrapper } from 'antd';
+import { useState } from 'react';
 
-import {
-    Button,
-    Modal as Wrapper,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    useDisclosure,
-} from '@chakra-ui/react';
+export interface ModalProps {
+    title: string;
+    children: React.ReactNode;
+}
+export const Modal: React.FC<ModalProps> = ({ children, title }) => {
+    const [open, setOpen] = useState(false);
 
-export const Modal = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const showModal = () => {
+        setOpen(true);
+    };
+
+    const handleOk = () => {
+        setOpen(false);
+    };
+
+    const handleCancel = () => {
+        setOpen(false);
+    };
+
     return (
         <>
-            <Button onClick={onOpen}>Open Modal</Button>
-
-            <Wrapper isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Laboriosam sed placeat veniam eum enim quidem
-                        magnam id illo, asperiores officia!
-                    </ModalBody>
-
-                    <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button variant="ghost">Secondary Action</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Wrapper>
+            <Button onClick={showModal}>{title}</Button>
+            <ModalWrapper
+                open={open}
+                title={title}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={null}
+            >
+                {children}
+            </ModalWrapper>
         </>
     );
 };

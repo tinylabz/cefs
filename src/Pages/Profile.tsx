@@ -14,15 +14,15 @@ import { axios } from '@/config/axios-config';
 import { useStore } from '@/state';
 
 export default function Profile() {
-    const { user } = useStore();
-    console.log('USER:TOKEN ', user?.token);
+    const { token, user } = useStore();
+    console.log('USER:TOKEN ', token);
     const { isLoading, data, error } = useQuery({
         queryKey: ['me'],
         queryFn: () =>
             axios
                 .get('/me', {
                     headers: {
-                        Authorization: `Bearer ${user?.token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((res) => res.data),

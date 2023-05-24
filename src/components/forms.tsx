@@ -27,12 +27,16 @@ export const MissingMark = () => {
     const [academicYear, setAcademicYear] = useState<string>('');
     const [courseLecturer, setCourseLecturer] = useState<string>('');
     const [semester, setSemester] = useState<string>('');
-
+    const { token } = useStore();
     const qc = useQueryClient();
 
     const mutation = useMutation({
         mutationFn: (data: string) =>
-            axios.post('/complaints', JSON.parse(data)),
+            axios.post('/complaints', JSON.parse(data), {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
             toast({
@@ -104,12 +108,17 @@ export const MissingMark = () => {
                 required
                 onChange={({ target: { value } }) => setAcademicYear(value)}
             />
-            <Input
-                placeholder="Semester"
-                value={semester}
-                required
+            <Select
                 onChange={({ target: { value } }) => setSemester(value)}
-            />
+                placeholder="Semester"
+                defaultValue="Select Semester"
+                value={semester}
+                style={{ width: '100%' }}
+            >
+                <option value="ONE">One</option>
+                <option value="TWO">Two</option>
+                <option value="THREE">Three</option>
+            </Select>
 
             <Input
                 placeholder="Course Lecturer"
@@ -142,10 +151,14 @@ export const WrongAcademicYear = () => {
     const [correctAcademicYear, setCorrectAcademicYear] = useState<string>('');
     const toast = useToast();
     const qc = useQueryClient();
-
+    const { token } = useStore();
     const mutation = useMutation({
         mutationFn: (data: string) =>
-            axios.post('/complaints', JSON.parse(data)),
+            axios.post('/complaints', JSON.parse(data), {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
         onSuccess: (res: AxiosResponse) => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
             toast({
@@ -245,8 +258,8 @@ export const WrongAcademicYear = () => {
 export const Remark = () => {
     const [studentNumber, setStudentNumber] = useState<string>('');
     const [registrationNumber, setRegistrationNumber] = useState<string>('');
-    const [courseCode] = useState<string>('');
-    const [courseName] = useState<string>('');
+    const [courseCode, setCourseCode] = useState<string>('');
+    const [courseName, setCourseName] = useState<string>('');
     const [academicYearOfSitting, setAcademicYearOfSitting] =
         useState<string>('');
 
@@ -257,9 +270,9 @@ export const Remark = () => {
     const { token } = useStore();
 
     const props: UploadProps = {
-        name: 'document',
+        name: 'file',
         multiple: true,
-        action: 'http://localhost:4000/api/upload',
+        action: 'http://localhost:4000/api/upload/reciept',
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -296,7 +309,11 @@ export const Remark = () => {
     const qc = useQueryClient();
     const mutation = useMutation({
         mutationFn: (data: string) =>
-            axios.post('/complaints', JSON.parse(data)),
+            axios.post('/complaints', JSON.parse(data), {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
         onSuccess: () => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
             toast({
@@ -377,6 +394,18 @@ export const Remark = () => {
                 value={courseLecturer}
                 required
                 onChange={({ target: { value } }) => setCourseLecturer(value)}
+            />
+            <Input
+                placeholder="Course Code"
+                value={courseCode}
+                required
+                onChange={({ target: { value } }) => setCourseCode(value)}
+            />
+            <Input
+                placeholder="Course Name"
+                value={courseName}
+                required
+                onChange={({ target: { value } }) => setCourseName(value)}
             />
 
             <Stack width="full">

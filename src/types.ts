@@ -1,5 +1,6 @@
 export interface Complaint {
-    createdAt(createdAt: any): unknown;
+    createdAt: string;
+    updatedAt: string;
     _id: string;
     courseCode?: string;
     courseName?: string;
@@ -11,14 +12,15 @@ export interface Complaint {
     academicYearOfSitting?: string;
     academicYearAllocated?: string;
     semester?: 'ONE' | 'TWO' | 'THREE';
-    nature?: 'REMARK' | 'MISSING_MARK' | 'WRONG_ACADEMIC_YEAR';
-    status?: 'SUMBITED' | 'PENDING' | 'RESOLVED';
+    nature?: 'REMARK' | 'MISSING MARK' | 'WRONG ACADEMIC YEAR';
+    status?: 'PENDING' | 'RESOLVED';
+    studentId?: string;
 }
 
 export enum NATURE {
-    MISSING_MARK = 'MISSING_MARKS',
+    MISSING_MARK = 'MISSING MARKS',
     REMARK = 'REMARK',
-    WRONG_ACADEMIC_YEAR = 'WRONG_ACADEMIC_YEAR',
+    WRONG_ACADEMIC_YEAR = 'WRONG ACADEMIC YEAR',
 }
 
 export enum DESIGNATIONS {

@@ -1,50 +1,15 @@
-import { Button, Container, Text } from '@chakra-ui/react';
+import { Container, Text } from '@chakra-ui/react';
 
-import React, { useState } from 'react';
-import { Modal as ModalWrapper } from 'antd';
+import React from 'react';
 import { Page } from '@/components/Page';
 import { Stack } from '@chakra-ui/react';
 import { MissingMark, Remark, WrongAcademicYear } from '@/components/Forms';
+import { Modal } from '@/components/Modal';
 
 interface Complaint {
     title: string;
     form: React.ReactNode;
 }
-
-interface ModalProps {
-    title: string;
-    children: React.ReactNode;
-}
-const Modal: React.FC<ModalProps> = ({ children, title }) => {
-    const [open, setOpen] = useState(false);
-
-    const showModal = () => {
-        setOpen(true);
-    };
-
-    const handleOk = () => {
-        setOpen(false);
-    };
-
-    const handleCancel = () => {
-        setOpen(false);
-    };
-
-    return (
-        <>
-            <Button onClick={showModal}>{title}</Button>
-            <ModalWrapper
-                open={open}
-                title={title}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer={null}
-            >
-                {children}
-            </ModalWrapper>
-        </>
-    );
-};
 
 const Complaints = ({}) => {
     const complaints: Complaint[] = [

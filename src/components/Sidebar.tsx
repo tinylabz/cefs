@@ -13,9 +13,11 @@ import { Logo } from './Icons';
 import { NavItem } from './NavItem';
 import { FaHamburger } from 'react-icons/fa';
 import { useNavigate, Link } from 'react-router-dom';
+import { useStore } from '@/state';
+import { DESIGNATIONS } from '@/types';
 
 export const Sidebar = ({ ...props }: BoxProps) => {
-    const navigate = useNavigate();
+    const { user } = useStore();
     return (
         <Box
             as="nav"
@@ -65,18 +67,28 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                         <Link to={'/'}>
                             <NavItem icon={FaHamburger}>Dashboard</NavItem>
                         </Link>
-                        <Link to={'/complaints'}>
-                            <NavItem icon={BsMessenger}>Complaints</NavItem>
-                        </Link>
-                        <Link to={'/lecturer'}>
-                            <NavItem icon={BsMessenger}>Lecturer</NavItem>
-                        </Link>
-                        <Link to={'/registrar'}>
-                            <NavItem icon={BsMessenger}>Registrar</NavItem>
-                        </Link>
-                        <Link to={'/hod'}>
-                            <NavItem icon={BsMessenger}>HOD</NavItem>
-                        </Link>
+                        {user?.designation === DESIGNATIONS.STUDENT && (
+                            <Link to={'/complaints'}>
+                                <NavItem icon={BsMessenger}>Complaints</NavItem>
+                            </Link>
+                        )}
+                        {(user?.designation === DESIGNATIONS.LECTURER ||
+                            user?.designation === DESIGNATIONS.HOD) && (
+                            <Link to={'/lecturer'}>
+                                <NavItem icon={BsMessenger}>Lecturer</NavItem>
+                            </Link>
+                        )}
+                        {user?.designation === DESIGNATIONS.REGISTRAR && (
+                            <Link to={'/registrar'}>
+                                <NavItem icon={BsMessenger}>Registrar</NavItem>
+                            </Link>
+                        )}
+
+                        {user?.designation === DESIGNATIONS.HOD && (
+                            <Link to={'/hod'}>
+                                <NavItem icon={BsMessenger}>HOD</NavItem>
+                            </Link>
+                        )}
                         <Link to={'/status'}>
                             <NavItem icon={BsMessenger}>Status</NavItem>
                         </Link>

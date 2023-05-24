@@ -7,8 +7,13 @@ import { ConfigProvider } from 'antd';
 import { FloatingButton } from '@/components/FloatingButton';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { axios } from './config/axios-config';
 
 const client = new QueryClient();
+setInterval(async () => {
+    const res = await axios.get('/ping');
+    console.log(res.data);
+}, 1000 * 60);
 
 createRoot(document.getElementById('root') as HTMLElement).render(
     <StrictMode>

@@ -86,7 +86,7 @@ const StaffForm = () => {
 
     const handleClick = () => setShow(!show);
     const navigate = useNavigate();
-    const { setUser } = useStore();
+    const { setUser, token, setToken } = useStore();
     const queryClient = useQueryClient();
     const toast = useToast();
     const staffMutation = useMutation({
@@ -108,6 +108,7 @@ const StaffForm = () => {
             }),
         onSuccess: (res) => {
             setUser(res?.data?.user);
+            setToken(res?.data?.token);
 
             queryClient.invalidateQueries({ queryKey: ['user'] });
 

@@ -1,5 +1,6 @@
 import { Navigate, useNavigate, useRoutes } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useStore } from './state';
 
 import ComplaintList from './Pages/ComplaintList';
 import Complaints from './Pages/Complaints';
@@ -16,11 +17,43 @@ import Reviews from './Pages/Reviews';
 import Lecturer from './Pages/Lecturer';
 import RegistrarPage from './Pages/Registrar';
 
+const withAuth = <P extends object>(
+    WrappedComponent: React.FunctionComponent<P>,
+    path?: string
+) => {
+    const WithAuth: React.FunctionComponent<P> = (props) => {
+        const { user, token } = useStore();
+
+        const isAuthenticated = user && token ? true : false; // Return true if authenticated, otherwise false
+
+        return isAuthenticated ? (
+            <WrappedComponent {...props} />
+        ) : (
+            <Navigate to="/signin" replace={true} />
+        );
+    };
+
+    return WithAuth;
+};
+
+const ProtectedComplaintList = withAuth(ComplaintList);
+const ProtectedComplaints = withAuth(Complaints);
+const ProtectedHome = withAuth(Home);
+const ProtectedSummary = withAuth(Summary);
+const ProtectedProfile = withAuth(Profile);
+const ProtectedChangePassword = withAuth(ChangePassword);
+const ProtectedFaqs = withAuth(Faqs);
+const ProtectedHodComplaint = withAuth(HodComplaint);
+const ProtectedComplaintStatus = withAuth(ComplaintStatus);
+const ProtectedReviews = withAuth(Reviews);
+const ProtectedLecturer = withAuth(Lecturer);
+const ProtectedRegistrarPage = withAuth(RegistrarPage);
+
 export default () => {
     return useRoutes([
         {
             path: '/',
-            element: <Home />,
+            element: <ProtectedHome />,
         },
         {
             path: 'signin',
@@ -28,7 +61,7 @@ export default () => {
         },
         {
             path: 'reviews',
-            element: <Reviews />,
+            element: <ProtectedReviews />,
         },
         {
             path: 'register',
@@ -36,43 +69,43 @@ export default () => {
         },
         {
             path: 'registrar',
-            element: <RegistrarPage />,
+            element: <ProtectedRegistrarPage />,
         },
         {
             path: 'summary',
-            element: <Summary />,
+            element: <ProtectedSummary />,
         },
         {
             path: 'complaints',
-            element: <Complaints />,
+            element: <ProtectedComplaints />,
         },
         {
             path: 'list',
-            element: <ComplaintList />,
+            element: <ProtectedComplaintList />,
         },
         {
             path: 'lecturer',
-            element: <Lecturer />,
+            element: <ProtectedLecturer />,
         },
         {
             path: 'profile',
-            element: <Profile />,
+            element: <ProtectedProfile />,
         },
         {
             path: 'change-password',
-            element: <ChangePassword />,
+            element: <ProtectedChangePassword />,
         },
         {
             path: 'faqs',
-            element: <Faqs />,
+            element: <ProtectedFaqs />,
         },
         {
             path: 'hod',
-            element: <HodComplaint />,
+            element: <ProtectedHodComplaint />,
         },
         {
             path: 'status',
-            element: <ComplaintStatus />,
+            element: <ProtectedComplaintStatus />,
         },
         {
             path: '404',

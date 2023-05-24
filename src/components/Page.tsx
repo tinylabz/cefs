@@ -75,7 +75,9 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                         gap={'1em'}
                     >
                         <Text color="green" fontWeight={'500'}>
-                            Student
+                            {`${user?.designation}, ${
+                                user?.name.split(' ')[0]
+                            }`}
                         </Text>
                         <Menu>
                             <MenuButton
@@ -87,7 +89,7 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                                 _hover={{ textDecoration: 'none' }}
                             >
                                 {/* @ts-ignore */}
-                                <Avatar size={'sm'} name={user?.user?.name} />
+                                <Avatar size={'sm'} name={user?.name} />
                             </MenuButton>
                             <MenuList fontSize={17} zIndex={5555}>
                                 <MenuItem onClick={() => navigate('/profile')}>
