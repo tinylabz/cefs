@@ -43,12 +43,9 @@ export default function Lecturer() {
     const { token, user } = useStore();
     const navigate = useNavigate();
 
-    // firebase.initializeApp(firebaseConfig);
-
     const markSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        // action: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o`,
         action: 'http://localhost:4000/api/upload/marks',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -74,41 +71,7 @@ export default function Lecturer() {
                 });
             }
         },
-        // onChange(info) {
-        //     const { status } = info.file;
-        //     if (status !== 'uploading') {
-        //         console.log(info.file, info.fileList);
-        //     }
-        //     if (status === 'done') {
-        //         const fileRef = storageRef.child(info.file.name);
-        //         fileRef
-        //             .put(info.file.originFileObj)
-        //             .then(() => {
-        //                 toast({
-        //                     status: 'success',
-        //                     title: `${info.file.name} file uploaded successfully.`,
-        //                     position: 'top',
-        //                     isClosable: true,
-        //                 });
-        //             })
-        //             .catch((error: any) => {
-        //                 console.error('Error uploading file:', error);
-        //                 toast({
-        //                     status: 'error',
-        //                     title: `${info.file.name} file upload failed.`,
-        //                     position: 'top',
-        //                     isClosable: true,
-        //                 });
-        //             });
-        //     } else if (status === 'error') {
-        //         toast({
-        //             status: 'error',
-        //             title: `${info.file.name} file upload failed.`,
-        //             position: 'top',
-        //             isClosable: true,
-        //         });
-        //     }
-        // },
+
         onDrop(e) {
             e.preventDefault();
             console.log('Dropped files', e.dataTransfer.files);
@@ -117,7 +80,7 @@ export default function Lecturer() {
     const testAttendenceSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'http://localhost:4000/api/upload/class-attendence',
+        action: 'http://localhost:4000/api/upload/test-attendence',
         headers: {
             Authorization: `Bearer ${token}`,
         },

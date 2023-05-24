@@ -2,29 +2,17 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { create } from 'zustand';
 
-export type User =
-    | {
-          _id: string;
-          studentNumber?: string;
-          registrationNumber?: string;
-          email: string;
-          phone?: string;
-          name: string;
-          college?: string;
-          school?: string;
-          isEmailVerified: boolean;
-          designation: string;
-      }
-    | {
-          _id: string;
-          email: string;
-          name: string;
-          college?: string;
-          school?: string;
-          designation: string;
-          isEmailVerified: boolean;
-      }
-    | null;
+export type User = {
+    _id: string;
+    studentNumber?: string;
+    registrationNumber?: string;
+    email: string;
+    name: string;
+    college?: string;
+    school?: string;
+    isEmailVerified: boolean;
+    designation: string;
+} | null;
 
 type Token = string | null;
 export type State = {

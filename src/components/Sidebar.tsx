@@ -64,38 +64,40 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                         color="white"
                         aria-label="Main Navigation"
                     >
-                        <Link to={'/'}>
-                            <NavItem icon={FaHamburger}>Dashboard</NavItem>
-                        </Link>
                         {user?.designation === DESIGNATIONS.STUDENT && (
-                            <Link to={'/complaints'}>
+                            <Link to="/">
+                                <NavItem icon={FaHamburger}>Dashboard</NavItem>
+                            </Link>
+                        )}
+                        {user?.designation === DESIGNATIONS.STUDENT && (
+                            <Link to="/complaints">
                                 <NavItem icon={BsMessenger}>Complaints</NavItem>
                             </Link>
                         )}
                         {(user?.designation === DESIGNATIONS.LECTURER ||
                             user?.designation === DESIGNATIONS.HOD) && (
-                            <Link to={'/lecturer'}>
-                                <NavItem icon={BsMessenger}>Lecturer</NavItem>
+                            <Link to="/lecturer">
+                                <NavItem icon={BsMessenger}>Dashboard</NavItem>
                             </Link>
                         )}
                         {user?.designation === DESIGNATIONS.REGISTRAR && (
-                            <Link to={'/registrar'}>
-                                <NavItem icon={BsMessenger}>Registrar</NavItem>
+                            <Link to="/registrar">
+                                <NavItem icon={BsMessenger}>Dashboard</NavItem>
                             </Link>
                         )}
 
                         {user?.designation === DESIGNATIONS.HOD && (
-                            <Link to={'/hod'}>
+                            <Link to="/hod">
                                 <NavItem icon={BsMessenger}>HOD</NavItem>
                             </Link>
                         )}
-                        <Link to={'/status'}>
+                        <Link to="/status">
                             <NavItem icon={BsMessenger}>Status</NavItem>
                         </Link>
-                        <Link to={'/reviews'}>
+                        <Link to="/reviews">
                             <NavItem icon={BsBellFill}>Reviews</NavItem>
                         </Link>
-                        <Link to={'/faqs'}>
+                        <Link to="/faqs">
                             <NavItem icon={FiHelpCircle}>FAQs</NavItem>
                         </Link>
                     </Flex>

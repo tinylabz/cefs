@@ -42,11 +42,14 @@ export default function Profile() {
                         boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
                     >
                         {keys?.map((key) => {
+                            if (key === 'createdAt' || key === 'updatedAt')
+                                return null;
                             return (
                                 <Stack
                                     display="grid"
                                     gridTemplateColumns={'1fr 2fr'}
                                     w="full"
+                                    rounded="sm"
                                     justify="center"
                                     alignItems="center"
                                     bg={useColorModeValue('green.600', 'green')}

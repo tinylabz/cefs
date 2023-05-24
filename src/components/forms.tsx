@@ -27,7 +27,7 @@ export const MissingMark = () => {
     const [academicYear, setAcademicYear] = useState<string>('');
     const [courseLecturer, setCourseLecturer] = useState<string>('');
     const [semester, setSemester] = useState<string>('');
-    const { token } = useStore();
+    const { token, user } = useStore();
     const qc = useQueryClient();
 
     const mutation = useMutation({
@@ -37,8 +37,30 @@ export const MissingMark = () => {
                     Authorization: `Bearer ${token}`,
                 },
             }),
-        onSuccess: () => {
+        onSuccess: (res) => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
+            axios
+                .get(`/parse?studentNumber=${user?.studentNumber}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => {
+                    toast({
+                        title: JSON.stringify(res.data),
+                        status: 'success',
+                        isClosable: true,
+                        position: 'top',
+                    });
+                })
+                .catch((err) => {
+                    toast({
+                        title: JSON.stringify(err?.response?.data),
+                        status: 'error',
+                        isClosable: true,
+                        position: 'top',
+                    });
+                });
             toast({
                 title: 'Successfully File complaint',
                 status: 'success',
@@ -333,7 +355,7 @@ export const Remark = () => {
         },
     });
 
-    const handleSubmit = (e: { preventDefault: () => void }) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({

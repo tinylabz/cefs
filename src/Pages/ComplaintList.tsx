@@ -38,11 +38,14 @@ export default function ComplaintList() {
 
     useEffect(() => {
         setComplaints(() => {
-            if (activeTab === 'SUBMITTED') return data?.complaints;
+            if (activeTab === 'SUBMITTED')
+                return data?.complaints?.filter((complaint: Complaint) => {
+                    return complaint.studentId === user?._id;
+                });
             return data?.complaints?.filter(
                 (complaint: Complaint) =>
                     complaint?.status === activeTab &&
-                    complaint?.studentId === user?._id
+                    complaint.studentId === user?._id
             );
         });
     }, [activeTab, data]);

@@ -150,15 +150,18 @@ export default function Reviews() {
                 </Stack>
                 <VStack mt="6" spacing={4}>
                     <AvatarGroup alignSelf="start" size="md" max={2}>
-                        {[
-                            'Ian Balijawa',
-                            'Joan Anyango',
-                            'Awori Desire',
-                            'Kaweesi Simon',
-                            'Olivia Uwimaana',
-                        ].map((name) => (
-                            <Avatar key={name.toString()} name={name} />
-                        ))}
+                        {data?.reviews?.map(
+                            (review: {
+                                value: number;
+                                description: string;
+                                user: string;
+                            }) => (
+                                <Avatar
+                                    key={review?.user}
+                                    name={review?.user}
+                                />
+                            )
+                        )}
                     </AvatarGroup>
                     {data?.reviews
                         ?.sort(
