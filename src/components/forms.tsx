@@ -12,9 +12,9 @@ import {
 } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { NATURE } from '@/types';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { useStore } from '@/state';
 
 export const MissingMark = () => {
@@ -68,9 +68,9 @@ export const MissingMark = () => {
                 position: 'top',
             });
         },
-        onError: () => {
+        onError: (err: AxiosError) => {
             toast({
-                title: 'Failed to file complaint. Try again!',
+                title: err.response?.data as ReactNode,
                 status: 'error',
                 isClosable: true,
                 position: 'top',
@@ -81,8 +81,8 @@ export const MissingMark = () => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
-                studentNumber,
-                registrationNumber,
+                studentNumber: user?.studentNumber,
+                registrationNumber: user?.registrationNumber,
                 courseCode,
                 courseLecturer,
                 courseName,
@@ -98,19 +98,10 @@ export const MissingMark = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input
-                placeholder="Student Number"
-                value={studentNumber}
-                required
-                onChange={({ target: { value } }) => setStudentNumber(value)}
-            />
+            <Input placeholder="Student Number" value={user?.studentNumber} />
             <Input
                 placeholder="Registration Number"
-                value={registrationNumber}
-                required
-                onChange={({ target: { value } }) =>
-                    setRegistrationNumber(value)
-                }
+                value={user?.registrationNumber}
             />
             <Input
                 placeholder="Course Code"
@@ -173,7 +164,7 @@ export const WrongAcademicYear = () => {
     const [correctAcademicYear, setCorrectAcademicYear] = useState<string>('');
     const toast = useToast();
     const qc = useQueryClient();
-    const { token } = useStore();
+    const { token, user } = useStore();
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.post('/complaints', JSON.parse(data), {
@@ -220,19 +211,10 @@ export const WrongAcademicYear = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input
-                placeholder="Student Number"
-                value={studentNumber}
-                required
-                onChange={({ target: { value } }) => setStudentNumber(value)}
-            />
+            <Input placeholder="Student Number" value={user?.studentNumber} />
             <Input
                 placeholder="Registration Number"
-                value={registrationNumber}
-                required
-                onChange={({ target: { value } }) =>
-                    setRegistrationNumber(value)
-                }
+                value={user?.registrationNumber}
             />
             <Input
                 placeholder="Course Code"
@@ -289,7 +271,7 @@ export const Remark = () => {
     const [semester, setSemester] = useState<string>('');
     const [recieptURL, setRecieptURL] = useState<string>('');
     const toast = useToast();
-    const { token } = useStore();
+    const { token, user } = useStore();
 
     const props: UploadProps = {
         name: 'file',
@@ -377,19 +359,10 @@ export const Remark = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input
-                placeholder="Student No"
-                value={studentNumber}
-                required
-                onChange={({ target: { value } }) => setStudentNumber(value)}
-            />
+            <Input placeholder="Student No" value={user?.studentNumber} />
             <Input
                 placeholder="Registration No"
-                value={registrationNumber}
-                required
-                onChange={({ target: { value } }) =>
-                    setRegistrationNumber(value)
-                }
+                value={user?.registrationNumber}
             />
             <Input
                 placeholder="Academic Year Of Sitting"

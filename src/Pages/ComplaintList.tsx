@@ -29,10 +29,17 @@ type Action = 'View' | 'Resolve' | 'Resolved';
 export default function ComplaintList() {
     const [activeTab, setActiveTab] = useState<Btn>('SUBMITTED');
     const [action, setAction] = useState<Action>('View');
-    const { user } = useStore();
+    const { user, token } = useStore();
     const { isLoading, data, error } = useQuery({
         queryKey: ['complaints'],
-        queryFn: () => axios.get('/complaints').then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('/complaints', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => res.data),
     });
     const [complaints, setComplaints] = useState<any[]>(data?.complaints);
 
@@ -43,9 +50,7 @@ export default function ComplaintList() {
                     return complaint.studentId === user?._id;
                 });
             return data?.complaints?.filter(
-                (complaint: Complaint) =>
-                    complaint?.status === activeTab &&
-                    complaint.studentId === user?._id
+                (complaint: Complaint) => complaint?.status === activeTab
             );
         });
     }, [activeTab, data]);

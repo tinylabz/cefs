@@ -20,17 +20,20 @@ import { Rating } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import { useStore } from '@/state';
+import { AxiosError } from 'axios';
 
 export default function Reviews() {
-    const [value, setValue] = useState(0);
-    const [description, setDescription] = useState('');
+    const [value, setValue] = useState<number | undefined>(0);
+    const [description, setDescription] = useState<string | undefined>(
+        undefined
+    );
     const { user } = useStore();
     const qc = useQueryClient();
     const toast = useToast();
 
     const mutation = useMutation({
         mutationFn: (data: string) => axios.post('/reviews', JSON.parse(data)),
-        onSuccess: () => {
+        onSuccess: (res) => {
             qc.invalidateQueries({
                 queryKey: ['reviews'],
             }),
@@ -40,12 +43,13 @@ export default function Reviews() {
                     position: 'top',
                     isClosable: true,
                 });
+            setValue(undefined);
+            setDescription('');
         },
-        onError: () => {
-            const toast = useToast();
+        onError: (error: AxiosError) => {
             toast({
                 status: 'error',
-                title: 'Your review was not added. Try again',
+                title: error.response?.data as React.ReactNode,
                 position: 'top',
                 isClosable: true,
             });
@@ -55,11 +59,7 @@ export default function Reviews() {
     const { isLoading, data, error } = useQuery({
         queryKey: ['reviews'],
         queryFn: () => axios.get('/reviews').then((res) => res.data),
-        onSuccess: () => {
-            qc.invalidateQueries({
-                queryKey: ['reviews'],
-            });
-        },
+        onSuccess: () => {},
     });
 
     return (
@@ -121,13 +121,13 @@ export default function Reviews() {
                         size="xl"
                         fractions={2}
                         color="teal"
-                        value={value}
+                        value={value!}
                         onChange={(value) => setValue(value)}
                     />
                     <Textarea
                         size={'xs'}
                         rows={5}
-                        value={description}
+                        value={description!}
                         onChange={({ target: { value } }) =>
                             setDescription(value)
                         }
@@ -188,6 +188,7 @@ export default function Reviews() {
                                         value={review.value}
                                         size="xl"
                                         fractions={2}
+                                        color="teal"
                                     />
                                     <Text>{review.description}</Text>
                                 </Box>

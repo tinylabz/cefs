@@ -1,6 +1,4 @@
 import { SimpleGrid, Container, useToast } from '@chakra-ui/react';
-// import 'firebase/storage';
-// import firebase from 'firebase/app';
 import { Page } from '@/components/Page';
 import { useStore } from '@/state';
 import { useEffect } from 'react';
@@ -8,12 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai';
 import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
+import { type UploadProps } from 'antd';
 
 import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
 import { DESIGNATIONS } from '@/types';
-import { firebaseConfig } from '@/firebase';
 
 const { Dragger } = Upload;
 

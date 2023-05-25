@@ -29,12 +29,12 @@ export default function ComplaintStatus() {
                         <Steps
                             items={[
                                 {
-                                    title: 'SUBMITTED',
+                                    title: 'Submitted',
                                     status: submittedStatus,
                                     icon: <UserOutlined />,
                                 },
                                 {
-                                    title: 'PENDING',
+                                    title: 'Pending',
                                     status: pendingStatus,
                                     icon: <SolutionOutlined />,
                                 },

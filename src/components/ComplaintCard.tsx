@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import type { Complaint } from '@/types';
+import { useStore } from '@/state';
 
 export interface CardData {
     label: string;
@@ -23,9 +24,17 @@ export interface CardData {
 }
 
 export const ComplaintCard = ({ data: cardData }: { data: CardData }) => {
+    const { token } = useStore();
     const { data } = useQuery({
         queryKey: ['complaints'],
-        queryFn: () => axios.get('/complaints').then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('/complaints', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => res.data),
     });
 
     return (

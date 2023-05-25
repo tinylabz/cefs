@@ -18,8 +18,7 @@ import Lecturer from './Pages/Lecturer';
 import RegistrarPage from './Pages/Registrar';
 
 const withAuth = <P extends object>(
-    WrappedComponent: React.FunctionComponent<P>,
-    path?: string
+    WrappedComponent: React.FunctionComponent<P>
 ) => {
     const WithAuth: React.FunctionComponent<P> = (props) => {
         const { user, token } = useStore();
