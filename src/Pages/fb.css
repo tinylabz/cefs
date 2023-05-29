@@ -1,0 +1,31 @@
+.chat-box {
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+    width: 500px;
+    background-color: #f7fafc;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #2f855a;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user {
+    background-color: #dee1e6;
+    color: #333;
+    align-self: flex-start;
+}
+
+.chatgpt {
+    background-color: #2f855a;
+    color: #dee1e6;
+    align-self: flex-end;
+}

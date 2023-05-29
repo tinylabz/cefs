@@ -12,12 +12,11 @@ import Profile from './Pages/Profile';
 import ChangePassword from './Pages/ChangePassword';
 import Faqs from './Pages/Faqs';
 import HodComplaint from './Pages/HodComplaint';
-import ComplaintStatus from './Pages/Status';
 import Reviews from './Pages/Reviews';
 import Lecturer from './Pages/Lecturer';
 import RegistrarPage from './Pages/Registrar';
 
-const withAuth = <P extends object>(
+export const withAuth = <P extends object>(
     WrappedComponent: React.FunctionComponent<P>
 ) => {
     const WithAuth: React.FunctionComponent<P> = (props) => {
@@ -43,7 +42,6 @@ const ProtectedProfile = withAuth(Profile);
 const ProtectedChangePassword = withAuth(ChangePassword);
 const ProtectedFaqs = withAuth(Faqs);
 const ProtectedHodComplaint = withAuth(HodComplaint);
-const ProtectedComplaintStatus = withAuth(ComplaintStatus);
 const ProtectedReviews = withAuth(Reviews);
 const ProtectedLecturer = withAuth(Lecturer);
 const ProtectedRegistrarPage = withAuth(RegistrarPage);
@@ -101,10 +99,6 @@ export default () => {
         {
             path: 'hod',
             element: <ProtectedHodComplaint />,
-        },
-        {
-            path: 'status',
-            element: <ProtectedComplaintStatus />,
         },
         {
             path: '404',

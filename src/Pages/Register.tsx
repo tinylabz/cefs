@@ -1,36 +1,106 @@
 import {
     Center,
     Container,
-    Button,
     Heading,
-    InputGroup,
-    InputRightElement,
     Stack,
     Icon,
     VStack,
-    Input as PhoneInput,
     Text,
     useColorModeValue,
-    InputLeftAddon,
     Box,
     Spinner,
     useToast,
-    Tabs,
-    TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
+    Select,
 } from '@chakra-ui/react';
-import { Select, Input } from 'antd';
 import { useState } from 'react';
-import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { Logo } from '@/components/Logo';
 import { axios } from '@/config/axios-config';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useStore } from '@/state';
+import { COLLEGES, DESIGNATIONS, SCHOOLS } from '@/types';
+
+import {
+    Tabs,
+    TabsProps,
+    rem,
+    Input,
+    Button,
+    PasswordInput,
+} from '@mantine/core';
+import { FiMail } from 'react-icons/fi';
+
+export function StyledTabs(props: TabsProps) {
+    return (
+        <Tabs
+            unstyled
+            styles={(theme) => ({
+                tab: {
+                    ...theme.fn.focusStyles(),
+                    width: '100%',
+                    marginBottom: '1rem',
+                    backgroundColor:
+                        theme.colorScheme === 'dark'
+                            ? theme.colors.dark[6]
+                            : theme.white,
+                    color:
+                        theme.colorScheme === 'dark'
+                            ? theme.colors.dark[0]
+                            : theme.colors.gray[9],
+                    border: `${rem(1)} solid ${
+                        theme.colorScheme === 'dark'
+                            ? theme.colors.dark[6]
+                            : theme.colors.gray[4]
+                    }`,
+                    padding: `${theme.spacing.xs} ${theme.spacing.md}`,
+                    cursor: 'pointer',
+                    fontSize: theme.fontSizes.lg,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 'bold',
+
+                    '&:disabled': {
+                        opacity: 0.5,
+                        cursor: 'not-allowed',
+                    },
+
+                    '&:not(:first-of-type)': {
+                        borderLeft: 0,
+                    },
+
+                    '&:first-of-type': {
+                        borderTopLeftRadius: theme.radius.md,
+                        borderBottomLeftRadius: theme.radius.md,
+                    },
+
+                    '&:last-of-type': {
+                        borderTopRightRadius: theme.radius.md,
+                        borderBottomRightRadius: theme.radius.md,
+                    },
+
+                    '&[data-active]': {
+                        backgroundColor: theme.colors.teal[7],
+                        borderColor: theme.colors.teal[7],
+                        color: theme.white,
+                    },
+                },
+
+                tabIcon: {
+                    marginRight: theme.spacing.xs,
+                    display: 'flex',
+                    alignItems: 'center',
+                },
+
+                tabsList: {
+                    display: 'flex',
+                },
+            })}
+            {...props}
+        />
+    );
+}
 
 export default function Register() {
     return (
@@ -50,25 +120,19 @@ export default function Register() {
                             Register Here
                         </Heading>
                     </Stack>
-                    <Tabs
-                        isFitted
-                        variant="enclosed-colored"
-                        colorScheme={'green'}
-                    >
-                        <TabList mb="1em">
-                            <Tab>Student</Tab>
-                            <Tab>Staff</Tab>
-                        </TabList>
-                        <TabPanels>
-                            <TabPanel>
-                                <StudentForm />
-                            </TabPanel>
+                    <StyledTabs defaultValue="student">
+                        <Tabs.List>
+                            <Tabs.Tab value="student">Student</Tabs.Tab>
+                            <Tabs.Tab value="staff">Staff</Tabs.Tab>
+                        </Tabs.List>
 
-                            <TabPanel>
-                                <StaffForm />
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
+                        <Tabs.Panel value="student">
+                            <StudentForm />
+                        </Tabs.Panel>
+                        <Tabs.Panel value="staff">
+                            <StaffForm />
+                        </Tabs.Panel>
+                    </StyledTabs>
                 </Stack>
             </Center>
         </Container>
@@ -167,56 +231,62 @@ const StaffForm = () => {
             <Input
                 value={name}
                 onChange={({ target: { value } }) => setName(value)}
-                placeholder="Name"
+                placeholder="Staff Name"
+                w="100%"
             />
 
             <Input
+                w="100%"
                 value={email}
                 onChange={({ target: { value } }) => setEmail(value)}
                 placeholder="Email Address"
                 type="email"
+                icon={<FiMail />}
             />
-            <Input
+
+            <Select
+                w="100%"
                 value={college}
                 onChange={({ target: { value } }) => setCollege(value)}
-                placeholder="College e.g. COCIS"
-            />
-            <Input
+                placeholder="Select College"
+                style={{ width: '100%' }}
+            >
+                {Object.values(COLLEGES).map((c) => (
+                    <option value={c}>{c}</option>
+                ))}
+            </Select>
+            <Select
+                w="100%"
                 value={school}
                 onChange={({ target: { value } }) => setSchool(value)}
-                placeholder="School e.g. School of Computing and Information..."
-            />
+                placeholder="Select School"
+                style={{ width: '100%' }}
+            >
+                {Object.values(SCHOOLS).map((v) => (
+                    <option value={v}>{v}</option>
+                ))}
+            </Select>
             <Select
+                w="100%"
                 value={designation}
-                onChange={(value) => setDesignation(value)}
+                onChange={({ target: { value } }) => setDesignation(value)}
                 placeholder="Designation"
                 style={{ width: '100%' }}
             >
-                <option value="HOD">HOD</option>
-                <option value="LECTURER">Lecturer</option>
-                <option value="REGISTRAR">Registrar</option>
+                {Object.values(DESIGNATIONS).map((v) => (
+                    <option value={v}>{v}</option>
+                ))}
             </Select>
-            <InputGroup size="md">
-                <Input
-                    value={password}
-                    onChange={({ target: { value } }) => setPassword(value)}
-                    placeholder="Password"
-                    type={show ? 'text' : 'password'}
-                />
-                <InputRightElement width="4.5rem">
-                    <Button size="xs" onClick={handleClick}>
-                        {show ? <BsEyeSlash /> : <BsEyeFill />}
-                    </Button>
-                </InputRightElement>
-            </InputGroup>
+            <PasswordInput
+                w="100%"
+                value={password}
+                onChange={({ target: { value } }) => setPassword(value)}
+                placeholder="Password"
+                label="Password"
+            />
 
             <VStack w="100%">
-                <Button
-                    colorScheme="green"
-                    color="white"
-                    type="submit"
-                    w="100%"
-                >
+                <Button type="submit" w="100%">
                     {staffMutation.isLoading ? <Spinner /> : 'Register'}
                 </Button>
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
@@ -327,16 +397,19 @@ const StudentForm = () => {
             bg={useColorModeValue('white', 'gray.100')}
         >
             <Input
+                w="100%"
                 value={name}
                 onChange={({ target: { value } }) => setName(value)}
-                placeholder="Name"
+                placeholder="Student Name"
             />
             <Input
+                w="100%"
                 value={studentNumber}
                 onChange={({ target: { value } }) => setStudentNumber(value)}
                 placeholder="Student Number"
             />
             <Input
+                w="100%"
                 value={registrationNumber}
                 onChange={({ target: { value } }) =>
                     setRegistrationNumber(value)
@@ -344,38 +417,34 @@ const StudentForm = () => {
                 placeholder="Registration Number"
             />
             <Input
+                w="100%"
                 value={email}
                 onChange={({ target: { value } }) => setEmail(value)}
                 placeholder="Email Address"
                 type="email"
             />
 
-            <Input
+            <Select
+                w="100%"
                 value={college}
                 onChange={({ target: { value } }) => setCollege(value)}
-                placeholder="College e.g. COCIS"
+                placeholder="Select College"
+                style={{ width: '100%' }}
+            >
+                {Object.values(COLLEGES).map((c) => (
+                    <option value={c}>{c}</option>
+                ))}
+            </Select>
+            <PasswordInput
+                w="100%"
+                value={password}
+                onChange={({ target: { value } }) => setPassword(value)}
+                placeholder="Password"
+                type={show ? 'text' : 'password'}
             />
-            <InputGroup size="md">
-                <Input
-                    value={password}
-                    onChange={({ target: { value } }) => setPassword(value)}
-                    placeholder="Password"
-                    type={show ? 'text' : 'password'}
-                />
-                <InputRightElement width="4.5rem">
-                    <Button size="xs" onClick={handleClick}>
-                        {show ? <BsEyeSlash /> : <BsEyeFill />}
-                    </Button>
-                </InputRightElement>
-            </InputGroup>
 
             <VStack w="100%">
-                <Button
-                    colorScheme="green"
-                    color="white"
-                    type="submit"
-                    w="100%"
-                >
+                <Button type="submit" w="100%">
                     {studentMutation.isLoading ? <Spinner /> : 'Register'}
                 </Button>
                 <Text fontSize={{ base: 'md', sm: 'md' }}>

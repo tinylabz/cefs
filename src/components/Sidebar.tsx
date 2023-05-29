@@ -91,9 +91,6 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                                 <NavItem icon={BsMessenger}>HOD</NavItem>
                             </Link>
                         )}
-                        <Link to="/status">
-                            <NavItem icon={BsMessenger}>Status</NavItem>
-                        </Link>
                         <Link to="/reviews">
                             <NavItem icon={BsBellFill}>Reviews</NavItem>
                         </Link>

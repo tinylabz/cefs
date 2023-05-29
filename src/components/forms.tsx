@@ -1,5 +1,4 @@
 import { InboxOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
 import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
 import {
@@ -16,12 +15,11 @@ import { ReactNode, useState } from 'react';
 import { NATURE } from '@/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useStore } from '@/state';
+import { Input } from '@mantine/core';
 
 export const MissingMark = () => {
     const toast = useToast();
 
-    const [studentNumber, setStudentNumber] = useState<string>('');
-    const [registrationNumber, setRegistrationNumber] = useState<string>('');
     const [courseCode, setCourseCode] = useState<string>('');
     const [courseName, setCourseName] = useState<string>('');
     const [academicYear, setAcademicYear] = useState<string>('');
@@ -98,24 +96,32 @@ export const MissingMark = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input placeholder="Student Number" value={user?.studentNumber} />
             <Input
+                w="100%"
+                placeholder="Student Number"
+                value={user?.studentNumber}
+            />
+            <Input
+                w="100%"
                 placeholder="Registration Number"
                 value={user?.registrationNumber}
             />
             <Input
+                w="100%"
                 placeholder="Course Code"
                 value={courseCode}
                 required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
             <Input
+                w="100%"
                 placeholder="Course Name"
                 value={courseName}
                 required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
             <Input
+                w="100%"
                 placeholder="Academic Year of Sitting"
                 value={academicYear}
                 required
@@ -134,6 +140,7 @@ export const MissingMark = () => {
             </Select>
 
             <Input
+                w="100%"
                 placeholder="Course Lecturer"
                 value={courseLecturer}
                 required
@@ -155,8 +162,6 @@ export const MissingMark = () => {
 };
 
 export const WrongAcademicYear = () => {
-    const [studentNumber, setStudentNumber] = useState<string>('');
-    const [registrationNumber, setRegistrationNumber] = useState<string>('');
     const [courseCode, setCourseCode] = useState<string>('');
     const [courseName, setCourseName] = useState<string>('');
     const [academicYearAllocated, setAcademicYearAllocated] =
@@ -195,8 +200,8 @@ export const WrongAcademicYear = () => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
-                studentNumber,
-                registrationNumber,
+                studentNumber: user?.studentNumber,
+                registrationNumber: user?.registrationNumber,
                 courseCode,
                 courseName,
                 correctAcademicYear,
@@ -211,24 +216,32 @@ export const WrongAcademicYear = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input placeholder="Student Number" value={user?.studentNumber} />
             <Input
+                w="100%"
+                placeholder="Student Number"
+                value={user?.studentNumber}
+            />
+            <Input
+                w="100%"
                 placeholder="Registration Number"
                 value={user?.registrationNumber}
             />
             <Input
+                w="100%"
                 placeholder="Course Code"
                 value={courseCode}
                 required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
             <Input
+                w="100%"
                 placeholder="Course Name"
                 value={courseName}
                 required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
             <Input
+                w="100%"
                 placeholder="Academic Year Allocated"
                 value={academicYearAllocated}
                 required
@@ -237,6 +250,7 @@ export const WrongAcademicYear = () => {
                 }
             />
             <Input
+                w="100%"
                 placeholder="Correct Academic Year"
                 value={correctAcademicYear}
                 required
@@ -260,8 +274,6 @@ export const WrongAcademicYear = () => {
 };
 
 export const Remark = () => {
-    const [studentNumber, setStudentNumber] = useState<string>('');
-    const [registrationNumber, setRegistrationNumber] = useState<string>('');
     const [courseCode, setCourseCode] = useState<string>('');
     const [courseName, setCourseName] = useState<string>('');
     const [academicYearOfSitting, setAcademicYearOfSitting] =
@@ -341,8 +353,8 @@ export const Remark = () => {
         e.preventDefault();
         mutation.mutate(
             JSON.stringify({
-                studentNumber,
-                registrationNumber,
+                studentNumber: user?.studentNumber,
+                registrationNumber: user?.registrationNumber,
                 courseCode,
                 courseLecturer,
                 courseName,
@@ -359,12 +371,18 @@ export const Remark = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input placeholder="Student No" value={user?.studentNumber} />
             <Input
+                w="100%"
+                placeholder="Student No"
+                value={user?.studentNumber}
+            />
+            <Input
+                w="100%"
                 placeholder="Registration No"
                 value={user?.registrationNumber}
             />
             <Input
+                w="100%"
                 placeholder="Academic Year Of Sitting"
                 value={academicYearOfSitting}
                 required
@@ -385,18 +403,21 @@ export const Remark = () => {
             </Select>
 
             <Input
+                w="100%"
                 placeholder="Course Lecturer"
                 value={courseLecturer}
                 required
                 onChange={({ target: { value } }) => setCourseLecturer(value)}
             />
             <Input
+                w="100%"
                 placeholder="Course Code"
                 value={courseCode}
                 required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
             <Input
+                w="100%"
                 placeholder="Course Name"
                 value={courseName}
                 required

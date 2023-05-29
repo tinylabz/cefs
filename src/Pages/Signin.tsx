@@ -2,34 +2,26 @@ import { Logo } from '@/components/Logo';
 import { axios } from '@/config/axios-config';
 import { User, useStore } from '@/state';
 import {
-    Button,
     Center,
     Checkbox,
     Container,
     Heading,
     Icon,
-    InputGroup,
-    InputRightElement,
     Stack,
     VStack,
     Text,
     useColorModeValue,
     Box,
-    Spinner,
-    Tabs,
-    TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
     useToast,
 } from '@chakra-ui/react';
-import { Input } from 'antd';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BsEyeFill, BsEyeSlash } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { StyledTabs } from './Register';
+import { Tabs, Input, rem, PasswordInput, Button, Loader } from '@mantine/core';
+import { FiMail } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signin() {
     return (
@@ -44,25 +36,19 @@ export default function Signin() {
                         </Heading>
                         <Heading fontSize="2xl">LOGIN</Heading>
                     </Stack>
+                    <StyledTabs defaultValue="student">
+                        <Tabs.List>
+                            <Tabs.Tab value="student">Student</Tabs.Tab>
+                            <Tabs.Tab value="staff">Staff</Tabs.Tab>
+                        </Tabs.List>
 
-                    <Tabs
-                        variant="enclosed-colored"
-                        isFitted
-                        colorScheme={'green'}
-                    >
-                        <TabList mb="1em">
-                            <Tab>Student</Tab>
-                            <Tab>Staff</Tab>
-                        </TabList>
-                        <TabPanels>
-                            <TabPanel>
-                                <StudentForm />
-                            </TabPanel>
-                            <TabPanel>
-                                <StaffForm />
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
+                        <Tabs.Panel value="student">
+                            <StudentForm />
+                        </Tabs.Panel>
+                        <Tabs.Panel value="staff">
+                            <StaffForm />
+                        </Tabs.Panel>
+                    </StyledTabs>
                 </Stack>
             </Center>
         </Container>
@@ -121,21 +107,17 @@ const StudentForm = () => {
                         setStudentNumber(value)
                     }
                     placeholder="Student Number"
-                    type="text"
+                    w="100%"
                 />
-                <InputGroup size="md">
-                    <Input
-                        value={password}
-                        onChange={({ target: { value } }) => setPassword(value)}
-                        placeholder="Password"
-                        type={show ? 'text' : 'password'}
-                    />
-                    <InputRightElement width="4.5rem">
-                        <Button size="xs" onClick={handleClick}>
-                            {show ? <BsEyeSlash /> : <BsEyeFill />}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+
+                <PasswordInput
+                    placeholder="Password"
+                    label="Password"
+                    value={password}
+                    onChange={({ target: { value } }) => setPassword(value)}
+                    withAsterisk
+                    w="100%"
+                />
             </VStack>
             <VStack w="100%">
                 <Stack
@@ -148,14 +130,9 @@ const StudentForm = () => {
                         Remember me
                     </Checkbox>
                 </Stack>
-                <Button
-                    colorScheme={'green'}
-                    color="white"
-                    type="submit"
-                    w="100%"
-                >
+                <Button type="submit" w="100%">
                     {studentMutation.isLoading ? (
-                        <Spinner />
+                        <Loader size="xs" color="white" />
                     ) : (
                         'Continue as Student'
                     )}
@@ -222,24 +199,21 @@ const StaffForm = () => {
         >
             <VStack spacing={4} w="100%">
                 <Input
+                    type="email"
+                    w="100%"
                     value={email}
                     onChange={({ target: { value } }) => setEmail(value)}
-                    placeholder="Staff Email"
-                    type="email"
+                    icon={<FiMail />}
+                    placeholder="Your email"
                 />
-                <InputGroup size="md">
-                    <Input
-                        value={password}
-                        onChange={({ target: { value } }) => setPassword(value)}
-                        placeholder="Password"
-                        type={show ? 'text' : 'password'}
-                    />
-                    <InputRightElement width="4.5rem">
-                        <Button size="xs" onClick={handleClick}>
-                            {show ? <BsEyeSlash /> : <BsEyeFill />}
-                        </Button>
-                    </InputRightElement>
-                </InputGroup>
+                <PasswordInput
+                    placeholder="Password"
+                    label="Password"
+                    value={password}
+                    onChange={({ target: { value } }) => setPassword(value)}
+                    withAsterisk
+                    w="100%"
+                />
             </VStack>
             <VStack w="100%">
                 <Stack
@@ -252,14 +226,9 @@ const StaffForm = () => {
                         Remember me
                     </Checkbox>
                 </Stack>
-                <Button
-                    colorScheme={'green'}
-                    color="white"
-                    type="submit"
-                    w="100%"
-                >
+                <Button type="submit" w="100%">
                     {staffMutation.isLoading ? (
-                        <Spinner />
+                        <Loader size="xs" color="white" />
                     ) : (
                         'Continue as Staff'
                     )}
