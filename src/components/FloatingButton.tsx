@@ -45,6 +45,13 @@ const ChatBox = ({ handleClose }: any) => {
             setLoading(false);
         } finally {
             setLoading(false);
+            setIntent('');
+        }
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleSendMessage();
         }
     };
 
@@ -105,6 +112,7 @@ const ChatBox = ({ handleClose }: any) => {
                     onChange={({ target }) => setIntent(target.value)}
                     placeholder="Type your Message..."
                     value={intent}
+                    onKeyDown={handleKeyDown}
                 />
                 <Button rightIcon={<BsSend />} onClick={handleSendMessage}>
                     Send
