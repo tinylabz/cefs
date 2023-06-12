@@ -3,7 +3,6 @@ import {
     Avatar,
     Box,
     Flex,
-    Link,
     Button,
     Drawer,
     Menu,
@@ -49,7 +48,6 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                     align="center"
                     w="full"
                     px="4"
-                    //@ts-ignore
                     d={{ base: 'flex', md: 'none' }}
                     borderBottomWidth="1px"
                     borderColor={useColorModeValue('inherit', 'gray.700')}
@@ -88,17 +86,11 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                                 cursor={'pointer'}
                                 _hover={{ textDecoration: 'none' }}
                             >
-                                {/* @ts-ignore */}
                                 <Avatar size={'sm'} name={user?.name} />
                             </MenuButton>
                             <MenuList fontSize={17} zIndex={5555}>
                                 <MenuItem onClick={() => navigate('/profile')}>
                                     My profile
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => navigate('/change-password')}
-                                >
-                                    Change password
                                 </MenuItem>
                                 <MenuItem
                                     onClick={() => {

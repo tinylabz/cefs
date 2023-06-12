@@ -1,21 +1,10 @@
 import { SimpleGrid, Container, Heading } from '@chakra-ui/react';
 
 import { Page } from '@/components/Page';
-import { useStore } from '@/state';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ComplaintCard } from '@/components/ComplaintCard';
 import { cardData } from './Lecturer';
 
 export default function Summary() {
-    const navigate = useNavigate();
-
-    const { user } = useStore();
-    useEffect(() => {
-        if (!user && process.env.NODE_ENV !== 'development') {
-            navigate('/signin');
-        }
-    }, []);
     return (
         <Page>
             <Heading mb={'5'}>A Quick Summary Of Your Complaints</Heading>

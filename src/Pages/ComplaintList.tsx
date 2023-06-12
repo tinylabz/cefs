@@ -1,6 +1,6 @@
 import { Page } from '@/components/Page';
 import { axios } from '@/config/axios-config';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
     Button,
     ButtonGroup,
@@ -13,9 +13,7 @@ import {
     Th,
     Thead,
     Tr,
-    Center,
     Text,
-    VStack,
 } from '@chakra-ui/react';
 
 import { Key, useEffect, useState } from 'react';
@@ -23,7 +21,8 @@ import TimeAgo from 'timeago-react';
 import { Complaint } from '@/types';
 import { useStore } from '@/state';
 import { ComplaintDetail } from '@/components/ComplaintDetail';
-import { BsArrowBarLeft } from 'react-icons/bs';
+import { BsArrowBarLeft, BsDownload, BsFilePdf } from 'react-icons/bs';
+import { Flex } from '@mantine/core';
 
 type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
 
@@ -60,6 +59,14 @@ export default function ComplaintList() {
     const handleTabSelect = (btn: Btn) => {
         setActiveTab(btn);
     };
+    const mutation = useMutation({
+        mutationFn: () =>
+            axios.get('/report/', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+    });
 
     return (
         <Page>
@@ -78,7 +85,7 @@ export default function ComplaintList() {
                     <ComplaintDetail {...activeComplaint!} />
                 ) : (
                     <Stack spacing={4}>
-                        <Center>
+                        <Flex justify={'space-between'} align="center">
                             <ButtonGroup w={'container.sm'}>
                                 <Button
                                     onClick={() => handleTabSelect('SUBMITTED')}
@@ -117,7 +124,17 @@ export default function ComplaintList() {
                                     RESOLVED
                                 </Button>
                             </ButtonGroup>
-                        </Center>
+                            {user?.designation === 'HOD' && (
+                                <Button
+                                    colorScheme="green"
+                                    onClick={() => mutation.mutate()}
+                                    leftIcon={<BsFilePdf />}
+                                    rightIcon={<BsDownload />}
+                                >
+                                    Download full report
+                                </Button>
+                            )}
+                        </Flex>
                         <TableContainer>
                             <Table size="md">
                                 <Thead>

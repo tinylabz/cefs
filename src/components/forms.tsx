@@ -1,21 +1,14 @@
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
-import {
-    Button,
-    Spinner,
-    Stack,
-    useToast,
-    Select,
-    VStack,
-} from '@chakra-ui/react';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { Button, Spinner, Stack, useToast, VStack } from '@chakra-ui/react';
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import { ReactNode, useState } from 'react';
 import { NATURE } from '@/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useStore } from '@/state';
-import { Input } from '@mantine/core';
+import { Flex, TextInput, Select } from '@mantine/core';
 
 export const MissingMark = () => {
     const toast = useToast();
@@ -28,6 +21,17 @@ export const MissingMark = () => {
     const { token, user } = useStore();
     const qc = useQueryClient();
 
+    const query = useQuery({
+        queryKey: ['lecturers'],
+        queryFn: () =>
+            axios.get('/staff', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+    });
+
+    console.log('STAFFFF: ', query.data?.data);
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.post('/complaints', JSON.parse(data), {
@@ -96,56 +100,83 @@ export const MissingMark = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input
+            <TextInput
                 w="100%"
+                label="Student Number"
                 placeholder="Student Number"
                 value={user?.studentNumber}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Registration Number"
                 placeholder="Registration Number"
                 value={user?.registrationNumber}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Course Code"
                 placeholder="Course Code"
                 value={courseCode}
                 required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Course Name"
                 placeholder="Course Name"
                 value={courseName}
                 required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Academic Year of Sitting"
                 placeholder="Academic Year of Sitting"
                 value={academicYear}
                 required
                 onChange={({ target: { value } }) => setAcademicYear(value)}
             />
-            <Select
-                onChange={({ target: { value } }) => setSemester(value)}
-                placeholder="Semester"
-                defaultValue="Select Semester"
-                value={semester}
-                style={{ width: '100%' }}
-            >
-                <option value="ONE">One</option>
-                <option value="TWO">Two</option>
-                <option value="THREE">Three</option>
-            </Select>
 
-            <Input
+            <Select
                 w="100%"
-                placeholder="Course Lecturer"
-                value={courseLecturer}
-                required
-                onChange={({ target: { value } }) => setCourseLecturer(value)}
+                label="Semester"
+                placeholder="Select Semester"
+                onChange={(value) => setSemester(value!)}
+                value={semester}
+                data={[
+                    { value: 'ONE', label: 'ONE' },
+                    { value: 'TWO', label: 'TWO' },
+                    { value: 'THREE', label: 'THREE' },
+                ]}
             />
+
+            <Flex w="100%" align={'center'} justify="space-between" gap="md">
+                <Select
+                    label="Lecturer's name"
+                    placeholder="Select Lecturer's name"
+                    onChange={(value) => setCourseLecturer(value!)}
+                    value={courseLecturer}
+                    data={[
+                        ...query.data?.data?.staffs.map(
+                            (staff: { name: any }) => ({
+                                value: staff?.name,
+                                label: staff?.name?.toUpperCase(),
+                            })
+                        ),
+                    ]}
+                />
+
+                <TextInput
+                    w="100%"
+                    placeholder="Course Lecturer"
+                    value={courseLecturer}
+                    required
+                    label="Type course lecturer"
+                    onChange={({ target: { value } }) =>
+                        setCourseLecturer(value)
+                    }
+                />
+            </Flex>
             <Stack width={'full'}>
                 <Button
                     colorScheme="green"
@@ -216,32 +247,37 @@ export const WrongAcademicYear = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input
+            <TextInput
                 w="100%"
+                label="Student Number"
                 placeholder="Student Number"
                 value={user?.studentNumber}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Registration Number"
                 placeholder="Registration Number"
                 value={user?.registrationNumber}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Course Code"
                 placeholder="Course Code"
                 value={courseCode}
                 required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Course Name"
                 placeholder="Course Name"
                 value={courseName}
                 required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Academic Year Allocated"
                 placeholder="Academic Year Allocated"
                 value={academicYearAllocated}
                 required
@@ -249,8 +285,9 @@ export const WrongAcademicYear = () => {
                     setAcademicYearAllocated(value)
                 }
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Correct Academic Year"
                 placeholder="Correct Academic Year"
                 value={correctAcademicYear}
                 required
@@ -284,6 +321,19 @@ export const Remark = () => {
     const [recieptURL, setRecieptURL] = useState<string>('');
     const toast = useToast();
     const { token, user } = useStore();
+
+    const qc = useQueryClient();
+    const query = useQuery({
+        queryKey: ['lecturers'],
+        queryFn: () =>
+            axios.get('/staff', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+    });
+
+    console.log('STAFFFF: ', query.data?.data);
 
     const props: UploadProps = {
         name: 'file',
@@ -322,7 +372,6 @@ export const Remark = () => {
     };
     const { Dragger } = Upload;
 
-    const qc = useQueryClient();
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.post('/complaints', JSON.parse(data), {
@@ -371,18 +420,21 @@ export const Remark = () => {
             h="max-content !important"
             rounded="lg"
         >
-            <Input
+            <TextInput
                 w="100%"
+                label="Student No"
                 placeholder="Student No"
                 value={user?.studentNumber}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Registration No"
                 placeholder="Registration No"
                 value={user?.registrationNumber}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Academic Year Of Sitting"
                 placeholder="Academic Year Of Sitting"
                 value={academicYearOfSitting}
                 required
@@ -391,33 +443,56 @@ export const Remark = () => {
                 }
             />
             <Select
-                onChange={({ target: { value } }) => setSemester(value)}
-                placeholder="Semester"
-                defaultValue="Select Semester"
+                w="100%"
+                label="Semester"
+                placeholder="Select Semester"
+                onChange={(value) => setSemester(value!)}
                 value={semester}
-                style={{ width: '100%' }}
-            >
-                <option value="ONE">One</option>
-                <option value="TWO">Two</option>
-                <option value="THREE">Three</option>
-            </Select>
-
-            <Input
-                w="100%"
-                placeholder="Course Lecturer"
-                value={courseLecturer}
-                required
-                onChange={({ target: { value } }) => setCourseLecturer(value)}
+                data={[
+                    { value: 'ONE', label: 'ONE' },
+                    { value: 'TWO', label: 'TWO' },
+                    { value: 'THREE', label: 'THREE' },
+                ]}
             />
-            <Input
+
+            <Flex w="100%" align={'center'} justify="space-between" gap="md">
+                <Select
+                    label="Lecturer's name"
+                    placeholder="Select Lecturer's name"
+                    onChange={(value) => setCourseLecturer(value!)}
+                    value={courseLecturer}
+                    data={[
+                        ...query.data?.data?.staffs.map(
+                            (staff: { name: any }) => ({
+                                value: staff?.name,
+                                label: staff?.name?.toUpperCase(),
+                            })
+                        ),
+                    ]}
+                />
+
+                <TextInput
+                    w="100%"
+                    placeholder="Course Lecturer"
+                    value={courseLecturer}
+                    required
+                    label="Type course lecturer"
+                    onChange={({ target: { value } }) =>
+                        setCourseLecturer(value)
+                    }
+                />
+            </Flex>
+            <TextInput
                 w="100%"
+                label="Course Code"
                 placeholder="Course Code"
                 value={courseCode}
                 required
                 onChange={({ target: { value } }) => setCourseCode(value)}
             />
-            <Input
+            <TextInput
                 w="100%"
+                label="Course Name"
                 placeholder="Course Name"
                 value={courseName}
                 required

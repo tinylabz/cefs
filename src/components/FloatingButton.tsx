@@ -1,11 +1,11 @@
 import '../Pages/fb.css';
 import { FloatButton } from 'antd';
 import { MessageFilled, CloseCircleFilled } from '@ant-design/icons';
-import { Stack, Text, VStack, Box } from '@chakra-ui/react';
+import { Text, Box } from '@chakra-ui/react';
 import { useStore } from '@/state';
 import { useState } from 'react';
-import { chatCompletion } from '@/services/chat';
-import { Loader } from '@mantine/core';
+import { completion } from '@/services/chat';
+import { Flex, Image, Loader } from '@mantine/core';
 import { Button, Input } from '@mantine/core';
 import { FiMessageSquare } from 'react-icons/fi';
 import { BsSend } from 'react-icons/bs';
@@ -30,7 +30,7 @@ const ChatBox = ({ handleClose }: any) => {
         ]);
         try {
             setLoading(true);
-            const response = await chatCompletion(intent);
+            const response = await completion(intent);
 
             setConversations((prevConversations) => [
                 ...prevConversations,
@@ -58,7 +58,10 @@ const ChatBox = ({ handleClose }: any) => {
     return (
         <div className="chat-box">
             <div className="chat-header">
-                <Text>Your AI Assistant</Text>
+                <Flex justify={'center'} align="center">
+                    <Image src="/joan.png" width={30} />
+                    <Text>Your AI Assistant</Text>
+                </Flex>
                 <Button color="teal" onClick={handleClose}>
                     <CloseCircleFilled />
                 </Button>
@@ -68,7 +71,7 @@ const ChatBox = ({ handleClose }: any) => {
                 flexDirection="column"
                 padding="5px"
                 height="320px"
-                overflowY="auto"
+                overflowY="scroll"
             >
                 {loading && (
                     <Loader sx={{ alignSelf: 'center' }} variant="dots" />
@@ -130,7 +133,8 @@ export const FloatingButton = () => {
     };
     const { user, token } = useStore();
 
-    const isAuthenticated = user && token ? true : false; // Return true if authenticated, otherwise false
+    const isAuthenticated =
+        user && token && user.isEmailVerified ? true : false;
 
     return isAuthenticated ? (
         <div>
@@ -138,12 +142,32 @@ export const FloatingButton = () => {
                 <ChatBox handleClose={handleClick} />
             ) : (
                 // @ts-ignore
-                <FloatButton
-                    type="primary"
-                    onClick={() => handleClick()}
-                    icon={<MessageFilled />}
-                />
+                // <FloatButton
+                //     style={{
+                //         right: '3em',
+                //         width: '3em',
+                //     }}
+                //     type="default"
+                //     shape="square"
+                //     className="fb"
+                //     onClick={() => handleClick()}
+                //     icon={
+                //         <>
+                //             <Image src="/joan.png" />
+                //             <MessageFilled />
+                //         </>
+                //     }
+                // />
+                <FImage handleClick={handleClick} />
             )}
         </div>
     ) : null;
+};
+
+export const FImage = ({ handleClick }: { handleClick: () => void }) => {
+    return (
+        <div onClick={handleClick} className="img">
+            <Image src={'/joan2.png'} width={100} />
+        </div>
+    );
 };

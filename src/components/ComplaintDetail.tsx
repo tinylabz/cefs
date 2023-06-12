@@ -119,13 +119,13 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
                 {user?.designation !== DESIGNATIONS.STUDENT && (
                     <Button colorScheme="green">Mark as Resolved</Button>
                 )}
-                <Stack>
+                {/* <Stack>
                     <Divider />
                     <Text fontSize={'2xl'}>Notifications</Text>
                     <Text>
                         You have successfully submitted you complaint for review
                     </Text>
-                </Stack>
+                </Stack> */}
             </Stack>
         </Container>
     );

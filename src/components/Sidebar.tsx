@@ -12,7 +12,7 @@ import { FiHelpCircle } from 'react-icons/fi';
 import { Logo } from './Icons';
 import { NavItem } from './NavItem';
 import { FaHamburger } from 'react-icons/fa';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useStore } from '@/state';
 import { DESIGNATIONS } from '@/types';
 

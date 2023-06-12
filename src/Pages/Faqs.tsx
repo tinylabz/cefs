@@ -6,7 +6,6 @@ import {
     AccordionItem,
     AccordionPanel,
     Box,
-    Center,
     Container,
     Stack,
     Text,

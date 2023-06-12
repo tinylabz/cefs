@@ -15,6 +15,7 @@ import HodComplaint from './Pages/HodComplaint';
 import Reviews from './Pages/Reviews';
 import Lecturer from './Pages/Lecturer';
 import RegistrarPage from './Pages/Registrar';
+import { ResendEmail } from './components/ResendEmail';
 
 export const withAuth = <P extends object>(
     WrappedComponent: React.FunctionComponent<P>
@@ -22,12 +23,14 @@ export const withAuth = <P extends object>(
     const WithAuth: React.FunctionComponent<P> = (props) => {
         const { user, token } = useStore();
 
-        const isAuthenticated = user && token ? true : false; // Return true if authenticated, otherwise false
+        const isAuthenticated = user && token ? true : false;
 
-        return isAuthenticated ? (
+        return isAuthenticated && user?.isEmailVerified ? (
             <WrappedComponent {...props} />
+        ) : isAuthenticated && !user?.isEmailVerified ? (
+            <ResendEmail />
         ) : (
-            <Navigate to="/signin" replace={true} />
+            <Navigate to="/signin" />
         );
     };
 

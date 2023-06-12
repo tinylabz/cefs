@@ -21,19 +21,18 @@ import { useStore } from '@/state';
 
 export default function ChangePassword() {
     const { handleSubmit, register } = useForm();
-    const { user } = useStore();
+    const { user, token } = useStore();
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
     const qc = useQueryClient();
     const toast = useToast();
 
-    console.log('USER TOKEN: ', user?.token);
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.patch('/change-password', JSON.parse(data), {
                 headers: {
-                    Authorization: `Bearer ${user?.token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             }),
         onSuccess: (res: AxiosResponse) => {

@@ -1,18 +1,13 @@
-import { SimpleGrid, Container, useToast } from '@chakra-ui/react';
+import { SimpleGrid, Container } from '@chakra-ui/react';
+
 import { Page } from '@/components/Page';
-import { useStore } from '@/state';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { HiOutlineMail } from 'react-icons/hi';
 import { AiOutlineLike, AiOutlineEye } from 'react-icons/ai';
 import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
-import { type UploadProps } from 'antd';
 
 import { InboxOutlined } from '@ant-design/icons';
+import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
-import { DESIGNATIONS } from '@/types';
-
-const { Dragger } = Upload;
 
 export const cardData: CardData[] = [
     {
@@ -35,10 +30,13 @@ export const cardData: CardData[] = [
     },
 ];
 
+import { useState } from 'react';
+import { useStore } from '@/state';
+import { useToast } from '@chakra-ui/react';
+
 export default function Lecturer() {
     const toast = useToast();
     const { token, user } = useStore();
-    const navigate = useNavigate();
 
     const markSheetProps: UploadProps = {
         name: 'file',
@@ -55,48 +53,15 @@ export default function Lecturer() {
             if (status === 'done') {
                 toast({
                     status: 'success',
-                    title: `${info.file.name} file uploaded successfully.`,
+                    title: `${info.file.name} marks uploaded successfully.`,
                     position: 'top',
                     isClosable: true,
                 });
+                console.log('RES: ', info.file.response?.file?.path);
             } else if (status === 'error') {
                 toast({
                     status: 'success',
-                    title: `${info.file.name} file upload failed.`,
-                    position: 'top',
-                    isClosable: true,
-                });
-            }
-        },
-
-        onDrop(e) {
-            e.preventDefault();
-            console.log('Dropped files', e.dataTransfer.files);
-        },
-    };
-    const testAttendenceSheetProps: UploadProps = {
-        name: 'file',
-        multiple: true,
-        action: 'http://localhost:4000/api/upload/test-attendence',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        onChange(info) {
-            const { status } = info.file;
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (status === 'done') {
-                toast({
-                    status: 'success',
-                    title: `${info.file.name} file uploaded successfully.`,
-                    position: 'top',
-                    isClosable: true,
-                });
-            } else if (status === 'error') {
-                toast({
-                    status: 'success',
-                    title: `${info.file.name} file upload failed.`,
+                    title: `${info.file.name} marks upload failed.`,
                     position: 'top',
                     isClosable: true,
                 });
@@ -122,14 +87,15 @@ export default function Lecturer() {
             if (status === 'done') {
                 toast({
                     status: 'success',
-                    title: `${info.file.name} file uploaded successfully.`,
+                    title: `${info.file.name} exam attendence sheet uploaded successfully.`,
                     position: 'top',
                     isClosable: true,
                 });
+                console.log('RES: ', info.file.response?.file?.path);
             } else if (status === 'error') {
                 toast({
                     status: 'success',
-                    title: `${info.file.name} file upload failed.`,
+                    title: `${info.file.name} exam attendence sheet upload failed.`,
                     position: 'top',
                     isClosable: true,
                 });
@@ -140,19 +106,42 @@ export default function Lecturer() {
             console.log('Dropped files', e.dataTransfer.files);
         },
     };
+    const testAttendenceSheetProps: UploadProps = {
+        name: 'file',
+        multiple: true,
+        action: 'http://localhost:4000/api/upload/test-attendence',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        onChange(info) {
+            const { status } = info.file;
+            if (status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (status === 'done') {
+                toast({
+                    status: 'success',
+                    title: `${info.file.name} test attendence sheet uploaded successfully.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                console.log('RES: ', info.file.response?.file?.path);
+            } else if (status === 'error') {
+                toast({
+                    status: 'success',
+                    title: `${info.file.name} test attendence sheet upload failed.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+            }
+        },
+        onDrop(e) {
+            e.preventDefault();
+            console.log('Dropped files', e.dataTransfer.files);
+        },
+    };
+    const { Dragger } = Upload;
 
-    useEffect(() => {
-        if (!user && process.env.NODE_ENV !== 'development') {
-            navigate('/signin');
-        }
-
-        if (
-            user?.designation === DESIGNATIONS.STUDENT ||
-            user?.designation === DESIGNATIONS.REGISTRAR
-        ) {
-            navigate('/');
-        }
-    }, []);
     return (
         <Page>
             <Container maxW="7xl">
@@ -165,25 +154,27 @@ export default function Lecturer() {
                         <ComplaintCard key={index} data={data} />
                     ))}
                 </SimpleGrid>
-
-                <SimpleGrid columns={{ sm: 1, md: 1 }} spacing={5} mb={4}>
-                    <Dragger {...markSheetProps}>
-                        <p className="ant-upload-drag-icon">
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text">Upload Mark Sheets</p>
-                        <p className="ant-upload-text">
-                            Click or drag file to this area to upload
-                        </p>
-                    </Dragger>
-                </SimpleGrid>
-                <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={5} mb={4}>
+                <Dragger {...markSheetProps}>
+                    <p className="ant-upload-drag-icon">
+                        <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">Upload Mark/Result sheets</p>
+                    <p className="ant-upload-text">
+                        Click or drag file to this area to upload
+                    </p>
+                </Dragger>
+                <SimpleGrid
+                    mt={{ sm: '1em', md: '1em' }}
+                    columns={{ sm: 1, md: 2 }}
+                    spacing={5}
+                    mb={4}
+                >
                     <Dragger {...testAttendenceSheetProps}>
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>
                         <p className="ant-upload-text">
-                            Upload Tests Attendence Sheets
+                            Upload Attendance sheets
                         </p>
                         <p className="ant-upload-text">
                             Click or drag file to this area to upload
@@ -193,9 +184,7 @@ export default function Lecturer() {
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>
-                        <p className="ant-upload-text">
-                            Upload Exam Attendence Sheets
-                        </p>
+                        <p className="ant-upload-text">Upload Mark Sheets</p>
                         <p className="ant-upload-text">
                             Click or drag file to this area to upload
                         </p>

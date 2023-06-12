@@ -1,5 +1,5 @@
 import { Page } from '@/components/Page';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { axios } from '@/config/axios-config';
 import {
@@ -16,21 +16,31 @@ import {
     Tr,
     Center,
     Spinner,
-    ButtonSpinner,
+    useToast,
 } from '@chakra-ui/react';
 
 import TimeAgo from 'timeago-react';
 import { useState, useEffect } from 'react';
 import { Complaint } from '@/types';
+import { BsDownload, BsFilePdf } from 'react-icons/bs';
+import { useStore } from '@/state';
+import { Flex } from '@mantine/core';
 
 type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
 
 export default function HodComplaint() {
     const [activeTab, setActiveTab] = useState<Btn>('SUBMITTED');
 
-    const { isLoading, data, error } = useQuery({
+    const { isLoading, data } = useQuery({
         queryKey: ['complaints'],
-        queryFn: () => axios.get('/complaints').then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('/complaints', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => res.data),
     });
     const [complaints, setComplaints] = useState<any[]>(data?.complaints);
 
@@ -52,11 +62,22 @@ export default function HodComplaint() {
         if (btn === 'PENDING') setActiveTab('PENDING');
     };
 
+    const { token } = useStore();
+    const toast = useToast();
+    const mutation = useMutation({
+        mutationFn: () =>
+            axios.get('/report/', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+    });
+
     return (
         <Page>
             <Container maxW="100%">
                 <Stack spacing={4}>
-                    <Center>
+                    <Flex justify={'space-between'} align="center">
                         <ButtonGroup w={'container.sm'}>
                             <Button
                                 onClick={() => handleTabSelect('SUBMITTED')}
@@ -86,7 +107,16 @@ export default function HodComplaint() {
                                 RESOLVED
                             </Button>
                         </ButtonGroup>
-                    </Center>
+                        <Button
+                            colorScheme={'green'}
+                            onClick={() => mutation.mutate()}
+                            leftIcon={<BsFilePdf />}
+                            rightIcon={<BsDownload />}
+                        >
+                            Download full report
+                        </Button>
+                    </Flex>
+
                     <TableContainer>
                         <Table size="md">
                             <Thead>

@@ -1,4 +1,4 @@
-import App from './App';
+import App, { withAuth } from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { StrictMode } from 'react';

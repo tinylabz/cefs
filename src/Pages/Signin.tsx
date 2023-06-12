@@ -19,7 +19,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { StyledTabs } from './Register';
-import { Tabs, Input, rem, PasswordInput, Button, Loader } from '@mantine/core';
+import { Tabs, Input, PasswordInput, Button, Loader } from '@mantine/core';
 import { FiMail } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 

@@ -30,6 +30,7 @@ import {
     PasswordInput,
 } from '@mantine/core';
 import { FiMail } from 'react-icons/fi';
+import { BsEyeSlash } from 'react-icons/bs';
 
 export function StyledTabs(props: TabsProps) {
     return (
@@ -140,7 +141,6 @@ export default function Register() {
 }
 
 const StaffForm = () => {
-    const [show, setShow] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [school, setSchool] = useState('');
@@ -148,9 +148,8 @@ const StaffForm = () => {
     const [designation, setDesignation] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleClick = () => setShow(!show);
     const navigate = useNavigate();
-    const { setUser, token, setToken } = useStore();
+    const { setUser, setToken } = useStore();
     const queryClient = useQueryClient();
     const toast = useToast();
     const staffMutation = useMutation({
@@ -263,7 +262,9 @@ const StaffForm = () => {
                 style={{ width: '100%' }}
             >
                 {Object.values(SCHOOLS).map((v) => (
-                    <option value={v}>{v}</option>
+                    <option key={v} value={v}>
+                        {v}
+                    </option>
                 ))}
             </Select>
             <Select
@@ -306,7 +307,6 @@ const StaffForm = () => {
 };
 
 const StudentForm = () => {
-    const [show, setShow] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [college, setCollege] = useState('');
@@ -314,9 +314,8 @@ const StudentForm = () => {
     const [registrationNumber, setRegistrationNumber] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleClick = () => setShow(!show);
     const navigate = useNavigate();
-    const { setUser } = useStore();
+    const { setUser, setToken } = useStore();
     const qc = useQueryClient();
     const toast = useToast();
     const studentMutation = useMutation({
@@ -339,6 +338,7 @@ const StudentForm = () => {
         onSuccess: (res: AxiosResponse) => {
             qc.invalidateQueries({ queryKey: ['user'] });
             setUser(res?.data?.user);
+            setToken(res?.data?.token);
             toast({
                 title: 'Successfully registered',
                 status: 'success',
@@ -432,7 +432,9 @@ const StudentForm = () => {
                 style={{ width: '100%' }}
             >
                 {Object.values(COLLEGES).map((c) => (
-                    <option value={c}>{c}</option>
+                    <option key={c} value={c}>
+                        {c}
+                    </option>
                 ))}
             </Select>
             <PasswordInput
@@ -440,7 +442,6 @@ const StudentForm = () => {
                 value={password}
                 onChange={({ target: { value } }) => setPassword(value)}
                 placeholder="Password"
-                type={show ? 'text' : 'password'}
             />
 
             <VStack w="100%">

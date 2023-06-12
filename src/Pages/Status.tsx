@@ -51,7 +51,7 @@ export default function ComplaintStatus() {
                             ]}
                         />
                     </Stack>
-                    <Stack css={{ marginTop: '4rem' }}>
+                    {/* <Stack css={{ marginTop: '4rem' }}>
                         <Divider />
                         <Text fontSize={'2xl'}>Notifications</Text>
                         <Text>
@@ -59,7 +59,7 @@ export default function ComplaintStatus() {
                             review
                         </Text>
                         <Text>Your complaint is being worked on</Text>
-                    </Stack>
+                    </Stack> */}
                 </Stack>
             </Container>
         </Page>
