@@ -1,0 +1,31 @@
+Service Subscriptions:
+    - Domain Name Registration:
+          - Domain Name: homeinvestug.com
+          - Registration Cost: $15 per year
+
+    - Google Maps Service:
+          - Dynamic Maps Subscription: $7 per month
+          - Static Maps Subscription: $10 per month
+          - URL: https://cloud.google.com/maps-platform/pricing
+
+    - LocationIQ Service (Geocoding Lite Plan):
+          - Subscription Cost: $49 per month (billed monthly)
+          - URL: https://locationiq.com/pricing
+
+    - AWS S3 Bucket:
+          - Storage Cost: $0.023 per GB -$15 per month
+
+    - Server Deployment on fly.io (Shared-CPU-2X, 2 shared, 2GB RAM):
+          - Deployment Cost: shared-cpu-8x	8 shared 4GB	$0.0000099/s ($25.56/month)
+
+Total Estimated Cost:
+    - Domain Name: $15 per year
+    - Google Maps: $17 per month for Dynamic and Static Maps Subscription
+    - LocationIQ: $49 per month
+    - AWS S3 Bucket:
+          [
+              Specify the anticipated storage size and the corresponding monthly cost,
+          ]
+    - Server Deployment: $25.56 per month
+
+Grand Total: $105.56 => 391,606.91

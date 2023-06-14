@@ -48,7 +48,7 @@ export default function ChangePassword() {
         },
         onError: (error: AxiosError) => {
             toast({
-                title: error.response?.data as string,
+                title: error?.response?.data as unknown as string,
                 position: 'top',
                 status: 'error',
                 isClosable: true,

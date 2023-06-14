@@ -21,7 +21,9 @@ export const MissingMark = () => {
     const { token, user } = useStore();
     const qc = useQueryClient();
 
-    const query = useQuery({
+    const [lecturers, setLectures] = useState<{ name: string }[]>([]);
+
+    useQuery({
         queryKey: ['lecturers'],
         queryFn: () =>
             axios.get('/staff', {
@@ -29,9 +31,13 @@ export const MissingMark = () => {
                     Authorization: `Bearer ${token}`,
                 },
             }),
+
+        onSuccess: (res) => {
+            setLectures(res.data?.staffs);
+        },
     });
 
-    console.log('STAFFFF: ', query.data?.data);
+    console.log('STAFFFF: ', lecturers);
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.post('/complaints', JSON.parse(data), {
@@ -41,6 +47,7 @@ export const MissingMark = () => {
             }),
         onSuccess: (res) => {
             qc.invalidateQueries({ queryKey: ['complaints'] });
+
             axios
                 .get(`/parse?studentNumber=${user?.studentNumber}`, {
                     headers: {
@@ -105,12 +112,14 @@ export const MissingMark = () => {
                 label="Student Number"
                 placeholder="Student Number"
                 value={user?.studentNumber}
+                onChange={() => {}}
             />
             <TextInput
                 w="100%"
                 label="Registration Number"
                 placeholder="Registration Number"
                 value={user?.registrationNumber}
+                onChange={() => {}}
             />
             <TextInput
                 w="100%"
@@ -156,14 +165,16 @@ export const MissingMark = () => {
                     placeholder="Select Lecturer's name"
                     onChange={(value) => setCourseLecturer(value!)}
                     value={courseLecturer}
-                    data={[
-                        ...query.data?.data?.staffs.map(
-                            (staff: { name: any }) => ({
-                                value: staff?.name,
-                                label: staff?.name?.toUpperCase(),
-                            })
-                        ),
-                    ]}
+                    data={
+                        lecturers?.length !== 0
+                            ? [
+                                  ...lecturers?.map((lecturer) => ({
+                                      value: lecturer.name,
+                                      label: lecturer.name.toUpperCase(),
+                                  })),
+                              ]
+                            : []
+                    }
                 />
 
                 <TextInput
@@ -250,14 +261,18 @@ export const WrongAcademicYear = () => {
             <TextInput
                 w="100%"
                 label="Student Number"
+                required
                 placeholder="Student Number"
                 value={user?.studentNumber}
+                onChange={() => {}}
             />
             <TextInput
                 w="100%"
+                required
                 label="Registration Number"
                 placeholder="Registration Number"
                 value={user?.registrationNumber}
+                onChange={() => {}}
             />
             <TextInput
                 w="100%"
@@ -319,11 +334,12 @@ export const Remark = () => {
     const [courseLecturer, setCourseLecturer] = useState<string>('');
     const [semester, setSemester] = useState<string>('');
     const [recieptURL, setRecieptURL] = useState<string>('');
+    const [lecturers, setLectures] = useState<{ name: string }[]>([]);
     const toast = useToast();
     const { token, user } = useStore();
 
     const qc = useQueryClient();
-    const query = useQuery({
+    useQuery({
         queryKey: ['lecturers'],
         queryFn: () =>
             axios.get('/staff', {
@@ -331,9 +347,11 @@ export const Remark = () => {
                     Authorization: `Bearer ${token}`,
                 },
             }),
-    });
 
-    console.log('STAFFFF: ', query.data?.data);
+        onSuccess: (res) => {
+            setLectures(res.data?.staffs);
+        },
+    });
 
     const props: UploadProps = {
         name: 'file',
@@ -421,16 +439,20 @@ export const Remark = () => {
             rounded="lg"
         >
             <TextInput
+                required
                 w="100%"
                 label="Student No"
                 placeholder="Student No"
                 value={user?.studentNumber}
+                onChange={() => {}}
             />
             <TextInput
+                required
                 w="100%"
                 label="Registration No"
                 placeholder="Registration No"
                 value={user?.registrationNumber}
+                onChange={() => {}}
             />
             <TextInput
                 w="100%"
@@ -445,6 +467,7 @@ export const Remark = () => {
             <Select
                 w="100%"
                 label="Semester"
+                required
                 placeholder="Select Semester"
                 onChange={(value) => setSemester(value!)}
                 value={semester}
@@ -461,14 +484,16 @@ export const Remark = () => {
                     placeholder="Select Lecturer's name"
                     onChange={(value) => setCourseLecturer(value!)}
                     value={courseLecturer}
-                    data={[
-                        ...query.data?.data?.staffs.map(
-                            (staff: { name: any }) => ({
-                                value: staff?.name,
-                                label: staff?.name?.toUpperCase(),
-                            })
-                        ),
-                    ]}
+                    data={
+                        lecturers.length !== 0
+                            ? [
+                                  ...lecturers.map((lecturer) => ({
+                                      value: lecturer.name,
+                                      label: lecturer.name.toUpperCase(),
+                                  })),
+                              ]
+                            : []
+                    }
                 />
 
                 <TextInput

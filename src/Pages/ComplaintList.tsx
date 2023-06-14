@@ -34,7 +34,7 @@ export default function ComplaintList() {
         Complaint | undefined
     >(undefined);
     const { user, token } = useStore();
-    const { isLoading, data, error } = useQuery({
+    const { data } = useQuery({
         queryKey: ['complaints'],
         queryFn: () =>
             axios

@@ -19,9 +19,9 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { StyledTabs } from './Register';
-import { Tabs, Input, PasswordInput, Button, Loader } from '@mantine/core';
+import { Tabs, TextInput, PasswordInput, Button, Loader } from '@mantine/core';
 import { FiMail } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signin() {
     return (
@@ -56,11 +56,9 @@ export default function Signin() {
 }
 
 const StudentForm = () => {
-    const [show, setShow] = useState(false);
     const [studentNumber, setStudentNumber] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleClick = () => setShow(!show);
     const navigate = useNavigate();
 
     const { setUser, setToken } = useStore();
@@ -79,7 +77,7 @@ const StudentForm = () => {
         onError: (error: AxiosError) => {
             toast({
                 status: 'error',
-                title: JSON.stringify(error?.response?.data),
+                title: error.response?.data as unknown as string,
                 position: 'top',
                 isClosable: true,
             });
@@ -101,12 +99,13 @@ const StudentForm = () => {
             bg={useColorModeValue('white', 'gray.700')}
         >
             <VStack spacing={4} w="100%">
-                <Input
+                <TextInput
                     value={studentNumber}
                     onChange={({ target: { value } }) =>
                         setStudentNumber(value)
                     }
                     placeholder="Student Number"
+                    label="Student Number"
                     w="100%"
                 />
 
@@ -120,16 +119,6 @@ const StudentForm = () => {
                 />
             </VStack>
             <VStack w="100%">
-                <Stack
-                    direction="row"
-                    p={'5px 5px'}
-                    justify="space-between"
-                    w="100%"
-                >
-                    <Checkbox colorScheme="green" size="md">
-                        Remember me
-                    </Checkbox>
-                </Stack>
                 <Button type="submit" w="100%">
                     {studentMutation.isLoading ? (
                         <Loader size="xs" color="white" />
@@ -140,13 +129,7 @@ const StudentForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Don't have an account?
                 </Text>
-                <Box
-                    onClick={() => navigate('/register')}
-                    css={{ cursor: 'pointer' }}
-                    fontSize={{ base: 'md', sm: 'md' }}
-                >
-                    <Text>Register</Text>
-                </Box>
+                <Link to="/register">Register</Link>
             </VStack>
         </VStack>
     );
@@ -157,9 +140,7 @@ const StaffForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleClick = () => setShow(!show);
     const navigate = useNavigate();
-    const { handleSubmit, register } = useForm();
     const { setUser, setToken } = useStore();
     const qc = useQueryClient();
     const toast = useToast();
@@ -176,7 +157,7 @@ const StaffForm = () => {
         onError: (error: AxiosError) => {
             toast({
                 status: 'error',
-                title: JSON.stringify(error?.response?.data),
+                title: error.response?.data as unknown as string,
                 position: 'top',
                 isClosable: true,
             });
@@ -198,13 +179,14 @@ const StaffForm = () => {
             bg={useColorModeValue('white', 'gray.700')}
         >
             <VStack spacing={4} w="100%">
-                <Input
+                <TextInput
                     type="email"
                     w="100%"
                     value={email}
                     onChange={({ target: { value } }) => setEmail(value)}
                     icon={<FiMail />}
                     placeholder="Your email"
+                    label="Your email"
                 />
                 <PasswordInput
                     placeholder="Password"
@@ -215,17 +197,7 @@ const StaffForm = () => {
                     w="100%"
                 />
             </VStack>
-            <VStack w="100%">
-                <Stack
-                    direction="row"
-                    p={'5px 5px'}
-                    justify="space-between"
-                    w="100%"
-                >
-                    <Checkbox colorScheme="green" size="md">
-                        Remember me
-                    </Checkbox>
-                </Stack>
+            <VStack mt="2" w="100%">
                 <Button type="submit" w="100%">
                     {staffMutation.isLoading ? (
                         <Loader size="xs" color="white" />
@@ -236,13 +208,7 @@ const StaffForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Don't have an account?
                 </Text>
-                <Box
-                    onClick={() => navigate('/register')}
-                    css={{ cursor: 'pointer' }}
-                    fontSize={{ base: 'md', sm: 'md' }}
-                >
-                    <Text>Register</Text>
-                </Box>
+                <Link to="/register">Register</Link>
             </VStack>
         </VStack>
     );

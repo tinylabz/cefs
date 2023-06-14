@@ -49,7 +49,7 @@ export default function Reviews() {
         onError: (error: AxiosError) => {
             toast({
                 status: 'error',
-                title: error.response?.data as React.ReactNode,
+                title: error.response?.data as unknown as string,
                 position: 'top',
                 isClosable: true,
             });

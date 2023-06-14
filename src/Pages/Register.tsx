@@ -10,10 +10,9 @@ import {
     Box,
     Spinner,
     useToast,
-    Select,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '@/components/Logo';
 import { axios } from '@/config/axios-config';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -28,6 +27,8 @@ import {
     Input,
     Button,
     PasswordInput,
+    TextInput,
+    Select,
 } from '@mantine/core';
 import { FiMail } from 'react-icons/fi';
 import { BsEyeSlash } from 'react-icons/bs';
@@ -201,7 +202,7 @@ const StaffForm = () => {
         },
         onError: (error: AxiosError) => {
             toast({
-                title: JSON.stringify(error.response?.data),
+                title: error?.response?.data as unknown as string,
                 status: 'error',
                 isClosable: true,
                 position: 'top',
@@ -227,18 +228,20 @@ const StaffForm = () => {
             h="max-content !important"
             bg={useColorModeValue('white', 'gray.100')}
         >
-            <Input
+            <TextInput
                 value={name}
                 onChange={({ target: { value } }) => setName(value)}
                 placeholder="Staff Name"
+                label="Staff Name"
                 w="100%"
             />
 
-            <Input
+            <TextInput
                 w="100%"
                 value={email}
                 onChange={({ target: { value } }) => setEmail(value)}
                 placeholder="Email Address"
+                label="Email Address"
                 type="email"
                 icon={<FiMail />}
             />
@@ -246,38 +249,46 @@ const StaffForm = () => {
             <Select
                 w="100%"
                 value={college}
-                onChange={({ target: { value } }) => setCollege(value)}
+                onChange={(value) => setCollege(value!)}
                 placeholder="Select College"
+                label="Select College"
+                data={[
+                    ...Object.values(COLLEGES).map((v) => ({
+                        value: v,
+                        label: v,
+                    })),
+                ]}
                 style={{ width: '100%' }}
-            >
-                {Object.values(COLLEGES).map((c) => (
-                    <option value={c}>{c}</option>
-                ))}
-            </Select>
+            />
             <Select
                 w="100%"
                 value={school}
-                onChange={({ target: { value } }) => setSchool(value)}
+                onChange={(value) => setSchool(value!)}
                 placeholder="Select School"
+                label="Select School"
+                data={[
+                    ...Object.values(SCHOOLS).map((v) => ({
+                        value: v,
+                        label: v,
+                    })),
+                ]}
                 style={{ width: '100%' }}
-            >
-                {Object.values(SCHOOLS).map((v) => (
-                    <option key={v} value={v}>
-                        {v}
-                    </option>
-                ))}
-            </Select>
+            />
             <Select
                 w="100%"
                 value={designation}
-                onChange={({ target: { value } }) => setDesignation(value)}
+                onChange={(value) => setDesignation(value!)}
                 placeholder="Designation"
+                label="Designation"
                 style={{ width: '100%' }}
-            >
-                {Object.values(DESIGNATIONS).map((v) => (
-                    <option value={v}>{v}</option>
-                ))}
-            </Select>
+                data={[
+                    ...Object.values(DESIGNATIONS).map((v) => ({
+                        value: v,
+                        label: v,
+                    })),
+                ]}
+            />
+
             <PasswordInput
                 w="100%"
                 value={password}
@@ -293,14 +304,7 @@ const StaffForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Already have an Account?
                 </Text>
-                <Box
-                    onClick={() => navigate('/signin')}
-                    css={{ cursor: 'pointer' }}
-                    fontSize={{ base: 'md', sm: 'md' }}
-                    color="green"
-                >
-                    Signin
-                </Box>
+                <Link to="/signin">Signin</Link>
             </VStack>
         </VStack>
     );
@@ -371,7 +375,7 @@ const StudentForm = () => {
         },
         onError: (error: AxiosError) => {
             toast({
-                title: JSON.stringify(error?.response?.data),
+                title: error?.response?.data as unknown as string,
                 status: 'error',
                 isClosable: true,
                 position: 'top',
@@ -396,52 +400,59 @@ const StudentForm = () => {
             h="max-content !important"
             bg={useColorModeValue('white', 'gray.100')}
         >
-            <Input
+            <TextInput
                 w="100%"
                 value={name}
                 onChange={({ target: { value } }) => setName(value)}
                 placeholder="Student Name"
+                label="Student Name"
             />
-            <Input
+            <TextInput
                 w="100%"
                 value={studentNumber}
                 onChange={({ target: { value } }) => setStudentNumber(value)}
                 placeholder="Student Number"
+                label="Student Number"
             />
-            <Input
+            <TextInput
                 w="100%"
                 value={registrationNumber}
                 onChange={({ target: { value } }) =>
                     setRegistrationNumber(value)
                 }
                 placeholder="Registration Number"
+                label="Registration Number"
             />
-            <Input
+            <TextInput
                 w="100%"
                 value={email}
                 onChange={({ target: { value } }) => setEmail(value)}
                 placeholder="Email Address"
+                label="Email Address"
                 type="email"
             />
 
             <Select
                 w="100%"
                 value={college}
-                onChange={({ target: { value } }) => setCollege(value)}
+                onChange={(value) => setCollege(value!)}
                 placeholder="Select College"
+                label="Select College"
                 style={{ width: '100%' }}
-            >
-                {Object.values(COLLEGES).map((c) => (
-                    <option key={c} value={c}>
-                        {c}
-                    </option>
-                ))}
-            </Select>
+                data={[
+                    ...Object.values(COLLEGES).map((v) => ({
+                        value: v,
+                        label: v,
+                    })),
+                ]}
+            />
+
             <PasswordInput
                 w="100%"
                 value={password}
                 onChange={({ target: { value } }) => setPassword(value)}
                 placeholder="Password"
+                label="Password"
             />
 
             <VStack w="100%">
@@ -451,14 +462,7 @@ const StudentForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Already have an Account?
                 </Text>
-                <Box
-                    onClick={() => navigate('/signin')}
-                    css={{ cursor: 'pointer' }}
-                    fontSize={{ base: 'md', sm: 'md' }}
-                    color="green"
-                >
-                    Signin
-                </Box>
+                <Link to="/signin">Signin</Link>
             </VStack>
         </VStack>
     );

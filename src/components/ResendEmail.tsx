@@ -64,7 +64,7 @@ export const ResendEmail = () => {
         },
         onError: (error: AxiosError) => {
             toast({
-                title: JSON.stringify(error.response?.data),
+                title: error.response?.data as unknown as string,
                 status: 'error',
                 isClosable: true,
                 position: 'top',

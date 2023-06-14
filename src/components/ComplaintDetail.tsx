@@ -7,6 +7,7 @@ import {
     Text,
     useColorMode,
     useColorModeValue,
+    useToast,
 } from '@chakra-ui/react';
 import {
     Container as MantineContainer,
@@ -27,6 +28,9 @@ import { useState } from 'react';
 import { Complaint, DESIGNATIONS } from '@/types';
 import { useStore } from '@/state';
 import { BsDownload, BsFilePdfFill } from 'react-icons/bs';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { axios } from '@/config/axios-config';
+import { AxiosError, AxiosResponse } from 'axios';
 
 type Status = 'wait' | 'process' | 'finish' | 'error';
 
@@ -37,9 +41,37 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
     const [pendingStatus, setPendingStatus] = useState<Status>();
     const [resolvingStatus, setResolvingStatus] = useState<Status>();
     const [doneStatus, setDoneStatus] = useState<Status>();
-    const { user } = useStore();
+    const { user, token } = useStore();
 
-    console.log(props);
+    const qc = useQueryClient();
+    const toast = useToast();
+
+    const mutation = useMutation({
+        mutationFn: () =>
+            axios.patch(`/complaints/resolve/${props._id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        onSuccess: () => {
+            qc.invalidateQueries(['complaints']);
+            toast({
+                status: 'success',
+                title: 'Successfully marked complaint as resolved!',
+                isClosable: true,
+                position: 'top',
+            });
+            setDoneStatus('finish');
+        },
+        onError: (error: AxiosError) => {
+            toast({
+                title: error.response?.data as unknown as string,
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+    });
 
     return (
         <Container maxW="100%">
@@ -117,17 +149,62 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
                     )}
                 </SimpleGrid>
                 {user?.designation !== DESIGNATIONS.STUDENT && (
-                    <Button colorScheme="green">Mark as Resolved</Button>
+                    <Button
+                        colorScheme="green"
+                        onClick={() => mutation.mutate()}
+                    >
+                        Mark as Resolved
+                    </Button>
                 )}
-                {/* <Stack>
-                    <Divider />
-                    <Text fontSize={'2xl'}>Notifications</Text>
-                    <Text>
-                        You have successfully submitted you complaint for review
-                    </Text>
-                </Stack> */}
+                <Comments />
             </Stack>
         </Container>
+    );
+};
+
+const Comments = () => {
+    const { user, token } = useStore();
+    const toast = useToast();
+    const [comment, setComment] = useState('');
+    const query = useQuery({
+        queryKey: ['comments'],
+        queryFn: () =>
+            axios
+                .get(`/parse?studentNumber=${user?.studentNumber}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => res.data),
+        onSuccess: (res: AxiosResponse) => {
+            setComment(res.data);
+            toast({
+                title: res.data as unknown as string,
+                status: 'success',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+        onError: (error: AxiosError) => {
+            setComment(error.response?.data as string);
+
+            toast({
+                title: error?.response?.data as unknown as string,
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
+        },
+    });
+
+    console.log('COmmet: ', query.data?.data);
+
+    return (
+        <Stack>
+            <Divider />
+            <Text fontSize={'2xl'}>Comments</Text>
+            <Text>{comment}</Text>
+        </Stack>
     );
 };
 
