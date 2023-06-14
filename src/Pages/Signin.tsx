@@ -3,7 +3,6 @@ import { axios } from '@/config/axios-config';
 import { User, useStore } from '@/state';
 import {
     Center,
-    Checkbox,
     Container,
     Heading,
     Icon,
@@ -11,11 +10,9 @@ import {
     VStack,
     Text,
     useColorModeValue,
-    Box,
     useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { StyledTabs } from './Register';
