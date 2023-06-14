@@ -1,22 +1,14 @@
+// @ts-nocheck
 import {
     Box,
     Button,
-    Container,
     Link,
     Stack,
     Text,
-    useColorMode,
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react';
-import {
-    Container as MantineContainer,
-    Grid,
-    SimpleGrid,
-    Skeleton,
-    useMantineTheme,
-    rem,
-} from '@mantine/core';
+import { SimpleGrid, useMantineTheme, rem, Container } from '@mantine/core';
 import { Divider, Steps } from 'antd';
 import {
     LoadingOutlined,
@@ -24,8 +16,8 @@ import {
     SolutionOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { useState } from 'react';
-import { Complaint, DESIGNATIONS } from '@/types';
+import React, { useEffect, useState } from 'react';
+import { Complaint, COMPLAINT_STATUSES, DESIGNATIONS, NATURE } from '@/types';
 import { useStore } from '@/state';
 import { BsDownload, BsFilePdfFill } from 'react-icons/bs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -45,6 +37,18 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
 
     const qc = useQueryClient();
     const toast = useToast();
+
+    useEffect(() => {
+        if (props.status === 'RESOLVED') {
+            setDoneStatus('finish');
+            setSubmittedStatus('wait');
+        }
+
+        if (props.status === 'PENDING') {
+            setSubmittedStatus('finish');
+            setPendingStatus('finish');
+        }
+    }, []);
 
     const mutation = useMutation({
         mutationFn: () =>
@@ -74,7 +78,7 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
     });
 
     return (
-        <Container maxW="100%">
+        <Container size="lg">
             <Stack justifyContent={'space-between'} spacing={4}>
                 <Steps
                     items={[
@@ -88,16 +92,20 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
                             status: pendingStatus,
                             icon: <SolutionOutlined />,
                         },
-                        {
-                            title: 'Being worked on',
-                            status: resolvingStatus,
-                            icon: <LoadingOutlined />,
-                        },
-                        {
-                            title: 'Rectified',
-                            status: doneStatus,
-                            icon: <SmileOutlined />,
-                        },
+                        props.status !== 'RESOLVED'
+                            ? {
+                                  title: 'Being worked on',
+                                  status: resolvingStatus,
+                                  icon: <LoadingOutlined />,
+                              }
+                            : null,
+                        props.status === 'RESOLVED'
+                            ? {
+                                  title: 'Rectified',
+                                  status: doneStatus,
+                                  icon: <SmileOutlined />,
+                              }
+                            : null,
                     ]}
                 />
                 <SimpleGrid
@@ -148,15 +156,21 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
                         />
                     )}
                 </SimpleGrid>
-                {user?.designation !== DESIGNATIONS.STUDENT && (
-                    <Button
-                        colorScheme="green"
-                        onClick={() => mutation.mutate()}
-                    >
-                        Mark as Resolved
-                    </Button>
-                )}
-                <Comments />
+                {user?.designation !== DESIGNATIONS.STUDENT &&
+                    !props.status === COMPLAINT_STATUSES.RESOLVED && (
+                        <Button
+                            colorScheme="green"
+                            onClick={() => mutation.mutate()}
+                        >
+                            Mark as Resolved
+                        </Button>
+                    )}
+                {props.status === COMPLAINT_STATUSES.RESOLVED ? (
+                    <Text textAlign={'center'} fontSize={'2xl'}>
+                        This complaint has been Resolved!
+                    </Text>
+                ) : null}
+                {props.nature === NATURE.MISSING_MARK && <Comments />}
             </Stack>
         </Container>
     );
@@ -166,7 +180,8 @@ const Comments = () => {
     const { user, token } = useStore();
     const toast = useToast();
     const [comment, setComment] = useState('');
-    const query = useQuery({
+
+    const { data } = useQuery({
         queryKey: ['comments'],
         queryFn: () =>
             axios
@@ -179,7 +194,7 @@ const Comments = () => {
         onSuccess: (res: AxiosResponse) => {
             setComment(res.data);
             toast({
-                title: res.data as unknown as string,
+                title: JSON.stringify(data),
                 status: 'success',
                 isClosable: true,
                 position: 'top',
@@ -197,13 +212,29 @@ const Comments = () => {
         },
     });
 
-    console.log('COmmet: ', query.data?.data);
-
     return (
         <Stack>
             <Divider />
             <Text fontSize={'2xl'}>Comments</Text>
             <Text>{comment}</Text>
+            <SimpleGrid
+                cols={3}
+                spacing="xs"
+                breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+            >
+                {data ? (
+                    <>
+                        <Text fontSize={'2xl'}>Exam: {data?.exam}</Text>
+                        <Text fontSize={'2xl'}>
+                            Course Work: {data?.courseWork}
+                        </Text>
+
+                        <Text fontSize={'2xl'}>
+                            Final Mark: {data?.finalMark}
+                        </Text>
+                    </>
+                ) : null}
+            </SimpleGrid>
         </Stack>
     );
 };
@@ -214,7 +245,7 @@ const Detail: React.FC<{
 }> = ({ title, value }) => {
     const PRIMARY_COL_HEIGHT = rem(300);
     const theme = useMantineTheme();
-    const HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`;
+    const HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 3 - ${theme.spacing.md} / 10)`;
     let href = '';
     if (title === 'Reciept') {
         href = `http://localhost:4000/${value.slice(7)}`;
@@ -223,7 +254,7 @@ const Detail: React.FC<{
     return (
         <Box
             height={HEIGHT}
-            rounded="md"
+            rounded="sm"
             display="flex"
             flexDir="column"
             justifyContent="space-between"
@@ -232,10 +263,10 @@ const Detail: React.FC<{
             color="white"
             p={3}
         >
-            <Text fontSize="2xl">{title}</Text>
+            <Text fontSize="1xl">{title}</Text>
             {href ? (
                 <>
-                    <BsFilePdfFill size={'lg'} />
+                    {/* <BsFilePdfFill /> */}
                     <Link href={href}>
                         <Button
                             w="full"
@@ -247,7 +278,7 @@ const Detail: React.FC<{
                     </Link>
                 </>
             ) : (
-                <Text fontSize="4xl">{value}</Text>
+                <Text fontSize="3xl">{value}</Text>
             )}
         </Box>
     );

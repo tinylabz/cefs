@@ -87,7 +87,7 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                         )}
 
                         {user?.designation === DESIGNATIONS.HOD && (
-                            <Link to="/hod">
+                            <Link to="/list">
                                 <NavItem icon={BsMessenger}>HOD</NavItem>
                             </Link>
                         )}
