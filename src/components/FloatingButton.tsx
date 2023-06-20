@@ -59,7 +59,6 @@ const ChatBox = ({ handleClose }: any) => {
         <div className="chat-box">
             <div className="chat-header">
                 <Flex justify={'center'} align="center">
-                    <Image src="/joan.png" width={30} />
                     <Text>Your AI Assistant</Text>
                 </Flex>
                 <Button color="teal" onClick={handleClose}>
@@ -141,24 +140,17 @@ export const FloatingButton = () => {
             {isChatBoxOpen ? (
                 <ChatBox handleClose={handleClick} />
             ) : (
-                // @ts-ignore
-                // <FloatButton
-                //     style={{
-                //         right: '3em',
-                //         width: '3em',
-                //     }}
-                //     type="default"
-                //     shape="square"
-                //     className="fb"
-                //     onClick={() => handleClick()}
-                //     icon={
-                //         <>
-                //             <Image src="/joan.png" />
-                //             <MessageFilled />
-                //         </>
-                //     }
-                // />
-                <FImage handleClick={handleClick} />
+                <FloatButton
+                    style={{
+                        right: '3em',
+                        width: '3em',
+                    }}
+                    type="default"
+                    shape="square"
+                    className="fb"
+                    onClick={() => handleClick()}
+                    icon={<MessageFilled />}
+                />
             )}
         </div>
     ) : null;

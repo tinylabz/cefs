@@ -24,7 +24,6 @@ import {
     Tabs,
     TabsProps,
     rem,
-    Input,
     Button,
     PasswordInput,
     TextInput,

@@ -13,6 +13,7 @@ export default defineConfig({
         open: true,
         cors: process.env.NODE_ENV === 'development',
     },
+
     resolve: {
         alias: [
             { find: '@', replacement: path.resolve(__dirname, 'src') },

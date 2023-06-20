@@ -3,8 +3,10 @@ import { Configuration, OpenAIApi } from 'openai';
 export const completion = async (intent: string) => {
     const configuration = new Configuration({
         organization: 'org-pR8KdvBVyrz67OHDBtbkC9QN',
-        apiKey: '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',
+        apiKey: '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',
     });
+    delete configuration.baseOptions.headers['User-Agent'];
+
     const openai = new OpenAIApi(configuration);
 
     return await openai.createChatCompletion({

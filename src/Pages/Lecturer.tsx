@@ -45,6 +45,30 @@ export default function Lecturer() {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        beforeUpload(file) {
+            const fileSizeInMB = file.size / 1024 / 1024;
+            const allowedExtensions = ['.xls', '.xlsx'];
+            if (fileSizeInMB > 5) {
+                toast({
+                    status: 'error',
+                    title: `${file.name} exceeds the maximum file size of 5MB.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                return false; // Prevent upload
+            }
+            const fileExtension = file.name.split('.').pop()?.toLowerCase();
+            if (!allowedExtensions.includes(`.${fileExtension}`)) {
+                toast({
+                    status: 'error',
+                    title: `Invalid file format. Only Excel files are allowed.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                return false; // Prevent upload
+            }
+            return true; // Proceed with upload
+        },
         onChange(info) {
             const { status } = info.file;
             if (status !== 'uploading') {
@@ -79,6 +103,30 @@ export default function Lecturer() {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        beforeUpload(file) {
+            const fileSizeInMB = file.size / 1024 / 1024;
+            const allowedExtensions = ['.xls', '.xlsx'];
+            if (fileSizeInMB > 5) {
+                toast({
+                    status: 'error',
+                    title: `${file.name} exceeds the maximum file size of 5MB.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                return false; // Prevent upload
+            }
+            const fileExtension = file.name.split('.').pop()?.toLowerCase();
+            if (!allowedExtensions.includes(`.${fileExtension}`)) {
+                toast({
+                    status: 'error',
+                    title: `Invalid file format. Only Excel files are allowed.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                return false; // Prevent upload
+            }
+            return true; // Proceed with upload
+        },
         onChange(info) {
             const { status } = info.file;
             if (status !== 'uploading') {
@@ -112,6 +160,30 @@ export default function Lecturer() {
         action: 'http://localhost:4000/api/upload/test-attendence',
         headers: {
             Authorization: `Bearer ${token}`,
+        },
+        beforeUpload(file) {
+            const fileSizeInMB = file.size / 1024 / 1024;
+            const allowedExtensions = ['.xls', '.xlsx'];
+            if (fileSizeInMB > 5) {
+                toast({
+                    status: 'error',
+                    title: `${file.name} exceeds the maximum file size of 5MB.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                return false; // Prevent upload
+            }
+            const fileExtension = file.name.split('.').pop()?.toLowerCase();
+            if (!allowedExtensions.includes(`.${fileExtension}`)) {
+                toast({
+                    status: 'error',
+                    title: `Invalid file format. Only Excel files are allowed.`,
+                    position: 'top',
+                    isClosable: true,
+                });
+                return false; // Prevent upload
+            }
+            return true; // Proceed with upload
         },
         onChange(info) {
             const { status } = info.file;

@@ -48,6 +48,7 @@ export const Page: React.FC<PageProps> = ({ children }) => {
                     align="center"
                     w="full"
                     px="4"
+                    // @ts-ignore
                     d={{ base: 'flex', md: 'none' }}
                     borderBottomWidth="1px"
                     borderColor={useColorModeValue('inherit', 'gray.700')}
