@@ -206,12 +206,29 @@ export const MissingMark = () => {
 export const WrongAcademicYear = () => {
     const [courseCode, setCourseCode] = useState<string>('');
     const [courseName, setCourseName] = useState<string>('');
+    const [courseLecturer, setCourseLecturer] = useState<string>('');
     const [academicYearAllocated, setAcademicYearAllocated] =
         useState<string>('');
     const [correctAcademicYear, setCorrectAcademicYear] = useState<string>('');
+    const [lecturers, setLectures] = useState<{ name: string }[]>([]);
     const toast = useToast();
     const qc = useQueryClient();
     const { token, user } = useStore();
+
+    useQuery({
+        queryKey: ['lecturers'],
+        queryFn: () =>
+            axios.get('/staff', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+
+        onSuccess: (res) => {
+            setLectures(res.data?.staffs);
+        },
+    });
+
     const mutation = useMutation({
         mutationFn: (data: string) =>
             axios.post('/complaints', JSON.parse(data), {
@@ -246,6 +263,7 @@ export const WrongAcademicYear = () => {
                 registrationNumber: user?.registrationNumber,
                 courseCode,
                 courseName,
+                courseLecturer,
                 correctAcademicYear,
                 academicYearAllocated,
                 nature: NATURE.WRONG_ACADEMIC_YEAR,
@@ -290,6 +308,35 @@ export const WrongAcademicYear = () => {
                 required
                 onChange={({ target: { value } }) => setCourseName(value)}
             />
+            <Flex w="100%" align={'center'} justify="space-between" gap="md">
+                <Select
+                    label="Lecturer's name"
+                    placeholder="Select Lecturer's name"
+                    onChange={(value) => setCourseLecturer(value!)}
+                    value={courseLecturer}
+                    data={
+                        lecturers.length !== 0
+                            ? [
+                                  ...lecturers.map((lecturer) => ({
+                                      value: lecturer.name,
+                                      label: lecturer.name.toUpperCase(),
+                                  })),
+                              ]
+                            : []
+                    }
+                />
+
+                <TextInput
+                    w="100%"
+                    placeholder="Course Lecturer"
+                    value={courseLecturer}
+                    required
+                    label="Type course lecturer"
+                    onChange={({ target: { value } }) =>
+                        setCourseLecturer(value)
+                    }
+                />
+            </Flex>
             <TextInput
                 w="100%"
                 label="Academic Year Allocated"
@@ -356,7 +403,7 @@ export const Remark = () => {
     const props: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'http://localhost:4000/api/upload/reciept',
+        action: 'https://cefs.onrender.com/api/upload/reciept',
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -376,7 +423,7 @@ export const Remark = () => {
             if (!allowedExtensions.includes(`.${fileExtension}`)) {
                 toast({
                     status: 'error',
-                    title: `Invalid file format. Only Excel files are allowed.`,
+                    title: `Invalid file format. Only Pdf files are allowed.`,
                     position: 'top',
                     isClosable: true,
                 });

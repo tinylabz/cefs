@@ -41,7 +41,7 @@ export default function Lecturer() {
     const markSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'http://localhost:4000/api/upload/marks',
+        action: 'https://cefs.onrender.com/api/upload/marks',
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -99,7 +99,7 @@ export default function Lecturer() {
     const examAttendenceSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'http://localhost:4000/api/upload/exam-attendence',
+        action: 'https://cefs.onrender.com/api/upload/exam-attendence',
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -157,7 +157,7 @@ export default function Lecturer() {
     const testAttendenceSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'http://localhost:4000/api/upload/test-attendence',
+        action: 'https://cefs.onrender.com/api/upload/test-attendence',
         headers: {
             Authorization: `Bearer ${token}`,
         },

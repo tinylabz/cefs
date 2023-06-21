@@ -3,7 +3,7 @@ import { Container, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Page } from '@/components/Page';
 import { Stack } from '@chakra-ui/react';
-import { MissingMark, Remark, WrongAcademicYear } from '../components/Forms';
+import { MissingMark, Remark, WrongAcademicYear } from '@/components/Forms';
 import { Modal } from '@/components/Modal';
 
 interface Complaint {
@@ -11,7 +11,7 @@ interface Complaint {
     form: React.ReactNode;
 }
 
-const Complaints = ({}) => {
+const Complaints = () => {
     const complaints: Complaint[] = [
         { title: 'Missing Mark', form: <MissingMark /> },
         { title: 'Remark', form: <Remark /> },

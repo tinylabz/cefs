@@ -94,16 +94,16 @@ export const ComplaintCard = ({ data: cardData }: { data: CardData }) => {
                         <HStack spacing={2}>
                             <Text as="h2" fontSize="lg" fontWeight="extrabold">
                                 {cardData.status === 'RESOLVED'
-                                    ? data?.complaints?.filter(
+                                    ? data?.filter(
                                           (c: Complaint) =>
                                               c.status === 'RESOLVED'
                                       )?.length
                                     : cardData.status === 'PENDING'
-                                    ? data?.complaints?.filter(
+                                    ? data?.filter(
                                           (c: Complaint) =>
                                               c.status === 'PENDING'
                                       )?.length
-                                    : data?.complaints?.length}
+                                    : data?.length}
                             </Text>
                             <Flex>
                                 {cardData.label === 'Complaints resolved' ? (

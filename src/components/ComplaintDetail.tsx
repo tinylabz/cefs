@@ -8,7 +8,13 @@ import {
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react';
-import { SimpleGrid, useMantineTheme, rem, Container } from '@mantine/core';
+import {
+    SimpleGrid,
+    useMantineTheme,
+    rem,
+    Container,
+    Textarea,
+} from '@mantine/core';
 import { Divider, Steps } from 'antd';
 import {
     LoadingOutlined,
@@ -19,7 +25,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Complaint, COMPLAINT_STATUSES, DESIGNATIONS, NATURE } from '@/types';
 import { useStore } from '@/state';
-import { BsDownload, BsFilePdfFill } from 'react-icons/bs';
+import { BsDownload } from 'react-icons/bs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -33,6 +39,8 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
     const [pendingStatus, setPendingStatus] = useState<Status>();
     const [resolvingStatus, setResolvingStatus] = useState<Status>();
     const [doneStatus, setDoneStatus] = useState<Status>();
+    const [feedback, setFeedback] = useState('');
+
     const { user, token } = useStore();
 
     const qc = useQueryClient();
@@ -52,11 +60,15 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
 
     const mutation = useMutation({
         mutationFn: () =>
-            axios.patch(`/complaints/resolve/${props._id}`, null, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }),
+            axios.patch(
+                `/complaints/resolve/${props._id}`,
+                { feedback },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            ),
         onSuccess: () => {
             qc.invalidateQueries(['complaints']);
             toast({
@@ -156,20 +168,39 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
                         />
                     )}
                 </SimpleGrid>
+
                 {user?.designation !== DESIGNATIONS.STUDENT &&
-                    !props.status === COMPLAINT_STATUSES.RESOLVED && (
-                        <Button
-                            colorScheme="green"
-                            onClick={() => mutation.mutate()}
-                        >
-                            Mark as Resolved
-                        </Button>
+                    props.status !== COMPLAINT_STATUSES.RESOLVED && (
+                        <>
+                            <>
+                                <Textarea
+                                    my={'lg'}
+                                    cols={20}
+                                    rows={20}
+                                    placeholder="Add a comment or feedback..."
+                                    value={feedback}
+                                    onChange={({ target }) =>
+                                        setFeedback(target.value)
+                                    }
+                                />
+
+                                <Button
+                                    colorScheme="green"
+                                    onClick={() => mutation.mutate()}
+                                >
+                                    Mark as Resolved
+                                </Button>
+                            </>
+                        </>
                     )}
-                {props.status === COMPLAINT_STATUSES.RESOLVED ? (
-                    <Text textAlign={'center'} fontSize={'2xl'}>
-                        This complaint has been Resolved!
+
+                {props.status === COMPLAINT_STATUSES.RESOLVED && (
+                    <Text>
+                        This Complaint has been resolved and archived for future
+                        reference
                     </Text>
-                ) : null}
+                )}
+
                 {props.nature === NATURE.MISSING_MARK && <Comments />}
             </Stack>
         </Container>
@@ -248,7 +279,7 @@ const Detail: React.FC<{
     const HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 3 - ${theme.spacing.md} / 10)`;
     let href = '';
     if (title === 'Reciept') {
-        href = `http://localhost:4000/${value.slice(7)}`;
+        href = `https://cefs.onrender.com/${value.slice(7)}`;
     }
 
     return (
@@ -278,7 +309,7 @@ const Detail: React.FC<{
                     </Link>
                 </>
             ) : (
-                <Text fontSize="3xl">{value}</Text>
+                <Text fontSize="2xl">{value}</Text>
             )}
         </Box>
     );

@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from 'react';
 import TimeAgo from 'timeago-react';
 import { Complaint } from '@/types';
+import { useStore } from '@/state';
 
 type Btn = 'SUBMITTED' | 'PENDING' | 'RESOLVED';
 type Action = 'VIEW' | 'RESOLVE' | 'RESOLVED';
@@ -26,16 +27,23 @@ type Action = 'VIEW' | 'RESOLVE' | 'RESOLVED';
 export default function RegistrarPage() {
     const [activeTab, setActiveTab] = useState<Btn>('SUBMITTED');
     const [action, setAction] = useState<Action>('VIEW');
-
+    const { token } = useStore();
     const { data, error } = useQuery({
         queryKey: ['complaints'],
-        queryFn: () => axios.get('/complaints').then((res) => res.data),
+        queryFn: () =>
+            axios
+                .get('/complaints', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((res) => res.data),
     });
-    const [complaints, setComplaints] = useState<any[]>(data?.complaints);
+    const [complaints, setComplaints] = useState<any[]>(data);
 
     useEffect(() => {
         setComplaints(() => {
-            return data?.complaints?.filter(
+            return data?.filter(
                 (complaint: Complaint) =>
                     complaint?.status === activeTab &&
                     Number(complaint.registrationNumber.split('/')[0]) <= 17

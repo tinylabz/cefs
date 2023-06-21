@@ -48,13 +48,13 @@ export default function HodComplaint() {
                 })
                 .then((res) => res.data),
     });
-    const [complaints, setComplaints] = useState<any[]>(data?.complaints);
+    const [complaints, setComplaints] = useState<any[]>(data);
 
     useEffect(() => {
         setComplaints(() => {
-            if (activeTab === 'SUBMITTED') return data?.complaints;
+            if (activeTab === 'SUBMITTED') return data;
 
-            return data?.complaints?.filter(
+            return data?.filter(
                 (complaint: Complaint) => complaint?.status === activeTab
             );
         });

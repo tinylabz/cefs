@@ -47,16 +47,18 @@ export default function ComplaintList() {
                 })
                 .then((res) => res.data),
     });
-    const [complaints, setComplaints] = useState<any[]>(data?.complaints);
+    const [complaints, setComplaints] = useState<any[]>(data);
 
     useEffect(() => {
         setComplaints(() => {
-            if (activeTab === 'SUBMITTED') return data?.complaints;
-            return data?.complaints?.filter(
+            if (activeTab === 'SUBMITTED') return data;
+            return data?.filter(
                 (complaint: Complaint) => complaint?.status === activeTab
             );
         });
     }, [activeTab, data]);
+
+    console.log('COMPS:', data);
 
     const handleTabSelect = (btn: Btn) => {
         setActiveTab(btn);
