@@ -3,7 +3,11 @@ import { Container, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Page } from '@/components/Page';
 import { Stack } from '@chakra-ui/react';
-import { MissingMark, Remark, WrongAcademicYear } from '@/components/Forms';
+import {
+    MissingMark,
+    Remark,
+    WrongAcademicYear,
+} from '@/components/ComplaintForms';
 import { Modal } from '@/components/Modal';
 
 interface Complaint {
