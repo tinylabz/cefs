@@ -1,3 +1,4 @@
+import './index.css';
 import { Navigate, useNavigate, useRoutes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useStore } from './state';

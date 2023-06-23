@@ -1,0 +1,11 @@
+.btn-remark {
+    background: #2f855a;
+    color: aliceblue;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: large;
+}
+
+.btn-remark:hover {
+    background: #2daa6c;
+}

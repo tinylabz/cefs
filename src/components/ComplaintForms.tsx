@@ -513,9 +513,9 @@ export const Remark = () => {
                 position: 'top',
             });
         },
-        onError: () => {
+        onError: (error: AxiosError) => {
             toast({
-                title: 'Failed to file complaint. Try again!',
+                title: error.response?.data as unknown as React.ReactNode,
                 status: 'error',
                 isClosable: true,
                 position: 'top',
@@ -555,6 +555,24 @@ export const Remark = () => {
             })
         );
     };
+
+    const isSubmitDisabled =
+        !courseCode ||
+        !courseName ||
+        !academicYearOfSitting ||
+        !courseLecturer ||
+        !semester ||
+        !recieptURL;
+
+    const allFields = () => {
+        toast({
+            title: 'Please fill in all the required fields.',
+            status: 'error',
+            isClosable: true,
+            position: 'top',
+        });
+    };
+
     return (
         <VStack
             boxSize={{ base: 'xs', sm: 'sm', md: 'md' }}
@@ -659,13 +677,17 @@ export const Remark = () => {
                 </Dragger>
             </Stack>
             <Stack width={'full'}>
-                <Button
-                    colorScheme="green"
-                    onClick={handleSubmit}
+                <button
+                    className="btn-remark"
+                    // disabled={isSubmitDisabled}
+                    onClick={(e) => {
+                        handleSubmit(e);
+                        // isSubmitDisabled && allFields();
+                    }}
                     type="submit"
                 >
                     {mutation.isLoading ? <Spinner /> : 'Submit'}
-                </Button>
+                </button>
             </Stack>
         </VStack>
     );
