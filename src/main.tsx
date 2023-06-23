@@ -2,7 +2,7 @@ import App, { withAuth } from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import { ConfigProvider } from 'antd';
 import { FloatingButton } from '@/components/FloatingButton';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -16,7 +16,7 @@ setInterval(async () => {
     console.log(res.data);
 }, 1000 * 30);
 
-createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <StrictMode>
         <MantineProvider
             theme={{

@@ -88,6 +88,24 @@ export const MissingMark = () => {
     });
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
+
+        // Check for blank values
+        if (
+            !courseCode ||
+            !courseName ||
+            !academicYear ||
+            !courseLecturer ||
+            !semester
+        ) {
+            toast({
+                title: 'Please fill in all the required fields.',
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
+            return;
+        }
+
         mutation.mutate(
             JSON.stringify({
                 studentNumber: user?.studentNumber,
@@ -257,6 +275,24 @@ export const WrongAcademicYear = () => {
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
+
+        // Check for blank values
+        if (
+            !courseCode ||
+            !courseName ||
+            !courseLecturer ||
+            !academicYearAllocated ||
+            !correctAcademicYear
+        ) {
+            toast({
+                title: 'Please fill in all the required fields.',
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
+            return;
+        }
+
         mutation.mutate(
             JSON.stringify({
                 studentNumber: user?.studentNumber,
@@ -489,6 +525,22 @@ export const Remark = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (
+            !courseCode ||
+            !courseName ||
+            !academicYearOfSitting ||
+            !courseLecturer ||
+            !semester ||
+            !recieptURL
+        ) {
+            toast({
+                title: 'Please fill in all the required fields.',
+                status: 'error',
+                isClosable: true,
+                position: 'top',
+            });
+            return;
+        }
         mutation.mutate(
             JSON.stringify({
                 studentNumber: user?.studentNumber,

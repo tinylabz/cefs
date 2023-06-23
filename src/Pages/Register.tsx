@@ -7,7 +7,6 @@ import {
     VStack,
     Text,
     useColorModeValue,
-    Box,
     Spinner,
     useToast,
 } from '@chakra-ui/react';
@@ -209,6 +208,12 @@ const StaffForm = () => {
         },
     });
 
+    const designations = [
+        DESIGNATIONS.HOD,
+        DESIGNATIONS.LECTURER,
+        DESIGNATIONS.REGISTRAR,
+    ];
+
     return (
         <VStack
             as="form"
@@ -281,7 +286,7 @@ const StaffForm = () => {
                 label="Designation"
                 style={{ width: '100%' }}
                 data={[
-                    ...Object.values(DESIGNATIONS).map((v) => ({
+                    ...Object.values(designations).map((v) => ({
                         value: v,
                         label: v,
                     })),
@@ -303,7 +308,9 @@ const StaffForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Already have an Account?
                 </Text>
-                <Link to="/signin">Signin</Link>
+                <Link to="/signin">
+                    <Text color="green">Signin</Text>
+                </Link>
             </VStack>
         </VStack>
     );
@@ -461,7 +468,9 @@ const StudentForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Already have an Account?
                 </Text>
-                <Link to="/signin">Signin</Link>
+                <Link to="/signin">
+                    <Text color="green">Signin</Text>
+                </Link>
             </VStack>
         </VStack>
     );

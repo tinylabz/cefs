@@ -8,6 +8,8 @@ import { type CardData, ComplaintCard } from '@/components/ComplaintCard';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
+import { useStore } from '@/state';
+import { useToast } from '@chakra-ui/react';
 
 export const cardData: CardData[] = [
     {
@@ -29,10 +31,6 @@ export const cardData: CardData[] = [
         href: '/list',
     },
 ];
-
-import { useState } from 'react';
-import { useStore } from '@/state';
-import { useToast } from '@chakra-ui/react';
 
 export default function Lecturer() {
     const toast = useToast();
@@ -246,7 +244,7 @@ export default function Lecturer() {
                             <InboxOutlined />
                         </p>
                         <p className="ant-upload-text">
-                            Upload Attendance sheets
+                            Upload Test Attendance sheets
                         </p>
                         <p className="ant-upload-text">
                             Click or drag file to this area to upload
@@ -256,7 +254,9 @@ export default function Lecturer() {
                         <p className="ant-upload-drag-icon">
                             <InboxOutlined />
                         </p>
-                        <p className="ant-upload-text">Upload Mark Sheets</p>
+                        <p className="ant-upload-text">
+                            Upload Exam attendence sheets
+                        </p>
                         <p className="ant-upload-text">
                             Click or drag file to this area to upload
                         </p>

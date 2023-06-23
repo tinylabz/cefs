@@ -116,11 +116,13 @@ export default () => {
 
 const NotFound = () => {
     const navigate = useNavigate();
+
     useEffect(() => {
         setTimeout(() => {
             navigate('/');
         }, 2000);
     }, []);
+
     return (
         <div
             style={{

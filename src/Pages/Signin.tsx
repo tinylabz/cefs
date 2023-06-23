@@ -126,7 +126,9 @@ const StudentForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Don't have an account?
                 </Text>
-                <Link to="/register">Register</Link>
+                <Link to="/register">
+                    <Text color="green">Register</Text>
+                </Link>
             </VStack>
         </VStack>
     );
@@ -205,7 +207,9 @@ const StaffForm = () => {
                 <Text fontSize={{ base: 'md', sm: 'md' }}>
                     Don't have an account?
                 </Text>
-                <Link to="/register">Register</Link>
+                <Link to="/register">
+                    <Text color="green">Register</Text>
+                </Link>
             </VStack>
         </VStack>
     );
