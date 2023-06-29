@@ -14,6 +14,11 @@ import {
 export default function Faqs() {
     const faqs = [
         {
+            heading: 'Where can i get help ?',
+            content:
+                'The system has a chatbot which uses artifical intelligence to repond to any questions and canalso further guide you ',
+        },
+        {
             heading: 'How can I submit my complaint ?',
             content:
                 'You can submit your complaint by visiting our website and filling the complaint form',
@@ -21,29 +26,28 @@ export default function Faqs() {
         {
             heading: 'what information do I need to submit my complaint?',
             content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'The kind of information needed to register a complaint depends on the type of complaint you want to submit but below is the required information; Course code, course name, lecturers name, academic year,type of complaint to be filed , a receipt if you are filing for a remark.',
         },
         {
             heading:
                 'Will I recieve a notification email after submitting my complaint?',
             content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'A notification inform of an email will be sent to the registered email upon every progress of the complaint i.e when it is submitted and when it is resolved or a comment when it wasnt successfully resolved',
         },
         {
             heading:
                 "What's the expected response time for the submitted complaint?",
-            content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            content: 'The expected response time is an average of a day',
         },
         {
             heading: 'How can I track the progress of my complaint?',
             content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'The system automatically sends notifications inform of email and also activity progress in the interface',
         },
         {
             heading: 'Can I remain anonymous when submitting my complaint?',
             content:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'Yes. The students name remains unknown to the lecturer since the complaint is submitted by a registration number and student number',
         },
     ];
     return (
