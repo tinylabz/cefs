@@ -27,7 +27,7 @@ import { Complaint, COMPLAINT_STATUSES, DESIGNATIONS, NATURE } from '@/types';
 import { useStore } from '@/state';
 import { BsDownload } from 'react-icons/bs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { axios } from '@/config/axios-config';
+import { axios, baseURLUpload } from '@/config/axios-config';
 import { AxiosError, AxiosResponse } from 'axios';
 
 type Status = 'wait' | 'process' | 'finish' | 'error';
@@ -279,7 +279,7 @@ const Detail: React.FC<{
     const HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 3 - ${theme.spacing.md} / 10)`;
     let href = '';
     if (title === 'Reciept') {
-        href = `https://cefs.onrender.com/${value.slice(7)}`;
+        href = `${baseURLUpload}/${value.slice(7)}`;
     }
 
     return (

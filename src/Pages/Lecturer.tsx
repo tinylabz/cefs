@@ -10,6 +10,9 @@ import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
 import { useStore } from '@/state';
 import { useToast } from '@chakra-ui/react';
+import { baseURL } from '@/config/axios-config';
+
+console.log('ROUTE: ', baseURL);
 
 export const cardData: CardData[] = [
     {
@@ -39,7 +42,7 @@ export default function Lecturer() {
     const markSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'https://cefs.onrender.com/api/upload/marks',
+        action: `${baseURL}/api/upload/marks`,
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -97,7 +100,7 @@ export default function Lecturer() {
     const examAttendenceSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'https://cefs.onrender.com/api/upload/exam-attendence',
+        action: `${baseURL}/api/upload/exam-attendence`,
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -155,7 +158,7 @@ export default function Lecturer() {
     const testAttendenceSheetProps: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'https://cefs.onrender.com/api/upload/test-attendence',
+        action: `${baseURL}/api/upload/test-attendence`,
         headers: {
             Authorization: `Bearer ${token}`,
         },

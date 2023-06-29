@@ -3,7 +3,7 @@ import type { UploadProps } from 'antd';
 import { Upload } from 'antd';
 import { Button, Spinner, Stack, useToast, VStack } from '@chakra-ui/react';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
-import { axios } from '@/config/axios-config';
+import { axios, baseURL } from '@/config/axios-config';
 import { ReactNode, useState } from 'react';
 import { NATURE } from '@/types';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -439,7 +439,7 @@ export const Remark = () => {
     const props: UploadProps = {
         name: 'file',
         multiple: true,
-        action: 'https://cefs.onrender.com/api/upload/reciept',
+        action: `${baseURL}/upload/reciept`,
         headers: {
             Authorization: `Bearer ${token}`,
         },
