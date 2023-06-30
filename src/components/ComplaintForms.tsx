@@ -21,7 +21,7 @@ export const MissingMark = () => {
     const { token, user } = useStore();
     const qc = useQueryClient();
 
-    const [lecturers, setLectures] = useState<{ name: string }[]>([]);
+    const [lecturers, setLecturers] = useState<{ name: string }[]>([]);
 
     useQuery({
         queryKey: ['lecturers'],
@@ -33,7 +33,7 @@ export const MissingMark = () => {
             }),
 
         onSuccess: (res) => {
-            setLectures(res.data?.staffs);
+            setLecturers(res.data?.staffs);
         },
     });
 

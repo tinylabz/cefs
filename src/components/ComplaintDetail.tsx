@@ -29,6 +29,7 @@ import { BsDownload } from 'react-icons/bs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axios, baseURLUpload } from '@/config/axios-config';
 import { AxiosError, AxiosResponse } from 'axios';
+import { AssignLecturer } from './AssignLecturer';
 
 type Status = 'wait' | 'process' | 'finish' | 'error';
 
@@ -168,6 +169,18 @@ export const ComplaintDetail: React.FC<Complaint | undefined> = ({
                         />
                     )}
                 </SimpleGrid>
+
+                {user?.designation === DESIGNATIONS.HOD &&
+                    props.status !== COMPLAINT_STATUSES.RESOLVED &&
+                    props.nature === NATURE.REMARK && (
+                        <>
+                            <AssignLecturer
+                                courseLecturer={props.courseLecturer}
+                                studentId={props.studentId}
+                                complaintId={props._id}
+                            />
+                        </>
+                    )}
 
                 {user?.designation !== DESIGNATIONS.STUDENT &&
                     props.status !== COMPLAINT_STATUSES.RESOLVED && (
