@@ -2,10 +2,12 @@ import { Configuration, OpenAIApi } from 'openai';
 
 export const completion = async (intent: string) => {
     const configuration = new Configuration({
-        organization: 'org-pR8KdvBVyrz67OHDBtbkC9QN',
-        apiKey: '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',
+        organization: import.meta.env.VITE_ORG!,
+        apiKey: import.meta.env.VITE_API_KEY!,
     });
     delete configuration.baseOptions.headers['User-Agent'];
+
+    console.log('API_KEY: ', import.meta.env.VITE_API_KEY);
 
     const openai = new OpenAIApi(configuration);
 
