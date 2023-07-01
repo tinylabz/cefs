@@ -9,12 +9,12 @@ import {
 } from '@chakra-ui/react';
 import { BsMessenger, BsBellFill } from 'react-icons/bs';
 import { FiHelpCircle } from 'react-icons/fi';
-import { Logo } from './Icons';
 import { NavItem } from './NavItem';
 import { FaHamburger } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useStore } from '@/state';
 import { DESIGNATIONS } from '@/types';
+import { Logo } from './Logo';
 
 export const Sidebar = ({ ...props }: BoxProps) => {
     const { user } = useStore();
@@ -47,7 +47,7 @@ export const Sidebar = ({ ...props }: BoxProps) => {
                         py="5"
                         align="center"
                     >
-                        <Icon as={Logo} h={8} w={8} />
+                        <Logo/>
                         <Text
                             fontSize="2xl"
                             ml="2"
