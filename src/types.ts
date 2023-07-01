@@ -1,7 +1,7 @@
 export interface Complaint {
+    _id: string;
     createdAt: string;
     updatedAt: string;
-    _id: string;
     courseCode: string;
     courseName: string;
     recieptURL?: string;

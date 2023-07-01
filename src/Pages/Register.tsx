@@ -30,6 +30,8 @@ import {
 } from '@mantine/core';
 import { FiMail } from 'react-icons/fi';
 import { BsEyeSlash } from 'react-icons/bs';
+import { FaLock, FaRegRegistered, FaSchool, FaSortNumericDownAlt, FaUser, FaUserLock } from 'react-icons/fa';
+import { AiOutlineFieldNumber, AiOutlineNumber } from 'react-icons/ai';
 
 export function StyledTabs(props: TabsProps) {
     return (
@@ -233,6 +235,7 @@ const StaffForm = () => {
             bg={useColorModeValue('white', 'gray.100')}
         >
             <TextInput
+            icon={<FaUser/>}
                 value={name}
                 onChange={({ target: { value } }) => setName(value)}
                 placeholder="Staff Name"
@@ -252,6 +255,7 @@ const StaffForm = () => {
 
             <Select
                 w="100%"
+                icon={<FaSchool/>}
                 value={college}
                 onChange={(value) => setCollege(value!)}
                 placeholder="Select College"
@@ -265,6 +269,7 @@ const StaffForm = () => {
                 style={{ width: '100%' }}
             />
             <Select
+            icon={<FaSchool/>}
                 w="100%"
                 value={school}
                 onChange={(value) => setSchool(value!)}
@@ -280,6 +285,7 @@ const StaffForm = () => {
             />
             <Select
                 w="100%"
+                icon={<FaUserLock/>}
                 value={designation}
                 onChange={(value) => setDesignation(value!)}
                 placeholder="Designation"
@@ -299,6 +305,7 @@ const StaffForm = () => {
                 onChange={({ target: { value } }) => setPassword(value)}
                 placeholder="Password"
                 label="Password"
+                icon={<FaLock/>}
             />
 
             <VStack w="100%">
@@ -407,13 +414,15 @@ const StudentForm = () => {
             bg={useColorModeValue('white', 'gray.100')}
         >
             <TextInput
-                w="100%"
-                value={name}
-                onChange={({ target: { value } }) => setName(value)}
-                placeholder="Student Name"
-                label="Student Name"
+            icon={<FaUser/>}
+            w="100%"
+            value={name}
+            onChange={({ target: { value } }) => setName(value)}
+            placeholder="Student Name"
+            label="Student Name"
             />
             <TextInput
+            icon={<AiOutlineFieldNumber/>}
                 w="100%"
                 value={studentNumber}
                 onChange={({ target: { value } }) => setStudentNumber(value)}
@@ -421,6 +430,7 @@ const StudentForm = () => {
                 label="Student Number"
             />
             <TextInput
+            icon={<FaRegRegistered/>}
                 w="100%"
                 value={registrationNumber}
                 onChange={({ target: { value } }) =>
@@ -430,6 +440,7 @@ const StudentForm = () => {
                 label="Registration Number"
             />
             <TextInput
+            icon={<FiMail/>}
                 w="100%"
                 value={email}
                 onChange={({ target: { value } }) => setEmail(value)}
@@ -439,6 +450,7 @@ const StudentForm = () => {
             />
 
             <Select
+            icon={<FaSchool/>}
                 w="100%"
                 value={college}
                 onChange={(value) => setCollege(value!)}
@@ -459,6 +471,7 @@ const StudentForm = () => {
                 onChange={({ target: { value } }) => setPassword(value)}
                 placeholder="Password"
                 label="Password"
+                icon={<FaLock/>}
             />
 
             <VStack w="100%">

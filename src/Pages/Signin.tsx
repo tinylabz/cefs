@@ -19,6 +19,7 @@ import { StyledTabs } from './Register';
 import { Tabs, TextInput, PasswordInput, Button, Loader } from '@mantine/core';
 import { FiMail } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaLock, FaUser } from 'react-icons/fa';
 
 export default function Signin() {
     return (
@@ -97,6 +98,7 @@ const StudentForm = () => {
         >
             <VStack spacing={4} w="100%">
                 <TextInput
+                icon={<FaUser/>}
                     value={studentNumber}
                     onChange={({ target: { value } }) =>
                         setStudentNumber(value)
@@ -107,6 +109,7 @@ const StudentForm = () => {
                 />
 
                 <PasswordInput
+                icon={<FaLock/>}
                     placeholder="Password"
                     label="Password"
                     value={password}
@@ -188,6 +191,7 @@ const StaffForm = () => {
                     label="Your email"
                 />
                 <PasswordInput
+                icon={<FaLock/>}
                     placeholder="Password"
                     label="Password"
                     value={password}
