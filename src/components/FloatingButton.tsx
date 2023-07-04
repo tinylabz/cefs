@@ -4,11 +4,12 @@ import { MessageFilled, CloseCircleFilled } from '@ant-design/icons';
 import { Text, Box } from '@chakra-ui/react';
 import { useStore } from '@/state';
 import { useState } from 'react';
-import { completion } from '@/services/chat';
+
 import { Flex, Image, Loader } from '@mantine/core';
 import { Button, Input } from '@mantine/core';
 import { FiMessageSquare } from 'react-icons/fi';
 import { BsSend } from 'react-icons/bs';
+import { completion } from '@/services/chat';
 
 type Conversation = {
     sender: 'user' | 'chatgpt';
@@ -154,12 +155,4 @@ export const FloatingButton = () => {
             )}
         </div>
     ) : null;
-};
-
-export const FImage = ({ handleClick }: { handleClick: () => void }) => {
-    return (
-        <div onClick={handleClick} className="img">
-            <Image src={'/joan2.png'} width={100} />
-        </div>
-    );
 };

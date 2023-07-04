@@ -422,6 +422,7 @@ export const Remark = () => {
     const { token, user } = useStore();
 
     const qc = useQueryClient();
+
     useQuery({
         queryKey: ['lecturers'],
         queryFn: () =>
@@ -456,6 +457,7 @@ export const Remark = () => {
                 return false; // Prevent upload
             }
             const fileExtension = file.name.split('.').pop()?.toLowerCase();
+
             if (!allowedExtensions.includes(`.${fileExtension}`)) {
                 toast({
                     status: 'error',
@@ -469,9 +471,11 @@ export const Remark = () => {
         },
         onChange(info) {
             const { status } = info.file;
+
             if (status !== 'uploading') {
                 console.log(info.file, info.fileList);
             }
+
             if (status === 'done') {
                 toast({
                     status: 'success',
@@ -495,6 +499,7 @@ export const Remark = () => {
             console.log('Dropped files', e.dataTransfer.files);
         },
     };
+
     const { Dragger } = Upload;
 
     const mutation = useMutation({
@@ -525,6 +530,7 @@ export const Remark = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         if (
             !courseCode ||
             !courseName ||
@@ -541,6 +547,7 @@ export const Remark = () => {
             });
             return;
         }
+
         mutation.mutate(
             JSON.stringify({
                 studentNumber: user?.studentNumber,

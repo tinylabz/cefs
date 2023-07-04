@@ -11,12 +11,11 @@ import {
     Progress,
     Stack,
     Text,
-    Textarea,
     useToast,
     VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Rating } from '@mantine/core';
+import { Rating, Textarea } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { axios } from '@/config/axios-config';
 import { useStore } from '@/state';
